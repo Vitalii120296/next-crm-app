@@ -1,5 +1,5 @@
 import { httpClient as client } from "@/api/httpClient";
-import type { Product } from "../types/product";
+import type { Product } from "@/types/product";
 
 export const productService = {
   // все продукты

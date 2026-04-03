@@ -1,5 +1,5 @@
 import { httpClient as client } from "@/api/httpClient";
-import type { PropertiesInfo } from "../types/properties";
+import type { PropertiesInfo } from "@/types/properties";
 
 export const propertiesService = {
   getProperties: (): Promise<PropertiesInfo[]> => {
