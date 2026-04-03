@@ -119,11 +119,13 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     return isValid;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (firstNameError || lastNameError || emailError || passwordError) {
-      event.preventDefault();
       return;
     }
+
     const data = new FormData(event.currentTarget);
     const payload = {
       firstName: data.get("firstName") as string,
@@ -133,9 +135,9 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     };
 
     try {
-      authService.register(payload);
+      await authService.register(payload);
 
-      router.replace("login");
+      // router.replace("login");
     } catch (error) {
       console.log(error);
     }
@@ -256,11 +258,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             </Button>
             <Typography sx={{ textAlign: "center" }}>
               Already have an account?{" "}
-              <Link
-                href="/material-ui/getting-started/templates/sign-in/"
-                variant="body2"
-                sx={{ alignSelf: "center" }}
-              >
+              <Link href="sign-in" variant="body2" sx={{ alignSelf: "center" }}>
                 Sign in
               </Link>
             </Typography>
