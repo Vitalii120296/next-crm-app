@@ -1,5 +1,5 @@
 import { httpClient as client } from "@/api/httpClient";
-import type { Client, ClientNote, ClientNoteResponse } from "../types";
+import type { Client, ClientNote, ClientNoteResponse } from "@/types";
 
 export const clientService = {
   getAll: (): Promise<Client[]> => {

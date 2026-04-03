@@ -1,4 +1,4 @@
-import type { SystemUser } from "./auth";
+import type { User } from "./auth";
 
 export type ClientStatus = "new" | "in_progress" | "done";
 
@@ -25,7 +25,7 @@ export type Client = {
   comment?: string;
   notes?: ClientNote[];
 
-  createdBy: Pick<SystemUser, "first_name" | "last_name">;
+  createdBy: Pick<User, "first_name" | "last_name">;
   createdAt: string;
 };
 
