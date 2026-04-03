@@ -8,7 +8,7 @@ import { checkboxClasses } from "@mui/material/Checkbox";
 import { listClasses } from "@mui/material/List";
 import { gridClasses } from "@mui/x-data-grid";
 import { tablePaginationClasses } from "@mui/material/TablePagination";
-import { gray } from "@/__template/shared-theme/themePrimitives";
+import { gray } from "@/shared/themePrimitives";
 
 export const dataGridCustomizations = {
   MuiDataGrid: {
