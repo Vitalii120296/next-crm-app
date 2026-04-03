@@ -1,0 +1,158 @@
+@use "./index" as *;
+@use "./utils/normalize";
+
+#root {
+  margin: 0 auto;
+  text-align: center;
+  min-width: 320px;
+}
+
+//NOTE: стара версія кольорів
+// html[data-theme='dark'] {
+//   --primary: #a9dfd8;
+//   --secondary: #f2c8ed;
+//   --bgc: #171821;
+//   --bgBlock: #21222d;
+//   --text: #ffffff;
+//   --textSecondary: #87888c;
+//   --border: #2c2e3a;
+//   --icons: #87888c;
+//   --error: #ed2b19;
+//   --warning: #f2994a;
+//   --info: #2d9cdb;
+//   --success: #27ae60;
+// }
+
+//NOTE: тестова версія
+html[data-mui-color-scheme="dark"] {
+  --primary: #a9dfd8;
+  --secondary: #f2c8ed;
+  --bgc: #05080a;
+  --bgBlock: hsl(220, 30%, 7%);
+  --text: #ffffff;
+  --textSecondary: #87888c;
+  --border: #2c2e3a;
+  --icons: #87888c;
+  --error: #ed2b19;
+  --warning: #f2994a;
+  --info: #2d9cdb;
+  --success: #27ae60;
+}
+
+html[data-mui-color-scheme="light"] {
+  --primary: #a9dfd8;
+  --secondary: #f2c8ed;
+  --bgc: #ffffff;
+  --bgBlock: #f5f5f5;
+  --text: #171821;
+  --textSecondary: #5a5d7c;
+  --border: #d1d1d6;
+  --icons: #5a5d7c;
+  --error: #ed2b19;
+  --warning: #f2994a;
+  --info: #2d9cdb;
+  --success: #27ae60;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: $bgc;
+  color: $text;
+  font-family: "Mont", Arial, Helvetica, sans-serif;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
+  header {
+    z-index: 10;
+    border-bottom: 1px solid $border;
+  }
+
+  main {
+    display: flex;
+    flex: 1;
+    gap: 15px;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    min-height: 80vh;
+
+    // overflow-x: hidden;
+
+    // //NOTE: Сітка
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+
+    background-size: 40px 40px;
+  }
+
+  footer {
+    height: auto;
+    box-sizing: border-box;
+    background-color: $bgBlock;
+    z-index: 10;
+    border-top: 1px solid $border;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  background-color: $bgBlock;
+  color: $text;
+  border: 1px solid $border;
+  padding: 8px 12px;
+  border-radius: 4px;
+  resize: none;
+
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+  &:focus {
+    border-color: $primary;
+    outline: none;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $text;
+  // NOTE: поки шо прибрав, бо дуже не зручно, текст зʼїзжає
+  // margin-bottom: 1rem;
+}
+
+.icon {
+  display: flex;
+  flex: 0 0;
+  width: 14px;
+  height: 14px;
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+}

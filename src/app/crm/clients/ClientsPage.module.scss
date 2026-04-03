@@ -1,0 +1,8 @@
+@use "@/styles/index" as *;
+
+.wrapper {
+  width: 100%;
+  @include on-desktop {
+    padding-inline: 16px;
+  }
+}
