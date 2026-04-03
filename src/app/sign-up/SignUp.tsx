@@ -137,7 +137,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     try {
       await authService.register(payload);
 
-      // router.replace("login");
+      router.replace("login");
     } catch (error) {
       console.log(error);
     }

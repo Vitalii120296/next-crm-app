@@ -10,7 +10,7 @@ export interface IRegisterRes {
 }
 
 export interface ILoginRes {
-  acces_token: string;
+  access_token: string;
 }
 
 export const authService = {
@@ -18,8 +18,17 @@ export const authService = {
     return client.post("auth/register", data);
   },
 
-  login: (email: string, password: string): Promise<ILoginRes> => {
-    return client.post("auth/login", { email, password });
+  login: async (
+    data: Pick<FormData, "email" | "password">,
+  ): Promise<ILoginRes> => {
+    return fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      credentials: "include",
+    }).then((res) => {
+      return res.json();
+    });
   },
 
   // logout: () => client.post(""),

@@ -1,8 +1,7 @@
 import axios, { AxiosError, type AxiosRequestConfig } from "axios";
-import { authService } from "@/services/authService";
 
 export const httpClient = axios.create({
-  baseURL: process.env.VITE_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
@@ -18,7 +17,6 @@ httpClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        await authService.refresh();
         // повторюємо оригінальний запит
         return httpClient(originalRequest);
       } catch (refreshError) {

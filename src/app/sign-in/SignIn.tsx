@@ -19,6 +19,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import { GoogleIcon, FacebookIcon } from "./components/CustomIcons";
 import AppTheme from "@/components/AppTheme";
 import ColorModeSelect from "@/__template/shared-theme/ColorModeSelect";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/contexts/AuthContext";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -63,6 +65,9 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
+  const router = useRouter();
+  const { login } = useAuth();
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -77,16 +82,26 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (emailError || passwordError) {
-      event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    const payload = {
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    };
+
+    try {
+      await login(payload);
+
+      router.push("/crm");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const validateInputs = () => {

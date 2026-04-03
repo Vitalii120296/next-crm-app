@@ -5,7 +5,18 @@ export const userService = {
   // getAll: (companyId: string) =>
   //   client.get<User[]>("/users", { params: { companyId } }),
 
-  getCurrentUser: (): Promise<User> => client.get("auth/me"),
+  getCurrentUser: async (): Promise<User> => {
+    const res = await fetch("/api/auth/me", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch user");
+    }
+
+    return res.json();
+  },
 
   // updateUserData: (
   //   data: Partial<Pick<User, "first_name" | "last_name" | "email">>,
