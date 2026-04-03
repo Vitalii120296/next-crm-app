@@ -5,14 +5,30 @@ export interface AuthData {
   token: string;
   user: User;
 }
+export interface IRegisterRes {
+  message: string;
+}
+
+export interface ILoginRes {
+  access_token: string;
+}
 
 export const authService = {
-  register: (data: FormData): Promise<AuthData> => {
+  register: (data: FormData): Promise<IRegisterRes> => {
     return client.post("auth/register", data);
   },
 
-  login: (email: string, password: string): Promise<AuthData> => {
-    return client.post("auth/login", { email, password });
+  login: async (
+    data: Pick<FormData, "email" | "password">,
+  ): Promise<ILoginRes> => {
+    return fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      credentials: "include",
+    }).then((res) => {
+      return res.json();
+    });
   },
 
   // logout: () => client.post(""),

@@ -2,7 +2,7 @@
 
 import { authService } from "@/services/authService";
 import { userService } from "@/services/userServices";
-import { User } from "@/types";
+import { FormData, User } from "@/types";
 import {
   createContext,
   useCallback,
@@ -17,7 +17,7 @@ interface IAuthContext {
   currentUser: User | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
   checkAuth: () => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
+  login: (data: Pick<FormData, "email" | "password">) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -29,11 +29,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkAuth = useCallback(async () => {
     try {
-      const user = localStorage.getItem("user");
+      const user = await userService.getCurrentUser();
 
-      if (user) setCurrentUser(JSON.parse(user));
+      setCurrentUser(user);
+      console.log(user);
     } catch {
-      console.error("User is not authentificated");
+      console.log("User is not authentificated");
 
       setCurrentUser(null);
     } finally {
@@ -41,14 +42,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
-    authService.login(email, password);
+  const login = useCallback(
+    async (data: Pick<FormData, "email" | "password">) => {
+      await authService.login(data);
 
-    const user = await userService.getCurrentUser();
+      const user = await userService.getCurrentUser();
 
-    localStorage.setItem("user", JSON.stringify(user));
-    setCurrentUser(user);
-  }, []);
+      setCurrentUser(user);
+    },
+    [],
+  );
 
   const logout = useCallback(async () => {
     localStorage.removeItem("user");

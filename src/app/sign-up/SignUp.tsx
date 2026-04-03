@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -15,13 +14,11 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
-import {
-  GoogleIcon,
-  FacebookIcon,
-  SitemarkIcon,
-} from "./components/CustomIcons";
+import { GoogleIcon, FacebookIcon } from "./components/CustomIcons";
+import { authService } from "@/services/authService";
 import AppTheme from "@/components/AppTheme";
-import ColorModeSelect from "@/__template/shared-theme/ColorModeSelect";
+import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
+import { useRouter } from "next/navigation";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -66,21 +63,25 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
+  const router = useRouter();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [nameError, setNameError] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+  const [firstNameError, setFirstNameError] = React.useState(false);
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = React.useState("");
+  const [lastNameError, setLastNameError] = React.useState(false);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = React.useState("");
 
   const validateInputs = () => {
     const email = document.getElementById("email") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
-    const name = document.getElementById("name") as HTMLInputElement;
+    const firstName = document.getElementById("firstName") as HTMLInputElement;
+    const lastName = document.getElementById("lastName") as HTMLInputElement;
 
     let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+    if (!email || !email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
       setEmailErrorMessage("Please enter a valid email address.");
       isValid = false;
@@ -89,7 +90,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       setEmailErrorMessage("");
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password || !password.value || password.value.length < 6) {
       setPasswordError(true);
       setPasswordErrorMessage("Password must be at least 6 characters long.");
       isValid = false;
@@ -98,30 +99,48 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       setPasswordErrorMessage("");
     }
 
-    if (!name.value || name.value.length < 1) {
-      setNameError(true);
-      setNameErrorMessage("Name is required.");
+    if (!firstName || !firstName.value || firstName.value.length < 1) {
+      setFirstNameError(true);
+      setFirstNameErrorMessage("First name is required.");
       isValid = false;
     } else {
-      setNameError(false);
-      setNameErrorMessage("");
+      setFirstNameError(false);
+      setFirstNameErrorMessage("");
+    }
+    if (!lastName || !lastName.value || lastName.value.length < 1) {
+      setLastNameError(true);
+      setLastNameErrorMessage("Last name is required.");
+      isValid = false;
+    } else {
+      setLastNameError(false);
+      setLastNameErrorMessage("");
     }
 
     return isValid;
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (nameError || emailError || passwordError) {
-      event.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (firstNameError || lastNameError || emailError || passwordError) {
       return;
     }
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const payload = {
+      firstName: data.get("firstName") as string,
+      lastName: data.get("lastName") as string,
+      email: data.get("email") as string,
+      password: data.get("password") as string,
+    };
+
+    try {
+      await authService.register(payload);
+
+      router.replace("login");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -146,17 +165,31 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
+              <FormLabel htmlFor="firstName">First name</FormLabel>
               <TextField
-                autoComplete="name"
-                name="name"
+                autoComplete="firstName"
+                name="firstName"
                 required
                 fullWidth
-                id="name"
-                placeholder="Jon Snow"
-                error={nameError}
-                helperText={nameErrorMessage}
-                color={nameError ? "error" : "primary"}
+                id="firstName"
+                placeholder="Jon"
+                error={firstNameError}
+                helperText={firstNameErrorMessage}
+                color={firstNameError ? "error" : "primary"}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="lastName">Last name</FormLabel>
+              <TextField
+                autoComplete="lastName"
+                name="lastName"
+                required
+                fullWidth
+                id="lastName"
+                placeholder="Snow"
+                error={lastNameError}
+                helperText={lastNameErrorMessage}
+                color={lastNameError ? "error" : "primary"}
               />
             </FormControl>
             <FormControl>
@@ -225,11 +258,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             </Button>
             <Typography sx={{ textAlign: "center" }}>
               Already have an account?{" "}
-              <Link
-                href="/sign-in"
-                variant="body2"
-                sx={{ alignSelf: "center" }}
-              >
+              <Link href="sign-in" variant="body2" sx={{ alignSelf: "center" }}>
                 Sign in
               </Link>
             </Typography>
