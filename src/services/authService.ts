@@ -5,13 +5,20 @@ export interface AuthData {
   token: string;
   user: User;
 }
+export interface IRegisterRes {
+  message: string;
+}
+
+export interface ILoginRes {
+  acces_token: string;
+}
 
 export const authService = {
-  register: (data: FormData): Promise<AuthData> => {
+  register: (data: FormData): Promise<IRegisterRes> => {
     return client.post("auth/register", data);
   },
 
-  login: (email: string, password: string): Promise<AuthData> => {
+  login: (email: string, password: string): Promise<ILoginRes> => {
     return client.post("auth/login", { email, password });
   },
 
