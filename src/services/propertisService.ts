@@ -1,12 +1,12 @@
-import { httpClient as client } from '../shared/api/httpClient'
-import type { PropertiesInfo } from '../types/properties'
+import { httpClient as client } from "@/api/httpClient";
+import type { PropertiesInfo } from "@/types/properties";
 
 export const propertiesService = {
   getProperties: (): Promise<PropertiesInfo[]> => {
-    return client.get('business/')
+    return client.get("business/");
   },
 
   updateProperties: (data: FormData): Promise<PropertiesInfo> => {
-    return client.post('business/', data)
+    return client.post("business/", data);
   },
-}
+};
