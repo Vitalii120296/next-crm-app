@@ -8,6 +8,8 @@ import cn from "classnames";
 import { ProgressCardList } from "./components/ProgressCardList/ProgressCardList";
 import { Droppable } from "@hello-pangea/dnd";
 import { statusFormat } from "@/utils/statusFormat";
+import Modal from "@/components/Modal";
+import { ClientCreate } from "@/components/ClientCreate";
 
 type Props = {
   clients: Client[];
@@ -54,8 +56,13 @@ export const ProgressCard: React.FC<Props> = ({
           )}
         </Droppable>
       </article>
-
-      {/* <ClientCreate isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Create client"
+      >
+        <ClientCreate />
+      </Modal>
     </>
   );
 };

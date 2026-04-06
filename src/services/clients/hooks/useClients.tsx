@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 import { getClientsService } from "../getClients";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
-export const useClients = () => {
-  const [clients, setClients] = useState<Client[] | null>(null);
+export const useClients = (token: string | null) => {
+  const [clientsPayload, setClientsPayload] = useState<Client[] | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchClients = async () => {
       try {
+        if (!token) return;
         setLoading(true);
         const data = await getClientsService();
 
-        setClients(data);
+        setClientsPayload(data);
       } catch (error) {
         throw new Error(getErrorMessage(error));
       } finally {
@@ -22,7 +23,7 @@ export const useClients = () => {
     };
 
     fetchClients();
-  }, []);
+  }, [token]);
 
-  return { clients, loading };
+  return { clientsPayload, loading };
 };

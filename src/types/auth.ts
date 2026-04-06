@@ -2,7 +2,7 @@ export type UserRole = "owner" | "user";
 export type UserStatus = "active" | "inactive";
 
 export type User = {
-  id: number;
+  id: string;
   email: string;
   first_name: string;
   last_name: string;

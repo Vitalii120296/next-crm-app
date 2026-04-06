@@ -10,19 +10,18 @@ import { statusFormat } from "@/utils/statusFormat";
 
 type Props = {
   clients: Client[];
-  setClients: React.Dispatch<React.SetStateAction<Client[]>>;
 };
 
-export const ClientsTable: React.FC<Props> = ({ clients, setClients }) => {
+export const ClientsTable: React.FC<Props> = ({ clients }) => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
-  const updateClients = (updatedClient: Client) => {
-    setClients((prev) =>
-      prev.map((client) =>
-        client.id === updatedClient.id ? updatedClient : client,
-      ),
-    );
-  };
+  // const updateClients = (updatedClient: Client) => {
+  //   setClients((prev) =>
+  //     prev.map((client) =>
+  //       client.id === updatedClient.id ? updatedClient : client,
+  //     ),
+  //   );
+  // };
 
   return (
     <div className={styles.wrapper}>
@@ -49,12 +48,12 @@ export const ClientsTable: React.FC<Props> = ({ clients, setClients }) => {
               >
                 <td className={styles.tdIndex}>{index + 1}</td>
 
-                <td>{client.first_name}</td>
-                <td>{client.last_name}</td>
+                <td>{client.name}</td>
+                <td>{client.surname}</td>
 
                 <td>{client.phone ?? "—"}</td>
 
-                <td>{client.comment ?? "—"}</td>
+                <td>{client.notes ?? "—"}</td>
 
                 <td>
                   <span className={styles.status} data-status={client.status}>
@@ -62,7 +61,7 @@ export const ClientsTable: React.FC<Props> = ({ clients, setClients }) => {
                   </span>
                 </td>
 
-                <td>{client.createdBy?.first_name}</td>
+                <td>{client.userId}</td>
               </tr>
             );
           })}
