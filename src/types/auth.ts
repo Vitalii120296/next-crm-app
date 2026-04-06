@@ -19,3 +19,15 @@ export type FormData = {
   lastName: string;
   password: string;
 };
+
+export interface AuthData {
+  token: string;
+  user: User;
+}
+export interface IRegisterRes {
+  message: string;
+}
+
+export interface ILoginRes {
+  access_token: string;
+}

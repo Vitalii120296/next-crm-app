@@ -1,4 +1,3 @@
-"use client";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -24,8 +23,8 @@ export default function ProductCard({ product }: { product: Product }) {
           height: 140,
           borderRadius: 1,
         }}
-        image={product.image}
-        title={product.title}
+        image={"/productImages/defaultProductImage.webp"}
+        title={product.name}
       />
       <CardContent className="flex flex-col grow">
         <Typography
@@ -34,7 +33,7 @@ export default function ProductCard({ product }: { product: Product }) {
           component="div"
           className="text-center"
         >
-          {product.title}
+          {product.name}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
           {product.description}

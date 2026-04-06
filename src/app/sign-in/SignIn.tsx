@@ -19,8 +19,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import { GoogleIcon, FacebookIcon } from "./components/CustomIcons";
 import AppTheme from "@/components/AppTheme";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/components/contexts/AuthContext";
 import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
+import { useAuth } from "@/services/auth/hooks/useAuth";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -67,7 +67,6 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const router = useRouter();
   const { login } = useAuth();
-
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);

@@ -1,32 +1,35 @@
-import { ValidationErrorType, type ValidationError } from '../types/ValidationErrorType'
+import {
+  ValidationErrorType,
+  type ValidationError,
+} from "../types/ValidationErrorType";
 
 //#region PATTERN
-const EMAIL_PATTERN = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/
-const PHONE_PATTERN = /^\+[1-9]\d{9,14}$/
-const NAME_PATTERN = /^[A-Za-z\s'-]+$/
+const EMAIL_PATTERN = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
+const PHONE_PATTERN = /^\+[1-9]\d{9,14}$/;
+const NAME_PATTERN = /^[A-Za-z\s'-]+$/;
 const PASSWORD_PATTERN =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9!@#$%^&*(),.?":{}|<>_\-\\[\]\\/+=~`]).{8,50}$/
-const PRICE_PATTERN = /^(?!0+(\.0{1,2})?$)\d+(\.\d{1,2})?$/
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9!@#$%^&*(),.?":{}|<>_\-\\[\]\\/+=~`]).{8,50}$/;
+const PRICE_PATTERN = /^(?!0+(\.0{1,2})?$)\d+(\.\d{1,2})?$/;
 
 function normalizePhone(value: string): string {
-  return value.replace(/[^\d+]/g, '')
+  return value.replace(/[^\d+]/g, "");
 }
 //#endregion
 
 //#region Length
 function validateLength(
   value: string,
-  options: { min?: number; max?: number }
+  options: { min?: number; max?: number },
 ): ValidationError | null {
   if (options.min !== undefined && value.length < options.min) {
-    return { type: ValidationErrorType.MIN_LENGTH, min: options.min }
+    return { type: ValidationErrorType.MIN_LENGTH, min: options.min };
   }
 
   if (options.max !== undefined && value.length > options.max) {
-    return { type: ValidationErrorType.MAX_LENGTH, max: options.max }
+    return { type: ValidationErrorType.MAX_LENGTH, max: options.max };
   }
 
-  return null
+  return null;
 }
 //#endregion
 
@@ -34,14 +37,14 @@ function validateLength(
 
 export function validateName(value: string): ValidationError | null {
   if (!value.trim()) {
-    return { type: ValidationErrorType.REQUIRED }
+    return { type: ValidationErrorType.REQUIRED };
   }
 
   if (!NAME_PATTERN.test(value)) {
-    return { type: ValidationErrorType.INVALID }
+    return { type: ValidationErrorType.INVALID };
   }
 
-  return validateLength(value, { min: 2, max: 50 })
+  return validateLength(value, { min: 2, max: 50 });
 }
 //#endregion
 
@@ -49,14 +52,14 @@ export function validateName(value: string): ValidationError | null {
 
 export function validateEmail(value: string): ValidationError | null {
   if (!value) {
-    return { type: ValidationErrorType.REQUIRED }
+    return { type: ValidationErrorType.REQUIRED };
   }
 
   if (!EMAIL_PATTERN.test(value)) {
-    return { type: ValidationErrorType.INVALID }
+    return { type: ValidationErrorType.INVALID };
   }
 
-  return null
+  return null;
 }
 //#endregion
 
@@ -64,18 +67,18 @@ export function validateEmail(value: string): ValidationError | null {
 
 export function validatePassword(value: string): ValidationError | null {
   if (!value) {
-    return { type: ValidationErrorType.REQUIRED }
+    return { type: ValidationErrorType.REQUIRED };
   }
 
   if (value.length < 8) {
-    return { type: ValidationErrorType.MIN_LENGTH, min: 8 }
+    return { type: ValidationErrorType.MIN_LENGTH, min: 8 };
   }
 
   if (!PASSWORD_PATTERN.test(value)) {
-    return { type: ValidationErrorType.INVALID }
+    return { type: ValidationErrorType.INVALID };
   }
 
-  return null
+  return null;
 }
 //#endregion
 
@@ -83,16 +86,16 @@ export function validatePassword(value: string): ValidationError | null {
 
 export function validatePhone(value: string): ValidationError | null {
   if (!value) {
-    return { type: ValidationErrorType.REQUIRED }
+    return { type: ValidationErrorType.REQUIRED };
   }
 
-  const normalized = normalizePhone(value)
+  const normalized = normalizePhone(value);
 
   if (!PHONE_PATTERN.test(normalized)) {
-    return { type: ValidationErrorType.INVALID }
+    return { type: ValidationErrorType.INVALID };
   }
 
-  return null
+  return null;
 }
 //#endregion
 
@@ -100,24 +103,24 @@ export function validatePhone(value: string): ValidationError | null {
 
 export function validateComment(value: string): ValidationError | null {
   if (!value) {
-    return null // comment не обязателен
+    return null; // comment не обязателен
   }
 
   if (value.length < 6) {
     return {
       type: ValidationErrorType.MIN_LENGTH,
       min: 6,
-    }
+    };
   }
 
   if (value.length > 100) {
     return {
       type: ValidationErrorType.MAX_LENGTH,
       max: 100,
-    }
+    };
   }
 
-  return null
+  return null;
 }
 //#endregion
 
@@ -125,51 +128,53 @@ export function validateComment(value: string): ValidationError | null {
 
 export function validateProductTitle(value: string): ValidationError | null {
   if (!value.trim()) {
-    return { type: ValidationErrorType.REQUIRED }
+    return { type: ValidationErrorType.REQUIRED };
   }
 
   if (value.length < 2) {
     return {
       type: ValidationErrorType.MIN_LENGTH,
       min: 2,
-    }
+    };
   }
 
   if (value.length > 100) {
     return {
       type: ValidationErrorType.MAX_LENGTH,
       max: 100,
-    }
+    };
   }
 
-  return null
+  return null;
 }
 //#endregion
 //#region Price
 
 export function validateProductPrice(value: string): ValidationError | null {
   if (!value.trim()) {
-    return { type: ValidationErrorType.REQUIRED }
+    return { type: ValidationErrorType.REQUIRED };
   }
 
   if (!PRICE_PATTERN.test(value)) {
-    return { type: ValidationErrorType.INVALID }
+    return { type: ValidationErrorType.INVALID };
   }
 
-  return null
+  return null;
 }
 //#endregion
 //#region Description
 
-export function validateProductDescription(value: string): ValidationError | null {
+export function validateProductDescription(
+  value: string,
+): ValidationError | null {
   if (value.length > 100) {
     return {
       type: ValidationErrorType.MAX_LENGTH,
       max: 100,
-    }
+    };
   }
 
-  return null
+  return null;
 }
 //#endregion
 
@@ -184,5 +189,5 @@ export const validateService = {
   validateProductTitle,
   validateProductPrice,
   validateProductDescription,
-}
+};
 //#endregion

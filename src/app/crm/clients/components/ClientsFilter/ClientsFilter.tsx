@@ -6,6 +6,7 @@ import type { Client, ClientFilters, ClientStatus } from "@/types";
 
 import styles from "./ClientsFilter.module.scss";
 import { useState } from "react";
+import Modal from "@/components/Dialog";
 
 type Props = {
   filters: ClientFilters;
@@ -52,20 +53,9 @@ export const ClientsFilter: React.FC<Props> = ({
             <option value="done">Done</option>
           </select>
 
-          <button
-            className={styles.add_client}
-            onClick={() => setIsModalOpen(true)}
-          >
-            Add client
-          </button>
+          <Modal />
         </div>
       </div>
-
-      {/* <ClientCreate
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        setClients={setClients}
-      /> */}
     </>
   );
 };
