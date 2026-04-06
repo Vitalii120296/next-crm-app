@@ -30,13 +30,13 @@ const KanbanPage = () => {
 
         const clientsMap: Record<string, Client> = {};
         const columnsMap: Record<ClientStatus, ColumnData> = {
-          new: { id: "new", columnClients: [] },
-          in_progress: { id: "in_progress", columnClients: [] },
-          done: { id: "done", columnClients: [] },
+          NEW: { id: "NEW", columnClients: [] },
+          IN_PROGRESS: { id: "IN_PROGRESS", columnClients: [] },
+          DONE: { id: "DONE", columnClients: [] },
         };
 
         res.forEach((client) => {
-          const idStr = client.id.toString();
+          const idStr = client.id!.toString();
           clientsMap[idStr] = client;
           columnsMap[client.status].columnClients.push(idStr);
         });
@@ -109,15 +109,13 @@ const KanbanPage = () => {
     updatedClient: Client | ((prevState: Client) => Client),
   ) => {
     if (typeof updatedClient === "function") {
-      // Handle function form (shouldn't happen in this context, but for type compatibility)
       return;
     }
 
     setColumnsData((prev) => {
-      if (!prev) return prev;
+      if (!prev || !updatedClient.id) return prev;
 
-      const clientIdStr = updatedClient.id.toString(); // ⚠️ конвертуємо у рядок
-      const oldClient = prev.clients[clientIdStr];
+      const oldClient = prev.clients[updatedClient.id];
       const newColumns = { ...prev.columns };
 
       if (oldClient.status !== updatedClient.status) {
@@ -125,7 +123,7 @@ const KanbanPage = () => {
         newColumns[oldClient.status] = {
           ...newColumns[oldClient.status],
           columnClients: newColumns[oldClient.status].columnClients.filter(
-            (id) => id !== clientIdStr, // ⚠️ порівнюємо рядки
+            (id) => id !== updatedClient.id,
           ),
         };
 
@@ -133,7 +131,7 @@ const KanbanPage = () => {
         newColumns[updatedClient.status] = {
           ...newColumns[updatedClient.status],
           columnClients: [
-            clientIdStr,
+            updatedClient.id,
             ...newColumns[updatedClient.status].columnClients,
           ],
         };
@@ -143,7 +141,7 @@ const KanbanPage = () => {
         ...prev,
         clients: {
           ...prev.clients,
-          [clientIdStr]: updatedClient,
+          [updatedClient.id]: updatedClient,
         },
         columns: newColumns,
       };

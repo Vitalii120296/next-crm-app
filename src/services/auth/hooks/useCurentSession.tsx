@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { User } from "@/types";
 import { getCurrentUser } from "../getCurrentUser";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 export function useCurrentSession(token: string | null) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -11,15 +11,12 @@ export function useCurrentSession(token: string | null) {
     const fetchUser = async () => {
       try {
         if (token) {
+          setLoading(true);
           const user = await getCurrentUser(token);
           setCurrentUser(user);
         }
       } catch (error: unknown) {
-        if (axios.isAxiosError(error)) {
-          console.error(error.response?.data);
-        } else {
-          console.error(error);
-        }
+        throw new Error(getErrorMessage(error));
       } finally {
         setLoading(false);
       }

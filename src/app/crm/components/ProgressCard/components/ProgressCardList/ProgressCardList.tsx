@@ -24,11 +24,7 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
       <div className={s.progress_card__column} ref={ref}>
         <ul className={s.progress_card__list}>
           {clients.map((client, i) => (
-            <Draggable
-              draggableId={client.id.toString()}
-              index={i}
-              key={client.id.toString()}
-            >
+            <Draggable draggableId={client.id!} index={i} key={client.id}>
               {(provided, snapshot) => (
                 <li
                   ref={provided.innerRef}
@@ -43,13 +39,13 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                     <BsFillCircleFill
                       aria-hidden="true"
                       className={cn(s.progress_card__icon, {
-                        [s["progress_card__icon--green"]]: columnId === "new",
+                        [s["progress_card__icon--green"]]: columnId === "NEW",
                         [s["progress_card__icon--yellow"]]:
-                          columnId === "in_progress",
-                        [s["progress_card__icon--blue"]]: columnId === "done",
+                          columnId === "IN_PROGRESS",
+                        [s["progress_card__icon--blue"]]: columnId === "DONE",
                       })}
                     />
-                    {`${client.first_name} ${client.last_name}`}
+                    {`${client.name} ${client.surname}`}
                   </p>
                   {client.email && (
                     <p className={s.progress_card__row}>{client.email}</p>
@@ -57,13 +53,13 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                   {client.phone && (
                     <p className={s.progress_card__row}>{client.phone}</p>
                   )}
-                  {client.amount && (
+                  {/* {client.amount && (
                     <p className={s.progress_card__row}>
                       Amount: {client.amount}
                     </p>
-                  )}
-                  {client.comment && (
-                    <p className={s.progress_card__row}>{client.comment}</p>
+                  )} */}
+                  {client.notes && (
+                    <p className={s.progress_card__row}>{client.notes}</p>
                   )}
                 </li>
               )}

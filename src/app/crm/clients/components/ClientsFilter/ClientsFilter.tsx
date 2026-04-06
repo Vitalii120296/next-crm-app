@@ -50,9 +50,9 @@ export const ClientsFilter: React.FC<Props> = ({
             }
           >
             <option value="all">All</option>
-            <option value="new">New</option>
-            <option value="in_progress">In progress</option>
-            <option value="done">Done</option>
+            <option value="NEW">New</option>
+            <option value="IN_PROGRESS">In progress</option>
+            <option value="DONE">Done</option>
           </select>
 
           <Button

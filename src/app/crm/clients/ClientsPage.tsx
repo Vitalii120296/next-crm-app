@@ -16,14 +16,19 @@ import { useAuthStore } from "@/store/user";
 export const ClientsPage = () => {
   const token = useAuthStore((state) => state.token);
   const { clientsPayload } = useClients(token);
+  const [loading, setLoading] = useState(false);
   const clients = useClientStore((state) => state.clients);
   const setClients = useClientStore((state) => state.setClients);
   const queryParams = useQueryParams();
-  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<ClientFilters>({
     search: "",
     status: "all",
   });
+
+  useEffect(() => {
+    if (!clientsPayload) return;
+    setClients(clientsPayload);
+  }, [clientsPayload, setClients]);
 
   useEffect(() => {
     setFilters({
@@ -32,22 +37,21 @@ export const ClientsPage = () => {
     });
   }, [queryParams]);
 
-  useEffect(() => {
-    if (!clientsPayload) return;
+  //   const fetchClients = async () => {
+  //     if (!clientsPayload) return;
 
-    const fetchClients = async () => {
-      try {
-        setLoading(true);
-        setClients(clientsPayload);
-      } catch (error) {
-        console.error("Failed to load clients:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  //     try {
+  //       setLoading(true);
+  //       setClients(clientsPayload);
+  //     } catch (error) {
+  //       console.error("Failed to load clients:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchClients();
-  }, [token, clientsPayload, setClients]);
+  //   fetchClients();
+  // }, [token, clientsPayload, setClients]);
 
   const filteredClients = useMemo(() => {
     if (!clients) return;
@@ -74,7 +78,7 @@ export const ClientsPage = () => {
             queryParams.set({ [key]: value } as ClientFilters)
           }
         />
-        {loading ? <Loader /> : <ClientsTable clients={filteredClients} />}
+        {!clients ? <Loader /> : <ClientsTable clients={filteredClients} />}
       </div>
     </div>
   );

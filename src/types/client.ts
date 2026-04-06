@@ -1,4 +1,4 @@
-export type ClientStatus = "NEW" | "IN_PROGRES" | "DONE";
+export type ClientStatus = "NEW" | "IN_PROGRESS" | "DONE";
 
 export type ClientNote = {
   id: string;

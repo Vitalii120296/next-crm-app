@@ -31,7 +31,7 @@ export const ProgressCard: React.FC<Props> = ({
       <article className={s.progress_card}>
         <div className={s.progress_card__top_bar}>
           <h2 className={cn("h3", s.progress_card__status)}>{status}</h2>
-          {columnId === "new" && (
+          {columnId === "NEW" && (
             <button
               className={s.progress_card__add_client}
               onClick={() => {

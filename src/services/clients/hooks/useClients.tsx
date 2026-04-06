@@ -10,11 +10,12 @@ export const useClients = (token: string | null) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        if (!token) return;
-        setLoading(true);
-        const data = await getClientsService();
+        if (token) {
+          setLoading(true);
+          const data = await getClientsService();
 
-        setClientsPayload(data);
+          setClientsPayload(data);
+        }
       } catch (error) {
         throw new Error(getErrorMessage(error));
       } finally {
