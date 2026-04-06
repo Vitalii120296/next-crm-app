@@ -1,6 +1,4 @@
-import type { User } from "./auth";
-
-export type ClientStatus = "new" | "in_progress" | "done";
+export type ClientStatus = "NEW" | "IN_PROGRESS" | "DONE";
 
 export type ClientNote = {
   id: string;
@@ -13,20 +11,17 @@ export type ClientNoteResponse = {
 };
 
 export type Client = {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email?: string;
+  id?: string;
+  name: string;
+  surname: string;
   phone: string;
-  amount?: number;
+  email: string;
+  notes: string;
   status: ClientStatus;
-  oredrIndex?: string;
+  userId?: string;
 
-  comment?: string;
-  notes?: ClientNote[];
-
-  createdBy: Pick<User, "first_name" | "last_name">;
-  createdAt: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type CreateClientDto = {

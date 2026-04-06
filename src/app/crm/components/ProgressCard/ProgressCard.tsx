@@ -8,6 +8,8 @@ import cn from "classnames";
 import { ProgressCardList } from "./components/ProgressCardList/ProgressCardList";
 import { Droppable } from "@hello-pangea/dnd";
 import { statusFormat } from "@/utils/statusFormat";
+import Modal from "@/components/Modal";
+import { ClientCreate } from "@/components/ClientCreate";
 
 type Props = {
   clients: Client[];
@@ -29,7 +31,7 @@ export const ProgressCard: React.FC<Props> = ({
       <article className={s.progress_card}>
         <div className={s.progress_card__top_bar}>
           <h2 className={cn("h3", s.progress_card__status)}>{status}</h2>
-          {columnId === "new" && (
+          {columnId === "NEW" && (
             <button
               className={s.progress_card__add_client}
               onClick={() => {
@@ -54,8 +56,13 @@ export const ProgressCard: React.FC<Props> = ({
           )}
         </Droppable>
       </article>
-
-      {/* <ClientCreate isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Create client"
+      >
+        <ClientCreate />
+      </Modal>
     </>
   );
 };

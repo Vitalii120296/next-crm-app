@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { Client, ClientFilters, ClientStatus } from "@/types";
+import type { ClientFilters, ClientStatus } from "@/types";
 
 import { ClientsFilter } from "./components/ClientsFilter/ClientsFilter";
 import { ClientsTable } from "./components/ClientsTable/ClientsTable";
@@ -9,16 +9,26 @@ import { Loader } from "@/components/Loader/Loader";
 
 import s from "./ClientsPage.module.scss";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { getClientsTestApi } from "@/api/test-api/clients.test-api";
+import { useClients } from "@/services/clients/hooks/useClients";
+import { useClientStore } from "@/store/client";
+import { useAuthStore } from "@/store/user";
 
 export const ClientsPage = () => {
-  const [clients, setClients] = useState<Client[]>([]);
+  const token = useAuthStore((state) => state.token);
+  const { clientsPayload } = useClients(token);
+  const [loading, setLoading] = useState(false);
+  const clients = useClientStore((state) => state.clients);
+  const setClients = useClientStore((state) => state.setClients);
   const queryParams = useQueryParams();
-  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<ClientFilters>({
     search: "",
     status: "all",
   });
+
+  useEffect(() => {
+    if (!clientsPayload) return;
+    setClients(clientsPayload);
+  }, [clientsPayload, setClients]);
 
   useEffect(() => {
     setFilters({
@@ -27,29 +37,29 @@ export const ClientsPage = () => {
     });
   }, [queryParams]);
 
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        setLoading(true);
-        const res = await getClientsTestApi();
-        setClients(res);
-        console.log(res);
-      } catch (error) {
-        console.error("Failed to load clients:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  //   const fetchClients = async () => {
+  //     if (!clientsPayload) return;
 
-    fetchClients();
-  }, []);
+  //     try {
+  //       setLoading(true);
+  //       setClients(clientsPayload);
+  //     } catch (error) {
+  //       console.error("Failed to load clients:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchClients();
+  // }, [token, clientsPayload, setClients]);
 
   const filteredClients = useMemo(() => {
+    if (!clients) return;
     return clients.filter((client) => {
       const search = (filters.search || "").toLowerCase();
 
       const fullName =
-        `${client.first_name ?? ""} ${client.last_name ?? ""}`.toLowerCase();
+        `${client.name ?? ""} ${client.surname ?? ""}`.toLowerCase();
       const matchesName = fullName.includes(search);
 
       const matchesStatus =
@@ -67,13 +77,8 @@ export const ClientsPage = () => {
           onChange={(key: string, value: string) =>
             queryParams.set({ [key]: value } as ClientFilters)
           }
-          setClients={setClients}
         />
-        {loading ? (
-          <Loader />
-        ) : (
-          <ClientsTable setClients={setClients} clients={filteredClients} />
-        )}
+        {!clients ? <Loader /> : <ClientsTable clients={filteredClients} />}
       </div>
     </div>
   );

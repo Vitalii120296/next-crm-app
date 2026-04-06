@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthShell } from "@/layouts/AuthShell";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import { GlobalStyles } from "@mui/system";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +32,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased `}
     >
       <body className="flex flex-col flex-1 min-h-full">
-        <AuthShell>{children}</AuthShell>
+        <AppRouterCacheProvider options={{ key: "css", enableCssLayer: true }}>
+          <GlobalStyles styles="@layer theme, base, mui, components, utilities;" />
+          <AuthShell>{children}</AuthShell>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
