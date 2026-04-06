@@ -7,7 +7,7 @@ import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
 import { clientService } from "@/services/clientServices";
 import { ProgressCard } from "./components/ProgressCard/ProgressCard";
 // import { getProductsTestApi } from "@/api/products.test-api";
-import { getClientsTestApi } from "@/api/clients.test-api";
+import { getClientsTestApi } from "@/api/test-api/clients.test-api";
 
 type ColumnData = {
   id: ClientStatus;
@@ -27,7 +27,6 @@ const KanbanPage = () => {
     const fetchAndTransformClients = async () => {
       try {
         const res = await getClientsTestApi();
-        console.log(res);
 
         const clientsMap: Record<string, Client> = {};
         const columnsMap: Record<ClientStatus, ColumnData> = {

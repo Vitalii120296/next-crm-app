@@ -15,10 +15,10 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import { GoogleIcon, FacebookIcon } from "./components/CustomIcons";
-import { authService } from "@/services/authService";
 import AppTheme from "@/components/AppTheme";
 import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/services/auth/hooks/useAuth";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -64,6 +64,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const router = useRouter();
+  const { register } = useAuth();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -135,7 +136,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     };
 
     try {
-      await authService.register(payload);
+      await register(payload);
 
       router.replace("login");
     } catch (error) {

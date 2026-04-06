@@ -9,7 +9,7 @@ import { Loader } from "@/components/Loader/Loader";
 
 import s from "./ClientsPage.module.scss";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { getClientsTestApi } from "@/api/clients.test-api";
+import { getClientsTestApi } from "@/api/test-api/clients.test-api";
 
 export const ClientsPage = () => {
   const [clients, setClients] = useState<Client[]>([]);
@@ -27,7 +27,6 @@ export const ClientsPage = () => {
     });
   }, [queryParams]);
 
-  // 2️⃣ загружаем клиентов (тестовый API)
   useEffect(() => {
     const fetchClients = async () => {
       try {

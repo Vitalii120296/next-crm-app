@@ -21,15 +21,12 @@ import { motion } from "framer-motion";
 
 import { FaGithub } from "react-icons/fa";
 
-// import { useEffect } from "react";
 import Link from "next/link";
+import { useAuthStore } from "@/store/user";
 
 export const StartPage = () => {
-  // const { currentUser, logout, checkAuth } = useAuth();
-
-  // useEffect(() => {
-  //   checkAuth();
-  // }, [checkAuth]);
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const logout = useAuthStore((state) => state.logout);
 
   return (
     <div className={s.bg}>
@@ -46,17 +43,15 @@ export const StartPage = () => {
               </div>
             </div>
 
-            <button className={s.loginBlock}>
-              {/* {currentUser ? (
-                <button className={s.loginButton} onClick={() => logout()}>
-                  Log out
-                </button>
-              ) : (
-                <Link className={s.loginButton} href="/login">
-                  Sign In
-                </Link>
-              )} */}
-            </button>
+            {currentUser ? (
+              <button className={s.loginButton} onClick={() => logout()}>
+                Log out
+              </button>
+            ) : (
+              <button className={s.loginButton}>
+                <Link href="/login">Sign In</Link>
+              </button>
+            )}
           </div>
         </div>
       </header>

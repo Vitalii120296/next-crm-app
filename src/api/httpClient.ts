@@ -1,41 +1,19 @@
-import axios, { AxiosError, type AxiosRequestConfig } from "axios";
+import { useAuthStore } from "@/store/user";
+import axios from "axios";
 
 export const httpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 
-httpClient.interceptors.response.use(
-  (res) => res.data,
-  async (error: AxiosError) => {
-    const status = error.response?.status;
-    const originalRequest = error.config as
-      | (AxiosRequestConfig & { _retry?: boolean })
-      | undefined;
+httpClient.interceptors.response.use((res) => res.data);
 
-    if (status === 401 && originalRequest && !originalRequest._retry) {
-      originalRequest._retry = true;
+httpClient.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
 
-      try {
-        // повторюємо оригінальний запит
-        return httpClient(originalRequest);
-      } catch (refreshError) {
-        return Promise.reject(refreshError);
-      }
-    }
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-    switch (status) {
-      case 400:
-        throw new Error("Bad Request");
-      case 403:
-        throw new Error("Forbidden");
-      case 404:
-        throw new Error("Not Found");
-      case 409:
-      case 500:
-        throw new Error("Internal Server Error");
-      default:
-        throw new Error(`Unexpected error: ${status}`);
-    }
-  },
-);
+  return config;
+});

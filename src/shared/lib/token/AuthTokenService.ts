@@ -9,7 +9,7 @@ export class AuthTokenService {
   private static readonly tokenOptions: CookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 6, // 6 hours
+    maxAge: 60 * 60 * 1, // 1 hours
     sameSite: "lax",
     path: "/",
   };

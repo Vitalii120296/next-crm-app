@@ -1,8 +1,12 @@
+import { Client } from "./client";
+
 export type Product = {
-  id: string
-  image: string
-  title: string
-  price: string
-  description: string
-  file?: File
-}
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  sku: string;
+  createdAt: Date;
+  clients: Pick<Client, "id" | "first_name" | "last_name" | "status">[];
+  file?: File;
+};

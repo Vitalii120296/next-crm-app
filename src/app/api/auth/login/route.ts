@@ -1,25 +1,21 @@
+import { httpClient } from "@/api/httpClient";
 import { AuthTokenService } from "@/shared/lib/token/AuthTokenService";
 import { NextResponse } from "next/server";
 
+type LoginResponse = {
+  access_token: string;
+};
+
 export async function POST(req: Request) {
-  const body = await req.json();
+  const payload = await req.json();
 
-  const backendRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}auth/login`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    },
-  );
+  const response = await httpClient.post<LoginResponse>("/auth/login", payload);
 
-  if (!backendRes.ok) {
+  if (!response.access_token) {
     return NextResponse.json({ status: "ERROR" }, { status: 401 });
   }
 
-  const data = await backendRes.json();
-
-  await AuthTokenService.setToken(data.access_token);
+  await AuthTokenService.setToken(response.access_token);
 
   return NextResponse.json({ status: "OK" });
 }
