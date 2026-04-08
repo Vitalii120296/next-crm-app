@@ -40,3 +40,13 @@ export type ClientFilters = {
   status?: ClientStatus | "all";
   createdById?: string;
 };
+
+export interface IForm {
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+  notes: string;
+  status: ClientStatus;
+  userId: string;
+}

@@ -29,7 +29,6 @@ export default function Modal({
   open = false,
   onClose,
   title = "",
-  buttonTitle = "",
   children,
 }: Props) {
   const handleClose = () => {
@@ -59,11 +58,6 @@ export default function Modal({
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>{children}</DialogContent>
-        {/* <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            {buttonTitle}
-          </Button>
-        </DialogActions> */}
       </BootstrapDialog>
     </React.Fragment>
   );

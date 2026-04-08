@@ -1,14 +1,14 @@
-import type { ClientStatus } from '../types'
+import type { ClientStatus } from "../types";
 
 export function statusFormat(status: ClientStatus) {
   switch (status) {
-    case 'new':
-      return 'New'
-    case 'in_progress':
-      return 'In Progress'
-    case 'done':
-      return 'Done'
+    case "NEW":
+      return "New";
+    case "IN_PROGRESS":
+      return "In Progress";
+    case "DONE":
+      return "Done";
     default:
-      return ''
+      return "";
   }
 }

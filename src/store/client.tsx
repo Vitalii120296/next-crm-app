@@ -6,7 +6,7 @@ type Actions = {
   setClients: (clients: Client[]) => void;
   addClient: (client: Client) => void;
   removeClient: (id: string) => void;
-  editClient: (id: string, payload: Client) => void;
+  updateClient: (id: string, payload: Client) => void;
 };
 
 type State = {
@@ -31,10 +31,14 @@ export const useClientStore = create<State>()(
           : null,
       })),
 
-    editClient: (id, payload) =>
+    updateClient: (id, payload) =>
       set((state) => ({
         clients: state.clients
-          ? [...state.clients.map((cl) => (cl.id === id ? payload : cl))]
+          ? [
+              ...state.clients.map((cl) =>
+                cl.id === id ? { ...cl, ...payload } : cl,
+              ),
+            ]
           : null,
       })),
   })),

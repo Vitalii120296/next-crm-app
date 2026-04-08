@@ -4,7 +4,6 @@ import { useState } from "react";
 import type { Client, ClientStatus } from "@/types";
 import s from "./ProgressCard.module.scss";
 import cn from "classnames";
-// import { ClientCreate } from '../../../widgets/ClientCreate/ClientCreate'
 import { ProgressCardList } from "./components/ProgressCardList/ProgressCardList";
 import { Droppable } from "@hello-pangea/dnd";
 import { statusFormat } from "@/utils/statusFormat";

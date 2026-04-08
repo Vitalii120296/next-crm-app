@@ -1,4 +1,4 @@
-import { Loader } from "@/components/Loader/Loader";
+import { Loader } from "@/components/Loader";
 import { Suspense } from "react";
 import ClientsPage from "./ClientsPage";
 

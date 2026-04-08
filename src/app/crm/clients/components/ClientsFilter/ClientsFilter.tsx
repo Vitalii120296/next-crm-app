@@ -13,14 +13,9 @@ import { ClientCreate } from "@/components/ClientCreate";
 type Props = {
   filters: ClientFilters;
   onChange: (key: string, value: string) => void;
-  setClients: React.Dispatch<React.SetStateAction<Client[]>>;
 };
 
-export const ClientsFilter: React.FC<Props> = ({
-  filters,
-  onChange,
-  // setClients,
-}) => {
+export const ClientsFilter: React.FC<Props> = ({ filters, onChange }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearchChange = (value: string) => {

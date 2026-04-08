@@ -1,40 +1,49 @@
-import { addClientService } from "@/services/clients/addClient";
+import { deleteClientsService } from "@/services/clients/deleteClient";
+import { updateClientService } from "@/services/clients/updateClient";
 import { useClientStore } from "@/store/client";
 import { useAuthStore } from "@/store/user";
-import { ClientStatus, IForm } from "@/types";
+import { Client, IForm } from "@/types";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import TextField from "@mui/material/TextField";
 import { Box } from "@mui/system";
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-export const ClientCreate = () => {
+type Props = {
+  client: Client;
+  onClose: () => void;
+};
+
+export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
   const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
-  const addClient = useClientStore((state) => state.addClient);
+  const updateClient = useClientStore((state) => state.updateClient);
+  const removeClient = useClientStore((state) => state.removeClient);
+
   const [isSending, setIsSending] = useState(false);
   const [isError, setIsError] = useState<string | null>(null);
   const [isSended, setIsSended] = useState(false);
-  const { register, handleSubmit, formState, reset } = useForm<IForm>({
+  const { register, handleSubmit, formState } = useForm<IForm>({
     mode: "onChange",
   });
+  const { errors, isValid } = formState;
 
   const onSumbit: SubmitHandler<IForm> = async (data) => {
     setIsSending(true);
     setIsError(null);
-    if (!token || !currentUser) return;
+    if (!token || !currentUser || !client.id) return;
 
     try {
-      const payload = {
-        ...data,
-        status: "NEW" as ClientStatus,
-        userId: currentUser.id,
-      };
-      const res = await addClientService(payload);
+      const res = await updateClientService(client.id, data);
 
-      addClient(res);
-      reset();
+      console.log(res);
+
+      updateClient(client.id, data);
+      onClose();
     } catch {
       setIsError("Something went wrong");
     } finally {
@@ -43,14 +52,23 @@ export const ClientCreate = () => {
     }
   };
 
-  const { errors, isValid } = formState;
+  const handleDeleteClient = async (id: string) => {
+    try {
+      await deleteClientsService(id);
+
+      removeClient(id);
+      onClose();
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+  };
 
   return (
     <form
-      className="flex flex-col gap-2 min-w-xs"
+      className="flex flex-col gap-2 min-w-xs "
       onSubmit={handleSubmit(onSumbit)}
     >
-      <div className="flex flex-col w-full gap-y-2">
+      <div className="flex flex-col w-full ">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
           <label htmlFor="name" className="wrap-normal">
             {"Name "}
@@ -60,7 +78,7 @@ export const ClientCreate = () => {
           <TextField
             error={!!errors.name}
             id="name"
-            placeholder="John"
+            defaultValue={client.name}
             sx={{ width: "200px" }}
             {...register("name", {
               required: "This field is required",
@@ -79,16 +97,17 @@ export const ClientCreate = () => {
           <p className="text-xs text-red-500">{errors.name.message}</p>
         )}
       </div>
-      <div className="flex flex-col w-full gap-y-2">
+      <div className="flex flex-col w-full ">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
           <label htmlFor="surname" className="wrap-normal">
             {"Surname "}
             <span className="text-red-500">*</span>
           </label>
+
           <TextField
             error={!!errors.surname}
             id="surname"
-            placeholder="Snow"
+            defaultValue={client.surname}
             sx={{ width: "200px" }}
             {...register("surname", {
               required: "This field is required",
@@ -107,17 +126,17 @@ export const ClientCreate = () => {
           <p className="text-xs text-red-500">{errors.surname.message}</p>
         )}
       </div>
-      <div className="flex flex-col w-full gap-y-2">
+      <div className="flex flex-col w-full ">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
           <label htmlFor="email" className="wrap-normal">
             {"Email "}
             <span className="text-red-500">*</span>
           </label>
+
           <TextField
             error={!!errors.email}
-            type="email"
             id="email"
-            placeholder="johnSnow@gmail.com"
+            defaultValue={client.email}
             sx={{ width: "200px" }}
             {...register("email", {
               required: "This field is required",
@@ -132,16 +151,43 @@ export const ClientCreate = () => {
           <p className="text-xs text-red-500">{errors.email.message}</p>
         )}
       </div>
-      <div className="flex flex-col w-full gap-y-2">
+      <div className="flex flex-col w-full ">
+        <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
+          <label htmlFor="email" className="wrap-normal">
+            {"Email "}
+            <span className="text-red-500">*</span>
+          </label>
+          <Select
+            id="status"
+            defaultValue={client.status}
+            sx={{ width: "200px" }}
+            {...register("status", {
+              required: "This field is required",
+              validate: (value) =>
+                ["NEW", "IN_PROGRESS", "DONE"].includes(value) ||
+                "Invalid status",
+            })}
+          >
+            <MenuItem value="NEW">New</MenuItem>
+            <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
+            <MenuItem value="DONE">Done</MenuItem>
+          </Select>
+        </div>
+        {errors.status && (
+          <p className="text-xs text-red-500">{errors.status.message}</p>
+        )}
+      </div>
+      <div className="flex flex-col w-full ">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
           <label htmlFor="phone" className="wrap-normal">
             {"Phone "}
           </label>
+
           <TextField
-            error={!!errors.phone}
             type="phone"
+            error={!!errors.phone}
             id="phone"
-            placeholder="+380 (XX) XXX-XX-XX"
+            defaultValue={client.phone}
             sx={{ width: "200px" }}
             {...register("phone", {
               pattern: {
@@ -155,12 +201,12 @@ export const ClientCreate = () => {
           <p className="text-xs text-red-500">{errors.phone.message}</p>
         )}
       </div>
-      <div className="flex flex-col w-full gap-y-2">
-        <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row xs">
+      <div className="flex flex-col w-full ">
+        <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
           <label htmlFor="notes" className="wrap-normal">
             {"Note "}
-            {/* <span className="text-red-500">*</span> */}
           </label>
+
           <Box
             sx={{
               backgroundColor: "background.default",
@@ -180,6 +226,7 @@ export const ClientCreate = () => {
                 outline: "none",
                 width: "100%",
               }}
+              defaultValue={client.notes}
               {...register("notes", {
                 minLength: {
                   value: 6,
@@ -197,15 +244,30 @@ export const ClientCreate = () => {
           <p className="text-xs text-red-500">{errors.notes.message}</p>
         )}
       </div>
-      <Button
-        variant="contained"
-        disabled={!isValid || isSending}
-        sx={{ marginTop: "20px" }}
-        loading={isSending}
-        type="submit"
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "20px",
+        }}
       >
-        Create client
-      </Button>
+        <Button
+          variant="contained"
+          disabled={!isValid || isSending}
+          loading={isSending}
+          type="submit"
+        >
+          Update client
+        </Button>
+        <Button
+          variant="outlined"
+          disabled={!isValid || isSending}
+          loading={isSending}
+          onClick={() => handleDeleteClient(client.id!)}
+        >
+          Delete
+        </Button>
+      </Box>
       {isError && <p className="text-xs text-red-500">{`${isError}`}</p>}
       {isSended && !isError && (
         <p className="text-xs text-green-500">{`Client has been created successfully.`}</p>

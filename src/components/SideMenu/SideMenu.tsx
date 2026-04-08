@@ -8,10 +8,7 @@ import Typography from "@mui/material/Typography";
 import MenuContent from "./MenuContent/MenuContent";
 import OptionsMenu from "./OptionsContent/OptionsMenu";
 import { Logo } from "../Logo/Logo";
-// import SelectContent from './SelectContent';
-// import MenuContent from './MenuContent';
-// import CardAlert from './CardAlert';
-// import OptionsMenu from './OptionsMenu';
+import { useAuthStore } from "@/store/user";
 
 const drawerWidth = 240;
 
@@ -27,6 +24,15 @@ const Drawer = styled(MuiDrawer)({
 });
 
 export default function SideMenu() {
+  const currentUser = useAuthStore((state) => state.currentUser);
+
+  const userName =
+    currentUser?.firstName || currentUser?.lastName
+      ? `${currentUser.firstName ?? ""} ${currentUser.lastName ?? ""}`.trim()
+      : "";
+
+  const userEmail = currentUser?.email ? `${currentUser.email}` : "";
+
   return (
     <Drawer
       variant="permanent"
@@ -71,7 +77,7 @@ export default function SideMenu() {
       >
         <Avatar
           sizes="small"
-          alt="Riley Carter"
+          alt={userName}
           src=""
           sx={{ width: 36, height: 36 }}
         />
@@ -80,10 +86,10 @@ export default function SideMenu() {
             variant="body2"
             sx={{ fontWeight: 500, lineHeight: "16px" }}
           >
-            Riley Carter
+            {userName}
           </Typography>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            riley@email.com
+            {userEmail}
           </Typography>
         </Box>
         <OptionsMenu />

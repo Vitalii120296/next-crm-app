@@ -3,11 +3,7 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import ProductCard from "@/components/ProductCard";
-import { useProducts } from "@/store/products";
-import { useAuthStore } from "@/store/user";
 import { Product } from "@/types/product";
-import { useEffect } from "react";
-import { getProductsService } from "@/services/products/getProducts";
 
 type Props = {
   products: Product[];
