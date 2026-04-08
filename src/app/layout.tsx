@@ -34,7 +34,7 @@ export default function RootLayout({
       <body className="flex flex-col flex-1 min-h-full">
         <AppRouterCacheProvider options={{ key: "css", enableCssLayer: true }}>
           <GlobalStyles styles="@layer theme, base, mui, components, utilities;" />
-          <AuthShell>{children}</AuthShell>
+          {children}
         </AppRouterCacheProvider>
       </body>
     </html>

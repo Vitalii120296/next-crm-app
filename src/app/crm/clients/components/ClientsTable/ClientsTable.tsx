@@ -9,7 +9,7 @@ import styles from "./ClientsTable.module.scss";
 import { statusFormat } from "@/utils/statusFormat";
 
 type Props = {
-  clients: Client[];
+  clients: Client[] | undefined;
 };
 
 export const ClientsTable: React.FC<Props> = ({ clients }) => {
@@ -39,7 +39,7 @@ export const ClientsTable: React.FC<Props> = ({ clients }) => {
         </thead>
 
         <tbody>
-          {clients.map((client, index) => {
+          {clients?.map((client, index) => {
             return (
               <tr
                 key={client.id}
@@ -66,7 +66,7 @@ export const ClientsTable: React.FC<Props> = ({ clients }) => {
             );
           })}
 
-          {clients.length === 0 && (
+          {clients?.length === 0 && (
             <tr>
               <td colSpan={7} className={styles.empty}>
                 No clients found

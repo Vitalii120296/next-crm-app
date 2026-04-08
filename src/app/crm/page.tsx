@@ -8,6 +8,10 @@ import { clientService } from "@/services/clientServices";
 import { ProgressCard } from "./components/ProgressCard/ProgressCard";
 // import { getProductsTestApi } from "@/api/products.test-api";
 import { getClientsTestApi } from "@/api/test-api/clients.test-api";
+import { useAuthStore } from "@/store/user";
+import { useClients } from "@/services/clients/hooks/useClients";
+import { useClientStore } from "@/store/client";
+import { updateClientStatus } from "@/services/clients/updateClientStatus";
 
 type ColumnData = {
   id: ClientStatus;
@@ -23,10 +27,21 @@ const KanbanPage = () => {
   const [columnsData, setColumnsData] = useState<KanbanData | null>(null);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
+  const token = useAuthStore((state) => state.token);
+  const { clientsPayload } = useClients(token);
+  const clients = useClientStore((state) => state.clients);
+  const setClients = useClientStore((state) => state.setClients);
+
+  useEffect(() => {
+    if (!clients && clientsPayload) {
+      setClients(clientsPayload);
+    }
+  }, [clientsPayload, setClients, clients]);
+
   useEffect(() => {
     const fetchAndTransformClients = async () => {
       try {
-        const res = await getClientsTestApi();
+        if (!clients) return;
 
         const clientsMap: Record<string, Client> = {};
         const columnsMap: Record<ClientStatus, ColumnData> = {
@@ -35,7 +50,7 @@ const KanbanPage = () => {
           DONE: { id: "DONE", columnClients: [] },
         };
 
-        res.forEach((client) => {
+        clients.forEach((client) => {
           const idStr = client.id!.toString();
           clientsMap[idStr] = client;
           columnsMap[client.status].columnClients.push(idStr);
@@ -48,7 +63,7 @@ const KanbanPage = () => {
     };
 
     fetchAndTransformClients();
-  }, []);
+  }, [clients]);
 
   if (!columnsData) return <p>Loading...</p>;
 
@@ -102,7 +117,7 @@ const KanbanPage = () => {
       },
     });
 
-    await clientService.updateClientStatus(clientId, finishColumn.id);
+    await updateClientStatus(clientId, finishColumn.id);
   };
 
   const updateColumnsData = (

@@ -14,8 +14,11 @@ interface IForm {
   status: ClientStatus;
   userId: string;
 }
+type Props = {
+  onClose: () => void;
+};
 
-export const ClientCreate = () => {
+export const ClientCreate = ({ onClose }: Props) => {
   const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
   const addClient = useClientStore((state) => state.addClient);
@@ -194,7 +197,13 @@ export const ClientCreate = () => {
           <p className="text-xs text-red-500">{errors.notes.message}</p>
         )}
       </div>
-      <button className="modalSubmit mt-4">Create</button>
+      <button
+        className="modalSubmit mt-4 disabled:bg-gray-500"
+        onClick={() => isSended ?? onClose()}
+        disabled={!isValid || isSending}
+      >
+        {isSending ? "Creating..." : "Create"}
+      </button>
       {isError && <p className="text-xs text-red-500">{`${isError}`}</p>}
       {isSended && !isError && (
         <p className="text-xs text-green-500">{`Client has been created successfully.`}</p>
