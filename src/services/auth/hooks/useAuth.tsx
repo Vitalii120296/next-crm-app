@@ -3,9 +3,11 @@ import { authClient } from "@/api/authClient";
 import { httpClient } from "@/api/httpClient";
 import { useAuthStore } from "@/store/user";
 import { getErrorMessage } from "@/utils/getErrorMessage";
+import { useRouter } from "next/navigation";
 
 export const useAuth = () => {
   const { setToken, setCurrentUser } = useAuthStore();
+  const router = useRouter();
   const login = (
     data: Pick<FormData, "email" | "password">,
   ): Promise<ILoginRes> => {
@@ -22,6 +24,7 @@ export const useAuth = () => {
 
       setToken(null);
       setCurrentUser(null);
+      router.push("/");
     } catch (error: unknown) {
       throw new Error(getErrorMessage(error));
     }

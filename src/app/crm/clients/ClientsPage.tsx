@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import type { ClientFilters, ClientStatus } from "@/types";
 
 import { ClientsFilter } from "./components/ClientsFilter/ClientsFilter";
 import { ClientsTable } from "./components/ClientsTable/ClientsTable";
-import { Loader } from "@/components/Loader/Loader";
 
 import s from "./ClientsPage.module.scss";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { useClients } from "@/services/clients/hooks/useClients";
 import { useClientStore } from "@/store/client";
 import { useAuthStore } from "@/store/user";
+import { Progress } from "@/components/Progress";
 
 export const ClientsPage = () => {
   const token = useAuthStore((state) => state.token);
@@ -56,7 +56,7 @@ export const ClientsPage = () => {
             queryParams.set({ [key]: value } as ClientFilters)
           }
         />
-        {!clients ? <Loader /> : <ClientsTable clients={filteredClients} />}
+        {!clients ? <Progress /> : <ClientsTable clients={filteredClients} />}
       </div>
     </div>
   );

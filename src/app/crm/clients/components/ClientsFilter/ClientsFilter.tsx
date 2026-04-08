@@ -68,7 +68,7 @@ export const ClientsFilter: React.FC<Props> = ({ filters, onChange }) => {
             onClose={() => setIsModalOpen(false)}
             title="Create client"
           >
-            <ClientCreate onClose={() => setIsModalOpen(false)} />
+            <ClientCreate />
           </Modal>
         </div>
       </div>

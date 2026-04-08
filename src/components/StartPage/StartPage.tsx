@@ -22,11 +22,12 @@ import { motion } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 
 import Link from "next/link";
+import { useAuth } from "@/services/auth/hooks/useAuth";
 import { useAuthStore } from "@/store/user";
 
 export const StartPage = () => {
   const currentUser = useAuthStore((state) => state.currentUser);
-  // const logout = useAuthStore((state) => state.logout);
+  const { logout } = useAuth();
 
   return (
     <div className={s.bg}>

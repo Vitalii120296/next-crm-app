@@ -1,7 +1,7 @@
 import { httpClient } from "@/api/httpClient";
 import { Client } from "@/types";
 
-export const unpdateClientService = (
+export const updateClientService = (
   clientId: string,
   data: Partial<Client>,
 ): Promise<Client> => {

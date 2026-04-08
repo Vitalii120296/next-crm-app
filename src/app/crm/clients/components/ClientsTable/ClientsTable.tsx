@@ -7,6 +7,8 @@ import type { Client } from "@/types";
 import styles from "./ClientsTable.module.scss";
 // import { ClientDetails } from "../ClientDetails/ClientDetails";
 import { statusFormat } from "@/utils/statusFormat";
+import Modal from "@/components/Modal";
+import { ClientDetails } from "@/components/ClientDetails";
 
 type Props = {
   clients: Client[] | undefined;
@@ -76,13 +78,18 @@ export const ClientsTable: React.FC<Props> = ({ clients }) => {
         </tbody>
       </table>
 
-      {/* {selectedClient && (
-        <ClientDetails
-          setClient={updateClients}
-          client={selectedClient}
-          exit={() => setSelectedClient(null)}
-        />
-      )} */}
+      {selectedClient && (
+        <Modal
+          open={!!selectedClient}
+          onClose={() => setSelectedClient(null)}
+          title="Client details"
+        >
+          <ClientDetails
+            client={selectedClient}
+            onClose={() => setSelectedClient(null)}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

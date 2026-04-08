@@ -14,7 +14,6 @@ export function useGetToken() {
         const res = await getTokenService();
 
         setToken(res.token);
-        console.log("token: ", res.token);
       } catch (error: unknown) {
         throw new Error(getErrorMessage(error));
       } finally {

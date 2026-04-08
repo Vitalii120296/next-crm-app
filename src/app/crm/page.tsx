@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import type { Client, ClientStatus } from "@/types";
 import s from "./Kanban.module.scss";
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
-import { clientService } from "@/services/clientServices";
 import { ProgressCard } from "./components/ProgressCard/ProgressCard";
-// import { getProductsTestApi } from "@/api/products.test-api";
-import { getClientsTestApi } from "@/api/test-api/clients.test-api";
 import { useAuthStore } from "@/store/user";
 import { useClients } from "@/services/clients/hooks/useClients";
 import { useClientStore } from "@/store/client";
 import { updateClientStatus } from "@/services/clients/updateClientStatus";
+import { getErrorMessage } from "@/utils/getErrorMessage";
+import Modal from "@/components/Modal";
+import { ClientDetails } from "@/components/ClientDetails";
+import { Progress } from "@/components/Progress";
 
 type ColumnData = {
   id: ClientStatus;
@@ -28,8 +29,10 @@ const KanbanPage = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
   const token = useAuthStore((state) => state.token);
+
   const { clientsPayload } = useClients(token);
   const clients = useClientStore((state) => state.clients);
+  const updateClient = useClientStore((state) => state.updateClient);
   const setClients = useClientStore((state) => state.setClients);
 
   useEffect(() => {
@@ -65,7 +68,7 @@ const KanbanPage = () => {
     fetchAndTransformClients();
   }, [clients]);
 
-  if (!columnsData) return <p>Loading...</p>;
+  if (!columnsData) return <Progress />;
 
   const onDragEnd = async (result: DropResult) => {
     const { destination, source, draggableId } = result;
@@ -117,7 +120,16 @@ const KanbanPage = () => {
       },
     });
 
-    await updateClientStatus(clientId, finishColumn.id);
+    const client = clients?.find((cl) => cl.id === clientId);
+
+    try {
+      await updateClientStatus(clientId, finishColumn.id);
+      if (client) {
+        updateClient(clientId, { ...client, status: finishColumn.id });
+      }
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
   };
 
   const updateColumnsData = (
@@ -166,13 +178,6 @@ const KanbanPage = () => {
   return (
     <section className={`${s.wrapper}`}>
       <div className={`${s.kanban} mx-auto`}>
-        {/* {selectedClient && (
-          <ClientDetails
-            client={selectedClient}
-            exit={() => setSelectedClient(null)}
-            setClient={updateColumnsData}
-          />
-        )} */}
         <DragDropContext onDragEnd={onDragEnd}>
           {(Object.keys(columnsData.columns) as ClientStatus[]).map(
             (status) => {
@@ -191,6 +196,18 @@ const KanbanPage = () => {
             },
           )}
         </DragDropContext>
+        {selectedClient && (
+          <Modal
+            open={!!selectedClient}
+            onClose={() => setSelectedClient(null)}
+            title="Client details"
+          >
+            <ClientDetails
+              client={selectedClient}
+              onClose={() => setSelectedClient(null)}
+            />
+          </Modal>
+        )}
       </div>
     </section>
   );
