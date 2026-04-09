@@ -43,7 +43,7 @@ export const ClientCreate = () => {
     }
   };
 
-  const { errors, isValid } = formState;
+  const { errors } = formState;
 
   return (
     <form
@@ -199,7 +199,6 @@ export const ClientCreate = () => {
       </div>
       <Button
         variant="contained"
-        disabled={!isValid || isSending}
         sx={{ marginTop: "20px" }}
         loading={isSending}
         type="submit"
