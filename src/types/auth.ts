@@ -13,21 +13,21 @@ export type User = {
   createdAt?: Date;
 };
 
-export type FormData = {
+export type IRegisterFormData = {
   email: string;
   firstName: string;
   lastName: string;
   password: string;
 };
+export type ILoginFormData = {
+  email: string;
+  password: string;
+};
 
-export interface AuthData {
-  token: string;
-  user: User;
-}
-export interface IRegisterRes {
+export type RegisterResponse = {
   message: string;
-}
+};
 
-export interface ILoginRes {
+export type LoginResponse = {
   access_token: string;
-}
+};
