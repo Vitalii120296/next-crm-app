@@ -3,8 +3,8 @@
 import { useEffect, useMemo } from "react";
 import type { ClientFilters, ClientStatus } from "@/types";
 
-import { ClientsFilter } from "./components/ClientsFilter/ClientsFilter";
-import { ClientsTable } from "./components/ClientsTable/ClientsTable";
+import { ClientsFilter } from "../../../components/ClientsFilter/ClientsFilter";
+import { ClientsTable } from "../../../components/ClientsTable/ClientsTable";
 
 import s from "./ClientsPage.module.scss";
 import { useQueryParams } from "@/hooks/useQueryParams";

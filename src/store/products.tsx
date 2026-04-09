@@ -1,6 +1,6 @@
 import { Product } from "@/types/product";
 import { create } from "zustand";
-import { devtools } from "zustand/middleware"; // Додайте цей імпорт
+import { devtools } from "zustand/middleware";
 
 type Actions = {
   setProducts: (payload: Product[]) => void;
