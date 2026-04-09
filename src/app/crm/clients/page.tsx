@@ -1,10 +1,10 @@
-import { Loader } from "@/components/Loader";
 import { Suspense } from "react";
 import ClientsPage from "./ClientsPage";
+import { Progress } from "@/components/Progress";
 
 export default function ClientsPageWrapper() {
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Progress />}>
       <ClientsPage />
     </Suspense>
   );
