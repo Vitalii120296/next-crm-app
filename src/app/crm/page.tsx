@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { Client, ClientStatus } from "@/types";
 import s from "./Kanban.module.scss";
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
-import { ProgressCard } from "./components/ProgressCard/ProgressCard";
+import { ProgressCard } from "../../components/ProgressCard/ProgressCard";
 import { useAuthStore } from "@/store/user";
 import { useClients } from "@/services/clients/hooks/useClients";
 import { useClientStore } from "@/store/client";

@@ -1,32 +1,31 @@
-import { getProductsService } from "@/services/products/getProducts";
 import { Product } from "@/types/product";
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 type Actions = {
-  getProducts: () => Promise<void>;
   setProducts: (payload: Product[]) => void;
   removeProduct: (id: string) => void;
   createProduct: (product: Product) => void;
 };
 
 type State = {
-  products: Product[];
-  isLoading: boolean;
+  products: Product[] | null;
 } & Actions;
 
-export const useProducts = create<State>((set) => ({
-  products: [],
-  isLoading: false,
-  getProducts: async () => {
-    const res = await getProductsService();
+export const useProductsStore = create<State>()(
+  devtools((set) => ({
+    products: null,
 
-    set({ products: res });
-  },
-  setProducts: (products: Product[]) => set({ products }),
-  removeProduct: (id: string) =>
-    set((state) => ({
-      products: state.products.filter((product) => product.id !== id),
-    })),
-  createProduct: (product: Product) =>
-    set({ products: [product, ...useProducts.getState().products] }),
-}));
+    setProducts: (products: Product[]) => set({ products }),
+    removeProduct: (id: string) =>
+      set((state) => ({
+        products: state.products
+          ? state.products.filter((product) => product.id !== id)
+          : null,
+      })),
+    createProduct: (product: Product) =>
+      set((state) => ({
+        products: state.products ? [product, ...state.products] : [product],
+      })),
+  })),
+);
