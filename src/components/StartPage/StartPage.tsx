@@ -558,25 +558,7 @@ export const StartPage = () => {
 
             <div className={s.createdBy}>
               <a
-                href="https://github.com/Moddderi"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={s.gitIcons}
-              >
-                <FaGithub size={22} />
-              </a>
-
-              <a
                 href="https://github.com/Vitalii120296"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={s.gitIcons}
-              >
-                <FaGithub size={22} />
-              </a>
-
-              <a
-                href="https://github.com/01https"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={s.gitIcons}
