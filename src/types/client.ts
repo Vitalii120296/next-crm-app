@@ -1,24 +1,16 @@
+import { Product } from "./product";
+
 export type ClientStatus = "NEW" | "IN_PROGRESS" | "DONE";
 
-export type ClientNote = {
-  id: string;
-  description: string;
-};
-
-export type ClientNoteResponse = {
-  id: number;
-  description: string;
-};
-
 export type Client = {
-  id?: string;
+  id: string;
   name: string;
   surname: string;
-  phone: string;
+  phone?: string;
   email: string;
-  notes: string;
+  notes?: string;
   status: ClientStatus;
-  userId?: string;
+  userId: string;
 
   createdAt?: Date;
   updatedAt?: Date;
@@ -26,13 +18,17 @@ export type Client = {
 
 export type CreateClientDto = {
   name: string;
-  email: string;
+  surname: string;
+  email?: string;
   phone?: string;
-  comment?: string;
+  notes?: string;
+  status: ClientStatus;
+  userId: string;
+  products?: Pick<Product, "id">[];
 };
 
-export type UpdateClientDto = Partial<CreateClientDto> & {
-  status?: ClientStatus;
+export type UpdateClientDto = Partial<Client> & {
+  status: ClientStatus;
 };
 
 export type ClientFilters = {
@@ -40,13 +36,3 @@ export type ClientFilters = {
   status?: ClientStatus | "all";
   createdById?: string;
 };
-
-export interface IForm {
-  name: string;
-  surname: string;
-  email: string;
-  phone: string;
-  notes: string;
-  status: ClientStatus;
-  userId: string;
-}
