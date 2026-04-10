@@ -4,8 +4,8 @@ export type Product = {
   id: string;
   name: string;
   description?: string;
-  price?: string;
-  sku?: number;
+  price?: number;
+  sku?: string;
   clients?: Client[];
 
   userId?: string;
@@ -14,11 +14,11 @@ export type Product = {
 
 export type CreateProductDto = {
   name: string;
-  description?: string;
-  price?: string;
-  sku?: number;
+  description?: string | null;
+  price?: number | null;
+  sku?: string | null;
   userId: string;
-  clientIds?: string[];
+  clients?: Pick<Client, "id">[] | null;
 };
 
 export type UpdateProductDto = Partial<CreateProductDto>;

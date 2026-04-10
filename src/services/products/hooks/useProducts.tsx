@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { getProductsService } from "../getProducts";
-import { Product } from "@/types/product";
+import { Product } from "@/types";
 import { useProductsStore } from "@/store/products";
 
 export const useProducts = (token: string | null) => {

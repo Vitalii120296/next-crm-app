@@ -1,6 +1,6 @@
 import { httpClient } from "@/api/httpClient";
-import { Client } from "@/types";
+import { Client, CreateClientDto } from "@/types";
 
-export const addClientService = (data: Client) => {
-  return httpClient.post<Client>("/clients", data);
+export const addClientService = (data: CreateClientDto): Promise<Client> => {
+  return httpClient.post<CreateClientDto, Client>("/clients", data);
 };

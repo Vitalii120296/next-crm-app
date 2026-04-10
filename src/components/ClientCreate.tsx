@@ -1,7 +1,7 @@
 import { addClientService } from "@/services/clients/addClient";
 import { useClientStore } from "@/store/client";
 import { useAuthStore } from "@/store/user";
-import { ClientStatus, IForm } from "@/types";
+import { ClientStatus, CreateClientDto } from "@/types";
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import TextField from "@mui/material/TextField";
@@ -16,11 +16,13 @@ export const ClientCreate = () => {
   const [isSending, setIsSending] = useState(false);
   const [isError, setIsError] = useState<string | null>(null);
   const [isSended, setIsSended] = useState(false);
-  const { register, handleSubmit, formState, reset } = useForm<IForm>({
-    mode: "onChange",
-  });
+  const { register, handleSubmit, formState, reset } = useForm<CreateClientDto>(
+    {
+      mode: "onChange",
+    },
+  );
 
-  const onSumbit: SubmitHandler<IForm> = async (data) => {
+  const onSumbit: SubmitHandler<CreateClientDto> = async (data) => {
     setIsSending(true);
     setIsError(null);
     if (!token || !currentUser) return;

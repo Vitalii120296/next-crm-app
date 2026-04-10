@@ -1,3 +1,5 @@
+import { Product } from "./product";
+
 export type ClientStatus = "NEW" | "IN_PROGRESS" | "DONE";
 
 export type Client = {
@@ -17,11 +19,12 @@ export type Client = {
 export type CreateClientDto = {
   name: string;
   surname: string;
-  email: string;
+  email?: string;
   phone?: string;
   notes?: string;
   status: ClientStatus;
   userId: string;
+  products?: Pick<Product, "id">[];
 };
 
 export type UpdateClientDto = Partial<Client> & {

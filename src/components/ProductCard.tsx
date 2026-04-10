@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Product } from "@/types/product";
+import { Product } from "@/types";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
@@ -31,11 +31,31 @@ export default function ProductCard({ product }: { product: Product }) {
           gutterBottom
           variant="h5"
           component="div"
-          className="text-center"
+          sx={{ textAlign: "center" }}
         >
           {product.name}
         </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          sx={{
+            color: "text.secondary",
+            fontSize: "1rem",
+          }}
+        >
+          {product.price ? `$${product.price}` : "Price not specified"}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            WebkitLineClamp: "3",
+            WebkitBoxOrient: "vertical",
+          }}
+        >
           {product.description}
         </Typography>
       </CardContent>

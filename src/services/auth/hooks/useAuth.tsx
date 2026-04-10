@@ -1,4 +1,9 @@
-import { FormData, ILoginRes } from "@/types";
+import {
+  IRegisterFormData,
+  LoginResponse,
+  ILoginFormData,
+  RegisterResponse,
+} from "@/types";
 import { authClient } from "@/api/authClient";
 import { httpClient } from "@/api/httpClient";
 import { useAuthStore } from "@/store/user";
@@ -8,13 +13,13 @@ import { useRouter } from "next/navigation";
 export const useAuth = () => {
   const { setToken, setCurrentUser } = useAuthStore();
   const router = useRouter();
-  const login = (
-    data: Pick<FormData, "email" | "password">,
-  ): Promise<ILoginRes> => {
+  const login = (data: ILoginFormData): Promise<LoginResponse> => {
     return authClient.post("/api/auth/login", data);
   };
 
-  const register = async (data: FormData) => {
+  const register = async (
+    data: IRegisterFormData,
+  ): Promise<RegisterResponse> => {
     return httpClient.post("/auth/register", data);
   };
 
