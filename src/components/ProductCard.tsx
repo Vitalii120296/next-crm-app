@@ -5,8 +5,31 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Product } from "@/types";
+import React from "react";
+import Modal from "./Modal";
+import { Box } from "@mui/system";
+import { deleteProductService } from "@/services/products/deleteProduct";
+import { useProductsStore } from "@/store/products";
 
 export default function ProductCard({ product }: { product: Product }) {
+  const [isDeleting, setIsDeleting] = React.useState(false);
+  const removeProduct = useProductsStore((state) => state.removeProduct);
+
+  const deleteProduct = async (productId: string) => {
+    try {
+      await deleteProductService(productId);
+
+      removeProduct(productId);
+      setIsDeleting(false);
+    } catch (error) {
+      console.error("Failed to delete product:", error);
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDelete = () => {
+    setIsDeleting((prev) => !prev);
+  };
   return (
     <Card
       sx={{
@@ -63,9 +86,35 @@ export default function ProductCard({ product }: { product: Product }) {
         <Button size="small" variant="outlined">
           Edit
         </Button>
-        <Button size="small" variant="outlined" color="error">
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={handleDelete}
+          disabled={isDeleting}
+        >
           Delete
         </Button>
+        <Modal open={isDeleting} onClose={handleDelete} title="Confirm delete">
+          <Typography variant="body1">
+            Are you sure you want to delete this product?
+          </Typography>
+          <Box
+            sx={{ display: "flex", justifyContent: "flex-end", mt: 2, gap: 1 }}
+          >
+            <Button onClick={handleDelete} variant="outlined">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                deleteProduct(product.id);
+              }}
+              variant="contained"
+              color="error"
+            >
+              Delete
+            </Button>
+          </Box>
+        </Modal>
       </CardActions>
     </Card>
   );

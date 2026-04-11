@@ -13,6 +13,7 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 import Modal from "@/components/Modal";
 import { ClientDetails } from "@/components/ClientDetails";
 import { Progress } from "@/components/Progress";
+import { Box } from "@mui/system";
 
 type ColumnData = {
   id: ClientStatus;
@@ -177,7 +178,7 @@ const KanbanPage = () => {
 
   return (
     <section className={`${s.wrapper}`}>
-      <div className={`${s.kanban} mx-auto`}>
+      <Box className={`${s.kanban} mx-auto`}>
         <DragDropContext onDragEnd={onDragEnd}>
           {(Object.keys(columnsData.columns) as ClientStatus[]).map(
             (status) => {
@@ -208,7 +209,7 @@ const KanbanPage = () => {
             />
           </Modal>
         )}
-      </div>
+      </Box>
     </section>
   );
 };

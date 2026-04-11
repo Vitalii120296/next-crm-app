@@ -163,7 +163,12 @@ export const ProductCreate = () => {
         )}
       </div>
 
-      <Button variant="contained" sx={{ marginTop: "20px" }} type="submit">
+      <Button
+        variant="contained"
+        sx={{ marginTop: "20px" }}
+        color="primary"
+        type="submit"
+      >
         {isSending ? "Creating..." : "Create product"}
       </Button>
       {isError && <p className="text-xs text-red-500">{`${isError}`}</p>}

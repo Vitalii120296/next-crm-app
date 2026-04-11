@@ -1,6 +1,7 @@
 import HeaderCrmPage from "@/components/HeaderCrm";
 import { AppShell } from "@/layouts/AppShell";
 import { AuthShell } from "@/layouts/AuthShell";
+import { Box } from "@mui/system";
 
 export default function CrmLayout({
   children,
@@ -10,10 +11,19 @@ export default function CrmLayout({
   return (
     <AuthShell>
       <AppShell disableCustomTheme={false}>
-        <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            width: "100%",
+            maxWidth: "1320px",
+            mx: "auto",
+          }}
+        >
           <HeaderCrmPage />
           {children}
-        </div>
+        </Box>
       </AppShell>
     </AuthShell>
   );
