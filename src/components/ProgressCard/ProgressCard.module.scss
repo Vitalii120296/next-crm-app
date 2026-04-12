@@ -4,29 +4,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: hsl(220, 30%, 7%);
+  // background-color: hsl(220, 30%, 7%);
   border-radius: 10px;
-  border: 1px solid $border;
   max-height: 100vh;
   height: 100%;
-}
-
-.progress_card__top_bar {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  box-sizing: border-box;
-  height: 50px;
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset-inline: 0;
-    bottom: 0;
-    border-bottom: 1px solid $border;
-  }
 }
 
 .progress_card__status {

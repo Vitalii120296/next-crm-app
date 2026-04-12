@@ -6,6 +6,11 @@ import s from "./ProgressCardList.module.scss";
 import cn from "classnames";
 import { Draggable } from "@hello-pangea/dnd";
 import React from "react";
+import { Box } from "@mui/system";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import { gray } from "@/shared/themePrimitives";
 
 type Props = {
   clients: Client[];
@@ -21,12 +26,15 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
     };
 
     return (
-      <div className={s.progress_card__column} ref={ref}>
-        <ul className={s.progress_card__list}>
+      <Box className={s.progress_card__column} ref={ref}>
+        <List
+          className={s.progress_card__list}
+          sx={{ gap: 1, overflowY: "auto", height: "max-content" }}
+        >
           {clients.map((client, i) => (
             <Draggable draggableId={client.id!} index={i} key={client.id}>
               {(provided, snapshot) => (
-                <li
+                <ListItem
                   ref={provided.innerRef}
                   {...provided.draggableProps}
                   {...provided.dragHandleProps}
@@ -34,8 +42,17 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                     [s.isDraggin]: snapshot.isDragging,
                   })}
                   onClick={() => selectClient(client)}
+                  sx={{
+                    backgroundColor: "divider",
+                    alignItems: "flex-start",
+                    overflow: "hidden",
+                    height: "content",
+                  }}
                 >
-                  <p className={s.progress_card__row}>
+                  <Typography
+                    className={s.progress_card__row}
+                    color="textPrimary"
+                  >
                     <BsFillCircleFill
                       aria-hidden="true"
                       className={cn(s.progress_card__icon, {
@@ -46,12 +63,24 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                       })}
                     />
                     {`${client.name} ${client.surname}`}
-                  </p>
+                  </Typography>
                   {client.email && (
-                    <p className={s.progress_card__row}>{client.email}</p>
+                    <Typography
+                      className={s.progress_card__row}
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      {client.email}
+                    </Typography>
                   )}
                   {client.phone && (
-                    <p className={s.progress_card__row}>{client.phone}</p>
+                    <Typography
+                      className={s.progress_card__row}
+                      variant="body2"
+                      color="textSecondary"
+                    >
+                      {client.phone}
+                    </Typography>
                   )}
                   {/* {client.amount && (
                     <p className={s.progress_card__row}>
@@ -59,15 +88,29 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                     </p>
                   )} */}
                   {client.notes && (
-                    <p className={s.progress_card__row}>{client.notes}</p>
+                    <Typography
+                      className={s.progress_card__row}
+                      variant="body2"
+                      color="textSecondary"
+                      sx={{
+                        maxWidth: "100%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: "3",
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
+                      {client.notes}
+                    </Typography>
                   )}
-                </li>
+                </ListItem>
               )}
             </Draggable>
           ))}
           {children}
-        </ul>
-      </div>
+        </List>
+      </Box>
     );
   },
 );

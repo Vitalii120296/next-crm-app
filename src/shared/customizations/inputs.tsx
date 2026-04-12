@@ -372,7 +372,7 @@ export const inputsCustomizations: Components<Theme> = {
       input: {
         "&::placeholder": {
           opacity: 0.7,
-          color: gray[500],
+          color: gray[400],
         },
       },
     },
@@ -393,8 +393,8 @@ export const inputsCustomizations: Components<Theme> = {
           borderColor: gray[400],
         },
         [`&.${outlinedInputClasses.focused}`]: {
-          outline: `3px solid ${alpha(brand[500], 0.5)}`,
-          borderColor: brand[400],
+          outline: `1px solid ${alpha(gray[500], 0.5)}`,
+          borderColor: gray[400],
         },
         ...theme.applyStyles("dark", {
           "&:hover": {

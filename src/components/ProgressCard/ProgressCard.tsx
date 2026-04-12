@@ -9,6 +9,9 @@ import { Droppable } from "@hello-pangea/dnd";
 import { statusFormat } from "@/utils/statusFormat";
 import Modal from "@/components/Modal";
 import { ClientCreate } from "@/components/ClientCreate";
+import { Box } from "@mui/system";
+import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
 
 type Props = {
   clients: Client[];
@@ -27,20 +30,40 @@ export const ProgressCard: React.FC<Props> = ({
 
   return (
     <>
-      <article className={s.progress_card}>
-        <div className={s.progress_card__top_bar}>
+      <Box
+        className={s.progress_card}
+        sx={{
+          backgroundColor: "background.paper",
+          borderColor: "divider",
+          borderWidth: 1,
+          borderStyle: "solid",
+          maxHeight: screen,
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingX: 2,
+            height: 50,
+          }}
+        >
           <h2 className={cn("h3", s.progress_card__status)}>{status}</h2>
           {columnId === "NEW" && (
-            <button
-              className={s.progress_card__add_client}
+            <Button
+              variant="text"
+              color="success"
               onClick={() => {
                 setIsModalOpen(true);
               }}
             >
               + Add client
-            </button>
+            </Button>
           )}
-        </div>
+        </Box>
+        <Divider flexItem sx={{ borderColor: "divider", padding: 0 }} />
+
         <Droppable droppableId={columnId}>
           {(provided) => (
             <ProgressCardList
@@ -54,7 +77,7 @@ export const ProgressCard: React.FC<Props> = ({
             </ProgressCardList>
           )}
         </Droppable>
-      </article>
+      </Box>
       <Modal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}

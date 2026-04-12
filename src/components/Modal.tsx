@@ -40,7 +40,10 @@ export default function Modal({
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+        <DialogTitle
+          sx={{ m: 0, p: 2, backgroundColor: "background.default" }}
+          id="customized-dialog-title"
+        >
           {title}
         </DialogTitle>
         <IconButton
@@ -55,7 +58,9 @@ export default function Modal({
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent dividers>{children}</DialogContent>
+        <DialogContent dividers sx={{ backgroundColor: "background.paper" }}>
+          {children}
+        </DialogContent>
       </BootstrapDialog>
     </React.Fragment>
   );

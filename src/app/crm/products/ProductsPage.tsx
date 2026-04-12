@@ -36,7 +36,7 @@ export const ProductsPage = () => {
           variant="outlined"
           onClick={handleCreateProduct}
           sx={{
-            width: "120px",
+            width: "150px",
             height: "26px",
             boxSizing: "border-box",
             display: "flex",
