@@ -4,6 +4,10 @@
   .modalSubmit {
     @apply px-4 py-2 bg-primary text-black rounded-sm;
   }
+  a,
+  button {
+    @apply cursor-pointer;
+  }
 }
 
 :root {
