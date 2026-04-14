@@ -2,6 +2,7 @@ import { addProductService } from "@/services/products/addProduct";
 import { useProductsStore } from "@/store/products";
 import { useAuthStore } from "@/store/user";
 import { CreateProductDto } from "@/types";
+import { Add } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
@@ -165,6 +166,7 @@ export const ProductCreate = () => {
 
       <Button
         variant="contained"
+        startIcon={<Add />}
         sx={{ marginTop: "20px" }}
         color="primary"
         type="submit"

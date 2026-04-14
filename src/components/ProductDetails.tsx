@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Divider } from "@mui/material";
 import { useProductsStore } from "@/store/products";
 import { updateProductService } from "@/services/products/updateProduct";
+import { Edit } from "@mui/icons-material";
 
 type Props = {
   product: Product | null;
@@ -172,6 +173,7 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
 
         <Button
           variant="contained"
+          startIcon={<Edit />}
           sx={{ marginTop: "20px" }}
           color="primary"
           type="submit"

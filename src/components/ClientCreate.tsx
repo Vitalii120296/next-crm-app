@@ -2,6 +2,7 @@ import { addClientService } from "@/services/clients/addClient";
 import { useClientStore } from "@/store/client";
 import { useAuthStore } from "@/store/user";
 import { ClientStatus, CreateClientDto } from "@/types";
+import { Add } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import TextField from "@mui/material/TextField";
@@ -201,6 +202,7 @@ export const ClientCreate = () => {
       </div>
       <Button
         variant="contained"
+        startIcon={<Add />}
         sx={{ marginTop: "20px" }}
         loading={isSending}
         type="submit"

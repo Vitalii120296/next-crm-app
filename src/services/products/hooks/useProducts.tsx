@@ -19,7 +19,6 @@ export const useProducts = (token: string | null) => {
           const data = await getProductsService();
 
           setProductsPayload(data);
-          console.log("Products", data);
         }
       } catch (error) {
         throw new Error(getErrorMessage(error));
