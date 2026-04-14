@@ -218,7 +218,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           </Box>
           <Divider>or</Divider>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Button
+            {/* <Button
               fullWidth
               variant="outlined"
               onClick={() => alert("Sign in with Google")}
@@ -233,7 +233,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               startIcon={<FacebookIcon />}
             >
               Sign in with Facebook
-            </Button>
+            </Button> */}
             <Typography sx={{ textAlign: "center" }}>
               Don&apos;t have an account?{" "}
               <Link

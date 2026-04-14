@@ -224,10 +224,10 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
                 color={passwordError ? "error" : "primary"}
               />
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="allowExtraEmails" color="primary" />}
               label="I want to receive updates via email."
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -241,7 +241,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             <Typography sx={{ color: "text.secondary" }}>or</Typography>
           </Divider>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Button
+            {/* <Button
               fullWidth
               variant="outlined"
               onClick={() => alert("Sign up with Google")}
@@ -256,7 +256,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               startIcon={<FacebookIcon />}
             >
               Sign up with Facebook
-            </Button>
+            </Button> */}
             <Typography sx={{ textAlign: "center" }}>
               Already have an account?{" "}
               <Link href="sign-in" variant="body2" sx={{ alignSelf: "center" }}>
