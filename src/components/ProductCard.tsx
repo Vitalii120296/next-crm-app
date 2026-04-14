@@ -5,15 +5,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Product } from "@/types";
-import React from "react";
+import React, { useState } from "react";
 import Modal from "./Modal";
 import { Box } from "@mui/system";
 import { deleteProductService } from "@/services/products/deleteProduct";
 import { useProductsStore } from "@/store/products";
+import { ProductDetails } from "./ProductDetails";
 
 export default function ProductCard({ product }: { product: Product }) {
   const [isDeleting, setIsDeleting] = React.useState(false);
   const removeProduct = useProductsStore((state) => state.removeProduct);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const deleteProduct = async (productId: string) => {
     try {
@@ -83,7 +85,11 @@ export default function ProductCard({ product }: { product: Product }) {
         </Typography>
       </CardContent>
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Button size="small" variant="outlined">
+        <Button
+          size="small"
+          variant="outlined"
+          onClick={() => setSelectedProduct(product)}
+        >
           Edit
         </Button>
         <Button
@@ -114,6 +120,16 @@ export default function ProductCard({ product }: { product: Product }) {
               Delete
             </Button>
           </Box>
+        </Modal>
+        <Modal
+          open={!!selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+          title="Update product"
+        >
+          <ProductDetails
+            product={selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+          />
         </Modal>
       </CardActions>
     </Card>

@@ -6,6 +6,7 @@ type Actions = {
   setProducts: (payload: Product[]) => void;
   removeProduct: (id: string) => void;
   createProduct: (product: Product) => void;
+  updateProduct: (id: string, payload: Product) => void;
 };
 
 type State = {
@@ -26,6 +27,16 @@ export const useProductsStore = create<State>()(
     createProduct: (product: Product) =>
       set((state) => ({
         products: state.products ? [product, ...state.products] : [product],
+      })),
+    updateProduct: (id, payload) =>
+      set((state) => ({
+        products: state.products
+          ? [
+              ...state.products.map((pr) =>
+                pr.id === id ? { ...pr, ...payload } : pr,
+              ),
+            ]
+          : null,
       })),
   })),
 );
