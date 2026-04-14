@@ -4,18 +4,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  // background-color: hsl(220, 30%, 7%);
   border-radius: 10px;
-  max-height: 100vh;
+  max-height: 90vh;
   height: 100%;
-}
-
-.progress_card__status {
-  margin: 0;
-  padding: 0;
-  font-weight: 400;
-}
-
-.progress_card__add_client {
-  @extend .button_secondary;
+  width: 100%;
 }

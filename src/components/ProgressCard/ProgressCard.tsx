@@ -38,6 +38,7 @@ export const ProgressCard: React.FC<Props> = ({
           borderWidth: 1,
           borderStyle: "solid",
           maxHeight: screen,
+          width: "100%",
         }}
       >
         <Box
@@ -49,11 +50,11 @@ export const ProgressCard: React.FC<Props> = ({
             height: 50,
           }}
         >
-          <h2 className={cn("h3", s.progress_card__status)}>{status}</h2>
+          <h2 className=" text-xl">{status}</h2>
           {columnId === "NEW" && (
             <Button
               variant="text"
-              color="success"
+              color="secondary"
               onClick={() => {
                 setIsModalOpen(true);
               }}

@@ -65,7 +65,7 @@ export const ProductCreate = () => {
             error={!!errors.name}
             id="name"
             placeholder="John"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("name", {
               required: "This field is required",
               minLength: {
@@ -92,7 +92,7 @@ export const ProductCreate = () => {
             error={!!errors.description}
             id="description"
             placeholder="Enter product description"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("description", {
               minLength: {
                 value: 2,
@@ -118,7 +118,7 @@ export const ProductCreate = () => {
             error={!!errors.price}
             id="price"
             placeholder="0.00"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("price", {
               min: {
                 value: 0,
@@ -145,7 +145,7 @@ export const ProductCreate = () => {
             type="text"
             id="sku"
             placeholder="Enter SKU number"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("sku", {
               minLength: {
                 value: 2,

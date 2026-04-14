@@ -82,7 +82,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               error={!!errors.name}
               id="name"
               defaultValue={client.name}
-              sx={{ width: "200px" }}
+              sx={{ width: { xs: "full", md: "200px" } }}
               {...register("name", {
                 required: "This field is required",
                 minLength: {
@@ -111,7 +111,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               error={!!errors.surname}
               id="surname"
               defaultValue={client.surname}
-              sx={{ width: "200px" }}
+              sx={{ width: { xs: "full", md: "200px" } }}
               {...register("surname", {
                 required: "This field is required",
                 minLength: {
@@ -140,7 +140,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               error={!!errors.email}
               id="email"
               defaultValue={client.email}
-              sx={{ width: "200px" }}
+              sx={{ width: { xs: "full", md: "200px" } }}
               {...register("email", {
                 required: "This field is required",
                 pattern: {
@@ -163,7 +163,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
             <Select
               id="status"
               defaultValue={client.status}
-              sx={{ width: "200px" }}
+              sx={{ width: { xs: "full", md: "200px" } }}
               {...register("status", {
                 required: "This field is required",
                 validate: (value) =>
@@ -191,7 +191,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               error={!!errors.phone}
               id="phone"
               defaultValue={client.phone}
-              sx={{ width: "200px" }}
+              sx={{ width: { xs: "full", md: "200px" } }}
               {...register("phone", {
                 pattern: {
                   value: /^\+[\d\s\-\(\)]{10,20}$/,
@@ -216,7 +216,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
                 padding: "8px",
                 borderRadius: "4px",
                 boxSizing: "content-box",
-                width: "200px",
+                width: { xs: "full", md: "200px" },
               }}
             >
               <TextareaAutosize

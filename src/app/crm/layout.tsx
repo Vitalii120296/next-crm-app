@@ -1,4 +1,5 @@
 import HeaderCrmPage from "@/components/HeaderCrm";
+import HeaderCrmMobile from "@/components/HeaderCrmMobile";
 import { AppShell } from "@/layouts/AppShell";
 import { AuthShell } from "@/layouts/AuthShell";
 import { Box } from "@mui/system";
@@ -21,6 +22,7 @@ export default function CrmLayout({
             mx: "auto",
           }}
         >
+          <HeaderCrmMobile />
           <HeaderCrmPage />
           {children}
         </Box>

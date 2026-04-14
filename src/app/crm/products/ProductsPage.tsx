@@ -30,7 +30,13 @@ export const ProductsPage = () => {
   }, [productsPayload, setProducts, products]);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Button
           variant="outlined"
@@ -69,6 +75,6 @@ export const ProductsPage = () => {
           </Grid>
         </Box>
       )}
-    </>
+    </Box>
   );
 };
