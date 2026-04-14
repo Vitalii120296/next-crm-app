@@ -6,6 +6,11 @@ export type User = {
   email: string;
   firstName: string;
   lastName: string;
+
+  phone?: string; // Додаткові поля для профілю
+  location?: string; // Додаткові поля для профілю
+  birthDate?: string; // Додаткові поля для профілю
+
   avatar?: string;
 
   role?: UserRole;

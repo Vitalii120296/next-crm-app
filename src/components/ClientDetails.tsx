@@ -15,6 +15,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import { Divider, Typography } from "@mui/material";
 import { on } from "events";
+import { Delete, Edit } from "@mui/icons-material";
 
 type Props = {
   client: Client;
@@ -258,6 +259,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
         >
           <Button
             variant="contained"
+            startIcon={<Edit />}
             disabled={!isValid || isSending}
             loading={isSending}
             type="submit"
@@ -265,14 +267,15 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
             Update client
           </Button>
           <Button
-            variant="outlined"
+            variant="contained"
+            color="error"
             disabled={!isValid || isSending}
             loading={isSending}
             onClick={() => {
               setIsDeleting(true);
             }}
           >
-            Delete
+            <Delete />
           </Button>
         </Box>
         {isError && <p className="text-xs text-red-500">{`${isError}`}</p>}
