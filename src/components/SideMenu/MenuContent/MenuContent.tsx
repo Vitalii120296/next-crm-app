@@ -15,6 +15,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useBurgerMenu } from "@/store/burgerMenu";
 
 const mainListItems = [
   { text: "Home", icon: <HomeRoundedIcon />, href: "./" },
@@ -42,6 +43,7 @@ const secondaryListItems = [
 export default function MenuContent() {
   const [isActive, setIsActive] = useState(0);
   const params = usePathname();
+  const toggleBurgerMenu = useBurgerMenu((state) => state.toggleBurgerMenu);
 
   useEffect(() => {
     mainListItems.forEach((item, index) => {
@@ -56,7 +58,7 @@ export default function MenuContent() {
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: "block" }}>
-            <Link href={item.href}>
+            <Link href={item.href} onClick={() => toggleBurgerMenu()}>
               <ListItemButton
                 selected={index === isActive}
                 onClick={() => setIsActive(index)}

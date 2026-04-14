@@ -13,6 +13,7 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 import Modal from "@/components/Modal";
 import { ClientDetails } from "@/components/ClientDetails";
 import { Progress } from "@/components/Progress";
+import { Box } from "@mui/system";
 
 type ColumnData = {
   id: ClientStatus;
@@ -132,52 +133,64 @@ const KanbanPage = () => {
     }
   };
 
-  const updateColumnsData = (
-    updatedClient: Client | ((prevState: Client) => Client),
-  ) => {
-    if (typeof updatedClient === "function") {
-      return;
-    }
+  // const updateColumnsData = (
+  //   updatedClient: Client | ((prevState: Client) => Client),
+  // ) => {
+  //   if (typeof updatedClient === "function") {
+  //     return;
+  //   }
 
-    setColumnsData((prev) => {
-      if (!prev || !updatedClient.id) return prev;
+  //   setColumnsData((prev) => {
+  //     if (!prev || !updatedClient.id) return prev;
 
-      const oldClient = prev.clients[updatedClient.id];
-      const newColumns = { ...prev.columns };
+  //     const oldClient = prev.clients[updatedClient.id];
+  //     const newColumns = { ...prev.columns };
 
-      if (oldClient.status !== updatedClient.status) {
-        // видаляємо зі старої колонки
-        newColumns[oldClient.status] = {
-          ...newColumns[oldClient.status],
-          columnClients: newColumns[oldClient.status].columnClients.filter(
-            (id) => id !== updatedClient.id,
-          ),
-        };
+  //     if (oldClient.status !== updatedClient.status) {
+  //       // видаляємо зі старої колонки
+  //       newColumns[oldClient.status] = {
+  //         ...newColumns[oldClient.status],
+  //         columnClients: newColumns[oldClient.status].columnClients.filter(
+  //           (id) => id !== updatedClient.id,
+  //         ),
+  //       };
 
-        // додаємо у нову колонку
-        newColumns[updatedClient.status] = {
-          ...newColumns[updatedClient.status],
-          columnClients: [
-            updatedClient.id,
-            ...newColumns[updatedClient.status].columnClients,
-          ],
-        };
-      }
+  //       // додаємо у нову колонку
+  //       newColumns[updatedClient.status] = {
+  //         ...newColumns[updatedClient.status],
+  //         columnClients: [
+  //           updatedClient.id,
+  //           ...newColumns[updatedClient.status].columnClients,
+  //         ],
+  //       };
+  //     }
 
-      return {
-        ...prev,
-        clients: {
-          ...prev.clients,
-          [updatedClient.id]: updatedClient,
-        },
-        columns: newColumns,
-      };
-    });
-  };
+  //     return {
+  //       ...prev,
+  //       clients: {
+  //         ...prev.clients,
+  //         [updatedClient.id]: updatedClient,
+  //       },
+  //       columns: newColumns,
+  //     };
+  //   });
+  // };
 
   return (
     <section className={`${s.wrapper}`}>
-      <div className={`${s.kanban} mx-auto`}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "1fr",
+            md: "repeat(3, minmax(200px, 1fr))",
+          },
+          gap: 2,
+          width: "100%",
+          mx: "auto",
+        }}
+      >
         <DragDropContext onDragEnd={onDragEnd}>
           {(Object.keys(columnsData.columns) as ClientStatus[]).map(
             (status) => {
@@ -208,7 +221,7 @@ const KanbanPage = () => {
             />
           </Modal>
         )}
-      </div>
+      </Box>
     </section>
   );
 };

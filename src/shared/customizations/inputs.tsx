@@ -56,7 +56,7 @@ export const inputsCustomizations: Components<Theme> = {
             },
             style: {
               color: "white",
-              backgroundColor: gray[900],
+              backgroundColor: gray[700],
               backgroundImage: `linear-gradient(to bottom, ${gray[700]}, ${gray[800]})`,
               boxShadow: `inset 0 1px 0 ${gray[600]}, inset 0 -1px 0 1px hsl(220, 0%, 0%)`,
               border: `1px solid ${gray[700]}`,
@@ -73,10 +73,11 @@ export const inputsCustomizations: Components<Theme> = {
                 backgroundColor: gray[50],
                 backgroundImage: `linear-gradient(to bottom, ${gray[100]}, ${gray[50]})`,
                 boxShadow: "inset 0 -1px 0  hsl(220, 30%, 80%)",
+                transition: "background-color 150ms ease-in",
                 border: `1px solid ${gray[50]}`,
                 "&:hover": {
                   backgroundImage: "none",
-                  backgroundColor: gray[300],
+                  backgroundColor: gray[200],
                   boxShadow: "none",
                 },
                 "&:active": {
@@ -371,7 +372,7 @@ export const inputsCustomizations: Components<Theme> = {
       input: {
         "&::placeholder": {
           opacity: 0.7,
-          color: gray[500],
+          color: gray[400],
         },
       },
     },
@@ -392,8 +393,8 @@ export const inputsCustomizations: Components<Theme> = {
           borderColor: gray[400],
         },
         [`&.${outlinedInputClasses.focused}`]: {
-          outline: `3px solid ${alpha(brand[500], 0.5)}`,
-          borderColor: brand[400],
+          outline: `1px solid ${alpha(gray[500], 0.5)}`,
+          borderColor: gray[400],
         },
         ...theme.applyStyles("dark", {
           "&:hover": {

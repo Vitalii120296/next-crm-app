@@ -63,7 +63,7 @@ export const ClientCreate = () => {
             error={!!errors.name}
             id="name"
             placeholder="John"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("name", {
               required: "This field is required",
               minLength: {
@@ -91,7 +91,7 @@ export const ClientCreate = () => {
             error={!!errors.surname}
             id="surname"
             placeholder="Snow"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("surname", {
               required: "This field is required",
               minLength: {
@@ -120,7 +120,7 @@ export const ClientCreate = () => {
             type="email"
             id="email"
             placeholder="johnSnow@gmail.com"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("email", {
               required: "This field is required",
               pattern: {
@@ -144,7 +144,7 @@ export const ClientCreate = () => {
             type="phone"
             id="phone"
             placeholder="+380 (XX) XXX-XX-XX"
-            sx={{ width: "200px" }}
+            sx={{ width: { xs: "full", md: "200px" } }}
             {...register("phone", {
               pattern: {
                 value: /^\+[\d\s\-\(\)]{10,20}$/,
@@ -169,7 +169,7 @@ export const ClientCreate = () => {
               padding: "8px",
               borderRadius: "4px",
               boxSizing: "content-box",
-              width: "200px",
+              width: { xs: "full", md: "200px" },
             }}
           >
             <TextareaAutosize

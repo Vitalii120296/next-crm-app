@@ -1,82 +1,115 @@
-"use client";
-
-import type React from "react";
-import { useState } from "react";
-import type { Client } from "@/types";
-
-import styles from "./ClientsTable.module.scss";
-// import { ClientDetails } from "../ClientDetails/ClientDetails";
+import * as React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Box,
+} from "@mui/material";
+import Modal from "../Modal";
+import { ClientDetails } from "../ClientDetails";
+import { Client } from "@/types";
 import { statusFormat } from "@/utils/statusFormat";
-import Modal from "@/components/Modal";
-import { ClientDetails } from "@/components/ClientDetails";
 
 type Props = {
-  clients: Client[] | undefined;
+  clients: Client[] | null | undefined;
 };
 
-export const ClientsTable: React.FC<Props> = ({ clients }) => {
-  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
-
-  // const updateClients = (updatedClient: Client) => {
-  //   setClients((prev) =>
-  //     prev.map((client) =>
-  //       client.id === updatedClient.id ? updatedClient : client,
-  //     ),
-  //   );
-  // };
+export default function ClientsTable({ clients }: Props) {
+  const [selectedClient, setSelectedClient] = React.useState<Client | null>(
+    null,
+  );
 
   return (
-    <div className={styles.wrapper}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className={styles.thId}>#</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Phone number</th>
-            <th>Comments</th>
-            <th>Status</th>
-            <th>Creator</th>
-          </tr>
-        </thead>
+    <Box>
+      <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: "16px",
+        }}
+      >
+        <Table size="small">
+          <TableHead>
+            <TableRow
+              sx={{
+                borderBottom: "2px",
+                borderColor: "background.default",
+                borderStyle: "solid",
+              }}
+            >
+              <TableCell>#</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Surname</TableCell>
+              <TableCell>Phone number</TableCell>
+              <TableCell>Comments</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell>Creator</TableCell>
+            </TableRow>
+          </TableHead>
 
-        <tbody>
-          {clients?.map((client, index) => {
-            return (
-              <tr
-                key={client.id}
-                onClick={() => setSelectedClient(client)}
-                className={styles.row}
-              >
-                <td className={styles.tdIndex}>{index + 1}</td>
-
-                <td>{client.name}</td>
-                <td>{client.surname}</td>
-
-                <td>{client.phone ?? "—"}</td>
-
-                <td>{client.notes ?? "—"}</td>
-
-                <td>
-                  <span className={styles.status} data-status={client.status}>
-                    {statusFormat(client.status)}
-                  </span>
-                </td>
-
-                <td>{client.userId}</td>
-              </tr>
-            );
-          })}
-
-          {clients?.length === 0 && (
-            <tr>
-              <td colSpan={7} className={styles.empty}>
-                No clients found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+          <TableBody>
+            {clients?.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  <Typography color="textSecondary">
+                    No clients found
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            ) : (
+              clients?.map((client, index) => (
+                <TableRow
+                  key={client.id}
+                  hover
+                  onClick={() => setSelectedClient(client)}
+                  sx={{
+                    cursor: "pointer",
+                    borderBottom: "unset",
+                    borderBottomColor: "background.default",
+                    borderBottomStyle: "solid",
+                  }}
+                >
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{client.name}</TableCell>
+                  <TableCell>{client.surname}</TableCell>
+                  <TableCell>{client.phone ?? "—"}</TableCell>
+                  <TableCell>{client.notes ?? "—"}</TableCell>
+                  <TableCell>
+                    <span style={{ display: "inline-block" }}>
+                      <Typography
+                        variant="body2"
+                        sx={(theme) => ({
+                          padding: "3px 8px",
+                          borderRadius: "4px",
+                          backgroundColor:
+                            client.status === "NEW"
+                              ? theme.palette.success.light
+                              : client.status === "DONE"
+                                ? theme.palette.error.light
+                                : theme.palette.warning.light,
+                          color:
+                            client.status === "NEW"
+                              ? theme.palette.success.contrastText
+                              : client.status === "DONE"
+                                ? theme.palette.error.contrastText
+                                : theme.palette.warning.contrastText,
+                        })}
+                      >
+                        {statusFormat(client.status)}
+                      </Typography>
+                    </span>
+                  </TableCell>
+                  <TableCell>{client.userId}</TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       {selectedClient && (
         <Modal
@@ -90,6 +123,6 @@ export const ClientsTable: React.FC<Props> = ({ clients }) => {
           />
         </Modal>
       )}
-    </div>
+    </Box>
   );
-};
+}

@@ -28,7 +28,7 @@ function ButtonField(props: DatePickerFieldProps) {
 
   return (
     <Button
-      {...forwardedProps}
+      // {...forwardedProps}
       variant="outlined"
       ref={handleRef}
       size="small"

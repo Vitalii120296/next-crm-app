@@ -30,13 +30,19 @@ export const ProductsPage = () => {
   }, [productsPayload, setProducts, products]);
 
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Button
           variant="outlined"
           onClick={handleCreateProduct}
           sx={{
-            width: "120px",
+            width: "150px",
             height: "26px",
             boxSizing: "border-box",
             display: "flex",
@@ -69,6 +75,6 @@ export const ProductsPage = () => {
           </Grid>
         </Box>
       )}
-    </>
+    </Box>
   );
 };
