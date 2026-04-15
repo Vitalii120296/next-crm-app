@@ -83,6 +83,7 @@ export default function ClientsTable({ clients }: Props) {
                       <Typography
                         variant="body2"
                         sx={(theme) => ({
+                          textWrap: "nowrap",
                           padding: "3px 8px",
                           borderRadius: "4px",
                           backgroundColor:
