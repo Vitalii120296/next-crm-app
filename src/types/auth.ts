@@ -7,15 +7,15 @@ export type User = {
   firstName: string;
   lastName: string;
 
-  phone?: string; // Додаткові поля для профілю
-  location?: string; // Додаткові поля для профілю
-  birthDate?: string; // Додаткові поля для профілю
+  phone?: string | null;
+  location?: string | null;
+  birthDate?: string | null;
 
-  avatar?: string;
+  avatar?: string | null;
 
-  role?: UserRole;
-  status?: UserStatus;
-  createdAt?: Date;
+  role?: UserRole | null;
+  status?: UserStatus | null;
+  createdAt?: Date | null;
 };
 
 export type IRegisterFormData = {

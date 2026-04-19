@@ -16,7 +16,7 @@ import Stack from "@mui/material/Stack";
 import MuiCard from "@mui/material/Card";
 import { styled } from "@mui/material/styles";
 import ForgotPassword from "./components/ForgotPassword";
-import { GoogleIcon, FacebookIcon } from "./components/CustomIcons";
+// import { GoogleIcon, FacebookIcon } from "./components/CustomIcons";
 import AppTheme from "@/components/AppTheme";
 import { useRouter } from "next/navigation";
 import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
@@ -67,6 +67,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const router = useRouter();
   const { login } = useAuth();
+  const [error, setError] = React.useState<string | null>(null);
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -100,6 +101,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       router.push("/crm");
     } catch (error) {
       console.log(error);
+      setError(
+        "Failed to sign in. Please check your credentials and try again.",
+      );
     }
   };
 
@@ -151,7 +155,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           <Box
             component="form"
             onSubmit={handleSubmit}
-            noValidate
+            // noValidate
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -244,6 +248,11 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 Sign up
               </Link>
             </Typography>
+            {error && (
+              <Typography color="error" sx={{ textAlign: "center" }}>
+                {error}
+              </Typography>
+            )}
           </Box>
         </Card>
       </SignInContainer>

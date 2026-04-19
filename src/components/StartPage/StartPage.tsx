@@ -50,7 +50,7 @@ export const StartPage = () => {
               </button>
             ) : (
               <button className={s.loginButton}>
-                <Link href="/login">Sign In</Link>
+                <Link href="/sign-in">Sign In</Link>
               </button>
             )}
           </div>

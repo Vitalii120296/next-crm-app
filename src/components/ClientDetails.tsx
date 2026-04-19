@@ -157,8 +157,8 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
         </div>
         <div className="flex flex-col w-full ">
           <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
-            <label htmlFor="email" className="wrap-normal">
-              {"Email "}
+            <label htmlFor="status" className="wrap-normal">
+              {"Status "}
               <span className="text-red-500">*</span>
             </label>
             <Select

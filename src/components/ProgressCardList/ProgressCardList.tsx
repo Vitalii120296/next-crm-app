@@ -46,7 +46,8 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                     backgroundColor: "divider",
                     alignItems: "flex-start",
                     overflow: "hidden",
-                    height: "content",
+                    // height: "content",
+                    // minHeight: 60,
                   }}
                 >
                   <Typography

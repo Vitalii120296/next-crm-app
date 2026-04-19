@@ -7,11 +7,18 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { getImageServerUrlService } from "@/services/images/getImageServerUrl";
+import { getImageUrlService } from "@/services/images/getImageUrl";
+import { defaultImageUrl } from "@/constants/defaultImage";
+import { ModalImageViewer } from "./ModalImageViewer";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 export const ProductCreate = () => {
   const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
   const addProduct = useProductsStore((state) => state.createProduct);
+  const [imagePreview, setImagePreview] = useState(defaultImageUrl);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [isError, setIsError] = useState<string | null>(null);
   const [isSended, setIsSended] = useState(false);
@@ -20,6 +27,13 @@ export const ProductCreate = () => {
       mode: "onChange",
     });
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const onSumbit: SubmitHandler<CreateProductDto> = async (data) => {
     setIsSending(true);
     setIsError(null);
@@ -27,19 +41,24 @@ export const ProductCreate = () => {
     if (!token || !currentUser) return;
 
     try {
+      const imgUrl = await getImageUrl(imageFile);
+
       const payload = {
         name: data.name,
         description: data.description === "" ? null : data.description || null,
         price: Number(data.price || 0),
         sku: data.sku === "" ? null : data.sku || null,
-        userId: currentUser.id,
         clients: data.clients || null,
+        imageUrl: imgUrl,
       };
+
+      console.log("payload", payload);
 
       const res = await addProductService(payload);
 
       addProduct(res);
       reset();
+      setImagePreview(defaultImageUrl);
     } catch {
       setIsError("Something went wrong");
     } finally {
@@ -56,6 +75,10 @@ export const ProductCreate = () => {
       onSubmit={handleSubmit(onSumbit)}
     >
       <div className="flex flex-col w-full gap-y-2">
+        <ModalImageViewer
+          imagePreview={imagePreview}
+          handleImageChange={handleImageChange}
+        />
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
           <label htmlFor="name" className="wrap-normal">
             {"Name "}
