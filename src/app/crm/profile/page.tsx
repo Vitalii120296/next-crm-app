@@ -16,7 +16,6 @@ import {
   Chip,
   Avatar,
   Button,
-  IconButton,
 } from "@mui/material";
 import {
   Edit,
@@ -35,14 +34,12 @@ import {
 import Modal from "@/components/Modal";
 import { useAuthStore } from "@/store/user";
 import { User } from "@/types";
-
-// import { ProfileDetails } from "@/components/ProfileDetails"; // для деталей профілю
+import { defaultImageUrl } from "@/constants/defaultImage";
+import { VisuallyHiddenInput } from "@/components/VisuallyHiddenInput";
+import { ProfileDetails } from "@/components/ProfileDetails";
 
 const ProfilePage = () => {
   const [editMode, setEditMode] = useState(false);
-  const [selectedProfileInput, setSelectedProfileInput] = useState<
-    string | null
-  >(null);
   const currentUser = useAuthStore((state) => state.currentUser);
 
   const iconMap: Record<keyof User, React.ComponentType | null> = {
@@ -95,7 +92,7 @@ const ProfilePage = () => {
       sx={{
         display: "grid",
         gap: { xs: 2, md: 5 },
-        gridTemplateColumns: { xs: "1fr", md: "1fr 2fr" },
+        gridTemplateColumns: { xs: "1fr", md: "2fr 3fr" },
         mx: "auto",
         width: "100%",
       }}
@@ -120,13 +117,13 @@ const ProfilePage = () => {
               position: "relative",
               background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
             }}
-            image=""
           >
             <Avatar
-              src="/public/productImages/defaultProductImage.webp"
+              src={currentUser?.avatar || defaultImageUrl}
+              alt="Profile Avatar"
               sx={{
-                width: 120,
-                height: 120,
+                width: 220,
+                height: 220,
                 position: "absolute",
                 bottom: -60,
                 left: "50%",
@@ -135,31 +132,43 @@ const ProfilePage = () => {
                 boxShadow: 3,
               }}
             />
-            <IconButton
+            {/* <Button
               sx={{
                 position: "absolute",
                 bottom: -65,
                 right: "40%",
-                transform: "translateX(50%)",
-                bgcolor: "white",
+                transform: "translateX(100%)",
+                bgcolor: "background.paper",
+                opacity: "0.7",
                 color: "primary.main",
+                border: "2px solid",
+                borderColor: "text.primary",
                 width: 40,
                 height: 40,
                 boxShadow: 2,
+                transition: "all 0.3s ease",
                 "&:hover": {
-                  bgcolor: "primary.light",
+                  scale: "1.05 ",
                   color: "white",
                 },
               }}
-              onClick={() => console.log("Change avatar")}
             >
-              <Edit fontSize="small" />
-              {/* АБО CameraAlt */}
-            </IconButton>
+              <Box component="label" sx={{ width: "100%", height: "100%" }}>
+                <Edit fontSize="small" />
+              </Box>
+            </Button> */}
           </CardMedia>
         </Box>
 
-        <CardContent sx={{ pt: 8, pb: 2 }}>
+        <CardContent
+          sx={{
+            pt: 8,
+            pb: 2,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Typography
             gutterBottom
             variant="h5"
@@ -187,7 +196,10 @@ const ProfilePage = () => {
             startIcon={<Edit />}
             fullWidth
             onClick={() => setEditMode(true)}
-            sx={{ borderRadius: 2 }}
+            sx={{
+              borderRadius: 2,
+              mt: "auto",
+            }}
           >
             Edit Profile
           </Button>
@@ -228,7 +240,7 @@ const ProfilePage = () => {
                   <TableRow
                     key={key}
                     hover
-                    onClick={() => setSelectedProfileInput(key)}
+                    // onClick={() => setSelectedProfileInput(key)}
                   >
                     <TableCell>
                       <Box
@@ -259,25 +271,7 @@ const ProfilePage = () => {
           onClose={() => setEditMode(false)}
           title="Edit Profile"
         >
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Form
-          </Typography>
-          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
-            <Button onClick={() => setEditMode(false)} variant="outlined">
-              Cancel
-            </Button>
-            <Button variant="contained">Save</Button>
-          </Box>
-        </Modal>
-      )}
-      {/* Modal for details  */}
-      {selectedProfileInput && (
-        <Modal
-          open={!!selectedProfileInput}
-          onClose={() => setSelectedProfileInput(null)}
-          title={`Edit ${selectedProfileInput}`}
-        >
-          <Typography variant="body1">{selectedProfileInput} Text</Typography>
+          <ProfileDetails />
         </Modal>
       )}
     </Box>

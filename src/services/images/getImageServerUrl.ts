@@ -1,17 +1,13 @@
 import { httpClient } from "@/api/httpClient";
+import { ResponseImageUrl } from "@/types/img";
 
-type ResponseImageUrl = {
-  uploadUrl: string;
-  fileUrl: string;
-};
-
-export const getImageServerUrlService = async (): Promise<string> => {
+export const getImageServerUrlService = async (
+  img: File,
+): Promise<ResponseImageUrl> => {
   const res = await httpClient.post<File, ResponseImageUrl>(
     "/images/upload-url",
-    {
-      fileType: "image/png",
-    },
+    img,
   );
 
-  return res.uploadUrl;
+  return res;
 };

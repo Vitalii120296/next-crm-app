@@ -7,6 +7,7 @@ type Actinos = {
   removeUser: () => void;
   setToken: (token: string | null) => void;
   removeToken: () => void;
+  editUser: (user: User) => void;
 };
 
 type State = {
@@ -30,6 +31,9 @@ export const useAuthStore = create<State>()(
       setToken: (token: string) => set({ token }, false, "auth/setToken"),
 
       removeToken: () => set({ token: null }, false, "auth/removeToken"),
+
+      editUser: (user: User) =>
+        set({ currentUser: user }, false, "auth/editUser"),
     }),
     {
       name: "AuthStore",

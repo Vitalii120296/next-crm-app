@@ -3,29 +3,15 @@ import { useProductsStore } from "@/store/products";
 import { useAuthStore } from "@/store/user";
 import { CreateProductDto } from "@/types";
 import { Add } from "@mui/icons-material";
-import { CardMedia } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/system";
 import { getImageServerUrlService } from "@/services/images/getImageServerUrl";
 import { getImageUrlService } from "@/services/images/getImageUrl";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
-const defaultImageUrl = "/productImages/defaultProductImage.webp";
+import { defaultImageUrl } from "@/constants/defaultImage";
+import { ModalImageViewer } from "./ModalImageViewer";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 export const ProductCreate = () => {
   const token = useAuthStore((state) => state.token);
@@ -55,30 +41,24 @@ export const ProductCreate = () => {
     if (!token || !currentUser) return;
 
     try {
-      let imgUrl = defaultImageUrl;
-
-      if (imageFile) {
-        const serverUrl = await getImageServerUrlService();
-
-        imgUrl = await getImageUrlService(serverUrl, imageFile);
-
-        console.log(imgUrl);
-      }
+      const imgUrl = await getImageUrl(imageFile);
 
       const payload = {
         name: data.name,
         description: data.description === "" ? null : data.description || null,
         price: Number(data.price || 0),
         sku: data.sku === "" ? null : data.sku || null,
-        userId: currentUser.id,
         clients: data.clients || null,
-        image: imgUrl || defaultImageUrl,
+        imageUrl: imgUrl,
       };
+
+      console.log("payload", payload);
 
       const res = await addProductService(payload);
 
       addProduct(res);
       reset();
+      setImagePreview(defaultImageUrl);
     } catch {
       setIsError("Something went wrong");
     } finally {
@@ -95,35 +75,10 @@ export const ProductCreate = () => {
       onSubmit={handleSubmit(onSumbit)}
     >
       <div className="flex flex-col w-full gap-y-2">
-        <CardMedia
-          sx={{
-            height: 180,
-            borderRadius: 1,
-            position: "relative",
-          }}
-          image={imagePreview}
-          title={"Product image"}
-        >
-          <Button
-            component="label"
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              opacity: "0.7",
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 0,
-            }}
-            role={undefined}
-            variant="outlined"
-            tabIndex={-1}
-            startIcon={<CloudUploadIcon />}
-          >
-            Upload image
-            <VisuallyHiddenInput type="file" onChange={handleImageChange} />
-          </Button>
-        </CardMedia>
+        <ModalImageViewer
+          imagePreview={imagePreview}
+          handleImageChange={handleImageChange}
+        />
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
           <label htmlFor="name" className="wrap-normal">
             {"Name "}

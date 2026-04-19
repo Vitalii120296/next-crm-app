@@ -11,9 +11,11 @@ import { Box } from "@mui/system";
 import { deleteProductService } from "@/services/products/deleteProduct";
 import { useProductsStore } from "@/store/products";
 import { ProductDetails } from "./ProductDetails";
+import { defaultImageUrl } from "@/constants/defaultImage";
 
 export default function ProductCard({ product }: { product: Product }) {
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [isEditing, setIsEditing] = React.useState(false);
   const removeProduct = useProductsStore((state) => state.removeProduct);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -48,7 +50,7 @@ export default function ProductCard({ product }: { product: Product }) {
           height: 140,
           borderRadius: 1,
         }}
-        image={"/productImages/defaultProductImage.webp"}
+        image={product.imageUrl || defaultImageUrl}
         title={product.name}
       />
       <CardContent className="flex flex-col grow">
@@ -88,7 +90,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <Button
           size="small"
           variant="outlined"
-          onClick={() => setSelectedProduct(product)}
+          onClick={() => setIsEditing(true)}
         >
           Edit
         </Button>
@@ -122,13 +124,13 @@ export default function ProductCard({ product }: { product: Product }) {
           </Box>
         </Modal>
         <Modal
-          open={!!selectedProduct}
-          onClose={() => setSelectedProduct(null)}
+          open={isEditing}
+          onClose={() => setIsEditing(false)}
           title="Update product"
         >
           <ProductDetails
-            product={selectedProduct}
-            onClose={() => setSelectedProduct(null)}
+            product={product}
+            onClose={() => setIsEditing(false)}
           />
         </Modal>
       </CardActions>

@@ -8,6 +8,9 @@ import { Divider } from "@mui/material";
 import { useProductsStore } from "@/store/products";
 import { updateProductService } from "@/services/products/updateProduct";
 import { Edit } from "@mui/icons-material";
+import { ModalImageViewer } from "./ModalImageViewer";
+import { defaultImageUrl } from "@/constants/defaultImage";
+import { getImageUrl } from "@/utils/getImageUrl";
 
 type Props = {
   product: Product | null;
@@ -19,6 +22,8 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
   const currentUser = useAuthStore((state) => state.currentUser);
 
   const updateProduct = useProductsStore((state) => state.updateProduct);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const [isSending, setIsSending] = useState(false);
   const [isError, setIsError] = useState<string | null>(null);
@@ -28,18 +33,28 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
   });
   const { errors } = formState;
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const onSumbit: SubmitHandler<UpdateProductDto> = async (data) => {
     setIsSending(true);
     setIsError(null);
     if (!token || !currentUser || !product?.id) return;
 
     try {
+      const imgUrl = await getImageUrl(imageFile);
+
       const payload = {
         name: data.name,
         description: data.description === "" ? null : data.description || null,
         price: Number(data.price || 0),
         sku: data.sku === "" ? null : data.sku || null,
         clients: data.clients || null,
+        imageUrl: imgUrl || product.imageUrl || defaultImageUrl,
       };
 
       const updatedProduct = await updateProductService(product.id, payload);
@@ -60,6 +75,12 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
         className="flex flex-col gap-2 min-w-xs "
         onSubmit={handleSubmit(onSumbit)}
       >
+        <ModalImageViewer
+          imagePreview={
+            imagePreview ? imagePreview : product?.imageUrl || defaultImageUrl
+          }
+          handleImageChange={handleImageChange}
+        />
         <div className="flex flex-col w-full ">
           <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
             <label htmlFor="name" className="wrap-normal">
