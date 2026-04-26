@@ -36,3 +36,8 @@ export type RegisterResponse = {
 export type LoginResponse = {
   access_token: string;
 };
+
+export type LoginResponseWithGoogle = {
+  user: User;
+  access_token: string;
+};

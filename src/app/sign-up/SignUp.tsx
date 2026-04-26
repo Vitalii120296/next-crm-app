@@ -241,7 +241,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             <Typography sx={{ color: "text.secondary" }}>or</Typography>
           </Divider>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {/* <Button
+            <Button
               fullWidth
               variant="outlined"
               onClick={() => alert("Sign up with Google")}
@@ -249,7 +249,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             >
               Sign up with Google
             </Button>
-            <Button
+            {/* <Button
               fullWidth
               variant="outlined"
               onClick={() => alert("Sign up with Facebook")}

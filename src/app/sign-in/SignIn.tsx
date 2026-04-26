@@ -21,6 +21,7 @@ import AppTheme from "@/components/AppTheme";
 import { useRouter } from "next/navigation";
 import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
 import { useAuth } from "@/services/auth/hooks/useAuth";
+import { GoogleIcon } from "./components/CustomIcons";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -81,6 +82,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const googleLogin = () => {};
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -222,15 +225,15 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           </Box>
           <Divider>or</Divider>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            {/* <Button
+            <Button
               fullWidth
               variant="outlined"
-              onClick={() => alert("Sign in with Google")}
+              onClick={() => googleLogin()}
               startIcon={<GoogleIcon />}
             >
               Sign in with Google
             </Button>
-            <Button
+            {/* <Button
               fullWidth
               variant="outlined"
               onClick={() => alert("Sign in with Facebook")}
