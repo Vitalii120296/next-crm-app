@@ -104,7 +104,18 @@ export default function ClientsTable({ clients }: Props) {
                       </Typography>
                     </span>
                   </TableCell>
-                  <TableCell>{client.userId}</TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        textWrap: "nowrap",
+                      }}
+                    >
+                      {client.createdBy
+                        ? `${client.createdBy.firstName} ${client.createdBy.lastName}`
+                        : "—"}
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               ))
             )}

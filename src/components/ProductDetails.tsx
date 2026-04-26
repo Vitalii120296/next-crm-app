@@ -46,7 +46,11 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
     if (!token || !currentUser || !product?.id) return;
 
     try {
-      const imgUrl = await getImageUrl(imageFile);
+      let imgUrl: string | null = null;
+
+      if (imageFile) {
+        imgUrl = await getImageUrl(imageFile);
+      }
 
       const payload = {
         name: data.name,
@@ -203,7 +207,7 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
         </Button>
         {isError && <p className="text-xs text-red-500">{`${isError}`}</p>}
         {isSended && !isError && (
-          <p className="text-xs text-green-500">{`Client has been created successfully.`}</p>
+          <p className="text-xs text-green-500">{`Product has been updated successfully.`}</p>
         )}
       </form>
     </>

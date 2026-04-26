@@ -2,7 +2,7 @@ import { deleteClientsService } from "@/services/clients/deleteClient";
 import { updateClientService } from "@/services/clients/updateClient";
 import { useClientStore } from "@/store/client";
 import { useAuthStore } from "@/store/user";
-import { Client, UpdateClientDto } from "@/types";
+import { Client, ClientUpdateDto } from "@/types";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
@@ -32,12 +32,12 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
   const [isError, setIsError] = useState<string | null>(null);
   const [isSended, setIsSended] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const { register, handleSubmit, formState } = useForm<UpdateClientDto>({
+  const { register, handleSubmit, formState } = useForm<ClientUpdateDto>({
     mode: "onChange",
   });
   const { errors, isValid } = formState;
 
-  const onSumbit: SubmitHandler<UpdateClientDto> = async (data) => {
+  const onSumbit: SubmitHandler<ClientUpdateDto> = async (data) => {
     setIsSending(true);
     setIsError(null);
     if (!token || !currentUser || !client.id) return;
