@@ -1,11 +1,13 @@
 import { Suspense } from "react";
-import { AnaliticsPage } from "./AnaliticsPage";
+import BusinessPage from "./PropertiesPage";
 import { Progress } from "@/components/Progress";
 
-export default function AnaliticsPageWrapper() {
+const BusinessPageWrapper = () => {
   return (
     <Suspense fallback={<Progress />}>
-      <AnaliticsPage />
+      <BusinessPage />
     </Suspense>
   );
-}
+};
+
+export default BusinessPageWrapper;

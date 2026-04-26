@@ -20,6 +20,7 @@ export default function CrmLayout({
             width: "100%",
             maxWidth: "1320px",
             mx: "auto",
+            overflow: "hidden",
           }}
         >
           <HeaderCrmMobile />
