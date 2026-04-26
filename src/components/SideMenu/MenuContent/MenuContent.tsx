@@ -22,9 +22,9 @@ const mainListItems = [
   { text: "Clients", icon: <PeopleRoundedIcon />, href: "/crm/clients" },
   { text: "Products", icon: <AnalyticsRoundedIcon />, href: "/crm/products" },
   {
-    text: "Properties",
+    text: "Business",
     icon: <AssignmentRoundedIcon />,
-    href: "/crm/properties",
+    href: "/crm/business",
   },
   {
     text: "Analitics",

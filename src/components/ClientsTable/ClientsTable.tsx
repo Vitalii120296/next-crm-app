@@ -30,6 +30,7 @@ export default function ClientsTable({ clients }: Props) {
         component={Paper}
         sx={{
           borderRadius: "16px",
+          overflowX: "auto",
         }}
       >
         <Table size="small">
@@ -81,7 +82,7 @@ export default function ClientsTable({ clients }: Props) {
                   <TableCell>
                     <span style={{ display: "inline-block" }}>
                       <Typography
-                        variant="body2"
+                        noWrap
                         sx={(theme) => ({
                           textWrap: "nowrap",
                           padding: "3px 8px",
