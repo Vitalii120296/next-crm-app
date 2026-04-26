@@ -13,6 +13,7 @@ type Actinos = {
 type State = {
   currentUser: User | null;
   token: string | null;
+  tokenExpiry: number | null;
   isChecked: boolean;
 } & Actinos;
 
@@ -22,15 +23,25 @@ export const useAuthStore = create<State>()(
       currentUser: null,
       token: null,
       isChecked: false,
+      tokenExpiry: null,
 
-      setCurrentUser: (user: User) =>
+      setCurrentUser: (user: User | null) =>
         set({ currentUser: user }, false, "auth/setCurrentUser"),
 
       removeUser: () => set({ currentUser: null }, false, "auth/removeUser"),
 
-      setToken: (token: string) => set({ token }, false, "auth/setToken"),
+      setToken: (token: string | null) =>
+        set(
+          {
+            token,
+            tokenExpiry: Date.now() + 60 * 60 * 1000, // 1 hour expiry
+          },
+          false,
+          "auth/setToken",
+        ),
 
-      removeToken: () => set({ token: null }, false, "auth/removeToken"),
+      removeToken: () =>
+        set({ token: null, tokenExpiry: null }, false, "auth/removeToken"),
 
       editUser: (user: User) =>
         set({ currentUser: user }, false, "auth/editUser"),

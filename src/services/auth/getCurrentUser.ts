@@ -4,13 +4,13 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 
 export const getCurrentUser = async (token: string): Promise<User> => {
   try {
-    const data = await httpClient.get<User>("/auth/me", {
+    const user = await httpClient.get<User>("/auth/me", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    return data;
+    return user;
   } catch (error: unknown) {
     throw new Error(getErrorMessage(error));
   }
