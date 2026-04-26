@@ -29,7 +29,11 @@ export const AuthShell = ({ children }: { children: React.ReactNode }) => {
     const timeout = tokenExpiry - Date.now();
 
     if (timeout <= 0) {
-      return;
+      return async () => {
+        await logout();
+
+        router.replace("/sign-in");
+      };
     }
 
     const timer = setTimeout(async () => {
