@@ -7,7 +7,7 @@ export type Product = {
   price?: number;
   sku?: string;
   clients?: Client[];
-  imageUrl?: string;
+  imageUrl?: string | null;
 
   userId?: string;
   createdAt?: Date;

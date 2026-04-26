@@ -2,32 +2,50 @@ import { Product } from "./product";
 
 export type ClientStatus = "NEW" | "IN_PROGRESS" | "DONE";
 
+export type CreatedBy = {
+  firstName: string;
+  lastName: string;
+};
+
 export type Client = {
   id: string;
   name: string;
   surname: string;
+  status: ClientStatus;
   phone?: string;
   email: string;
   notes?: string;
-  status: ClientStatus;
-  userId: string;
+  createdBy?: CreatedBy;
 
   createdAt?: Date;
-  updatedAt?: Date;
 };
 
-export type CreateClientDto = {
+export type ClientResponseDto = {
+  id: string;
+  name: string;
+  surname: string;
+  status: ClientStatus;
+  phone: string | null;
+  email: string | null;
+  notes: string | null;
+  createdBy: CreatedBy;
+
+  createdAt: Date;
+};
+
+export type ClientCreateDto = {
   name: string;
   surname: string;
   email?: string;
   phone?: string;
   notes?: string;
   status: ClientStatus;
-  userId: string;
+  createdBy: CreatedBy;
+
   products?: Pick<Product, "id">[];
 };
 
-export type UpdateClientDto = Partial<Client> & {
+export type ClientUpdateDto = Partial<Client> & {
   status: ClientStatus;
 };
 
