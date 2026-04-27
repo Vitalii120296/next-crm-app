@@ -35,15 +35,16 @@ import Modal from "@/components/Modal";
 import { useAuthStore } from "@/store/user";
 import { User } from "@/types";
 import { defaultImageUrl } from "@/constants/defaultImage";
-import { VisuallyHiddenInput } from "@/components/VisuallyHiddenInput";
 import { ProfileDetails } from "@/components/ProfileDetails";
+import { SvgIconProps } from "@mui/material";
+
+type IconType = React.ComponentType<SvgIconProps>;
 
 const ProfilePage = () => {
   const [editMode, setEditMode] = useState(false);
   const currentUser = useAuthStore((state) => state.currentUser);
 
-  const iconMap: Record<keyof User, React.ComponentType | null> = {
-    id: null,
+  const iconMap: Partial<Record<keyof User, IconType>> = {
     firstName: Person,
     lastName: Person,
     email: Email,
@@ -57,10 +58,6 @@ const ProfilePage = () => {
     createdAt: AccessTime,
 
     avatar: AccountCircle,
-  };
-
-  const takeCorrectIcon = (key: keyof User): React.ComponentType | null => {
-    return iconMap[key] || null;
   };
 
   const formatKey = (key: string) => {
@@ -78,11 +75,10 @@ const ProfilePage = () => {
     return keyForTable;
   };
 
-  const userInformation = (
-    user: User | null | undefined,
-  ): [string, unknown][] => {
+  const userInformation = (user: User | null | undefined) => {
     if (!user) return [];
-    return Object.entries(user).filter(([key]) => key !== "id");
+
+    return Object.entries(user) as [keyof User, User[keyof User]][];
   };
 
   const userFields = userInformation(currentUser);
@@ -234,23 +230,13 @@ const ProfilePage = () => {
               </TableRow>
             ) : (
               userFields.map(([key, value]) => {
-                const IconComponent = takeCorrectIcon(key as keyof User);
+                const IconComponent = iconMap[key];
 
                 return (
-                  <TableRow
-                    key={key}
-                    hover
-                    // onClick={() => setSelectedProfileInput(key)}
-                  >
+                  <TableRow key={key} hover>
                     <TableCell>
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 1.5 }}
-                      >
-                        {IconComponent && <IconComponent />}
-                        <Typography fontWeight={500}>
-                          {formatKey(key)}
-                        </Typography>
-                      </Box>
+                      {IconComponent && <IconComponent fontSize="small" />}
+                      {formatKey(key)}
                     </TableCell>
                     <TableCell>
                       <Typography variant="body1" fontWeight={500}>

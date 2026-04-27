@@ -5,7 +5,6 @@ import type { ClientFilters, ClientStatus } from "@/types";
 
 import { ClientsFilter } from "../../../components/ClientsFilter/ClientsFilter";
 
-import s from "./ClientsPage.module.scss";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { useClients } from "@/services/clients/hooks/useClients";
 import { useClientStore } from "@/store/client";

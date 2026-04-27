@@ -1,4 +1,3 @@
-import React from "react";
 import s from "./Logo.module.scss";
 import Link from "next/link";
 

@@ -13,14 +13,18 @@ import { useRouter } from "next/navigation";
 export const useAuth = () => {
   const { setToken, setCurrentUser } = useAuthStore();
   const router = useRouter();
-  const login = (data: ILoginFormData): Promise<LoginResponse> => {
-    return authClient.post("/api/auth/login", data);
+  const login = async (data: ILoginFormData): Promise<LoginResponse> => {
+    const res = await authClient.post("/api/auth/login", data);
+
+    return res.data;
   };
 
   const register = async (
     data: IRegisterFormData,
   ): Promise<RegisterResponse> => {
-    return httpClient.post("/auth/register", data);
+    const res = await httpClient.post("/auth/register", data);
+
+    return res.data;
   };
 
   const logout = async () => {

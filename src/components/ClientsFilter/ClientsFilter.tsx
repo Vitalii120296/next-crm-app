@@ -2,7 +2,6 @@
 
 import type React from "react";
 import type { ClientFilters, ClientStatus } from "@/types";
-import styles from "./ClientsFilter.module.scss";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import Modal from "@/components/Modal";

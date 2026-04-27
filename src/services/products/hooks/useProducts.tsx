@@ -16,9 +16,9 @@ export const useProducts = (token: string | null) => {
       try {
         if (token && !products) {
           setLoading(true);
-          const data = await getProductsService();
+          const res = await getProductsService();
 
-          setProductsPayload(data);
+          setProductsPayload(res);
         }
       } catch (error) {
         throw new Error(getErrorMessage(error));

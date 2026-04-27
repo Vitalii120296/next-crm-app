@@ -14,7 +14,6 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import { Divider, Typography } from "@mui/material";
-import { on } from "events";
 import { Delete, Edit } from "@mui/icons-material";
 
 type Props = {
@@ -230,7 +229,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
                   outline: "none",
                   width: "100%",
                 }}
-                defaultValue={client.notes}
+                defaultValue={client.notes || ""}
                 {...register("notes", {
                   minLength: {
                     value: 6,
