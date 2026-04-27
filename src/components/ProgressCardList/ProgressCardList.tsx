@@ -10,7 +10,6 @@ import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { gray } from "@/shared/themePrimitives";
 
 type Props = {
   clients: Client[];

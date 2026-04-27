@@ -6,8 +6,6 @@ export const httpClient = axios.create({
   withCredentials: true,
 });
 
-httpClient.interceptors.response.use((res) => res.data);
-
 httpClient.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
 

@@ -32,7 +32,6 @@ export const ClientCreate = () => {
       const payload = {
         ...data,
         status: "NEW" as ClientStatus,
-        userId: currentUser.id,
       };
       const res = await addClientService(payload);
 

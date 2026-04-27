@@ -4,8 +4,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { getImageServerUrlService } from "@/services/images/getImageServerUrl";
-import { getImageUrlService } from "@/services/images/getImageUrl";
 import { defaultImageUrl } from "@/constants/defaultImage";
 import { ModalImageViewer } from "./ModalImageViewer";
 import { patchCurrentUser } from "@/services/auth/patchCurrentUset";

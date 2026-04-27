@@ -12,12 +12,15 @@ export type Client = {
   name: string;
   surname: string;
   status: ClientStatus;
-  phone?: string;
-  email: string;
-  notes?: string;
-  createdBy?: CreatedBy;
+  phone?: string | null;
+  email: string | null;
+  notes?: string | null;
+  createdBy?: CreatedBy | null;
 
-  createdAt?: Date;
+  products?: Pick<Product, "id" | "name">[] | [];
+
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
 };
 
 export type ClientResponseDto = {
@@ -28,19 +31,21 @@ export type ClientResponseDto = {
   phone: string | null;
   email: string | null;
   notes: string | null;
-  createdBy: CreatedBy;
+  createdBy: CreatedBy | null;
 
-  createdAt: Date;
+  products?: Pick<Product, "id" | "name">[] | [];
+
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
 };
 
 export type ClientCreateDto = {
   name: string;
   surname: string;
-  email?: string;
-  phone?: string;
-  notes?: string;
+  email?: string | null;
+  phone?: string | null;
+  notes?: string | null;
   status: ClientStatus;
-  createdBy: CreatedBy;
 
   products?: Pick<Product, "id">[];
 };

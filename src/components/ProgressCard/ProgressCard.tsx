@@ -3,7 +3,6 @@
 import { useState } from "react";
 import type { Client, ClientStatus } from "@/types";
 import s from "./ProgressCard.module.scss";
-import cn from "classnames";
 import { ProgressCardList } from "../ProgressCardList/ProgressCardList";
 import { Droppable } from "@hello-pangea/dnd";
 import { statusFormat } from "@/utils/statusFormat";

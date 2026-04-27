@@ -11,9 +11,9 @@ export function useGetToken() {
     const fetchToken = async () => {
       try {
         setLoading(true);
-        const res = await getTokenService();
+        const { token } = await getTokenService();
 
-        setToken(res.token);
+        setToken(token);
       } catch (error: unknown) {
         throw new Error(getErrorMessage(error));
       } finally {
