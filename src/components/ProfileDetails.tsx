@@ -41,11 +41,11 @@ export const ProfileDetails = () => {
 
       const payload = {
         email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
+        first_name: data.first_name,
+        last_name: data.last_name,
         phone: data.phone || null,
         location: data.location || null,
-        birthDate: data.birthDate || null,
+        birth_date: data.birth_date || null,
         avatar: imgUrl,
       };
 
@@ -103,16 +103,16 @@ export const ProfileDetails = () => {
       </div>
       <div className="flex flex-col w-full gap-y-2">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
-          <label htmlFor="firstName" className="wrap-normal">
+          <label htmlFor="first_name" className="wrap-normal">
             {"First Name "}
             <span className="text-red-500">*</span>
           </label>
           <TextField
-            error={!!errors.firstName}
-            id="firstName"
-            defaultValue={currentUser?.firstName}
+            error={!!errors.first_name}
+            id="first_name"
+            defaultValue={currentUser?.first_name}
             sx={{ width: { xs: "full", md: "200px" } }}
-            {...register("firstName", {
+            {...register("first_name", {
               required: "First Name is required",
               minLength: {
                 value: 2,
@@ -125,22 +125,22 @@ export const ProfileDetails = () => {
             })}
           />
         </div>
-        {errors.firstName && (
-          <p className="text-xs text-red-500">{errors.firstName.message}</p>
+        {errors.first_name && (
+          <p className="text-xs text-red-500">{errors.first_name.message}</p>
         )}
       </div>
       <div className="flex flex-col w-full gap-y-2">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
-          <label htmlFor="lastName" className="wrap-normal">
+          <label htmlFor="last_name" className="wrap-normal">
             {"Last Name "}
             <span className="text-red-500">*</span>
           </label>
           <TextField
-            error={!!errors.lastName}
-            id="lastName"
-            defaultValue={currentUser?.lastName}
+            error={!!errors.last_name}
+            id="last_name"
+            defaultValue={currentUser?.last_name}
             sx={{ width: { xs: "full", md: "200px" } }}
-            {...register("lastName", {
+            {...register("last_name", {
               required: "Last Name is required",
               minLength: {
                 value: 2,
@@ -153,8 +153,8 @@ export const ProfileDetails = () => {
             })}
           />
         </div>
-        {errors.lastName && (
-          <p className="text-xs text-red-500">{errors.lastName.message}</p>
+        {errors.last_name && (
+          <p className="text-xs text-red-500">{errors.last_name.message}</p>
         )}
       </div>
       <div className="flex flex-col w-full gap-y-2">
@@ -209,19 +209,19 @@ export const ProfileDetails = () => {
       </div>
       <div className="flex flex-col w-full gap-y-2">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
-          <label htmlFor="birthDate" className="wrap-normal">
+          <label htmlFor="birth_date" className="wrap-normal">
             {"Birth Date "}
           </label>
           <TextField
-            error={!!errors.birthDate}
+            error={!!errors.birth_date}
             type="date"
-            id="birthDate"
+            id="birth_date"
             sx={{ width: { xs: "full", md: "200px" } }}
-            {...register("birthDate", {})}
+            {...register("birth_date", {})}
           />
         </div>
-        {errors.birthDate && (
-          <p className="text-xs text-red-500">{errors.birthDate.message}</p>
+        {errors.birth_date && (
+          <p className="text-xs text-red-500">{errors.birth_date.message}</p>
         )}
       </div>
 

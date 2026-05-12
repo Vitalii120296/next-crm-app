@@ -11,6 +11,7 @@ import { Edit } from "@mui/icons-material";
 import { ModalImageViewer } from "./ModalImageViewer";
 import { defaultImageUrl } from "@/constants/defaultImage";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { deleteImg } from "@/utils/deleteImg";
 
 type Props = {
   product: Product | null;
@@ -18,7 +19,6 @@ type Props = {
 };
 
 export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
-  const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
 
   const updateProduct = useProductsStore((state) => state.updateProduct);
@@ -43,13 +43,20 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
   const onSumbit: SubmitHandler<UpdateProductDto> = async (data) => {
     setIsSending(true);
     setIsError(null);
-    if (!token || !currentUser || !product?.id) return;
+    if (!currentUser || !product?.id) return;
 
     try {
       let imgUrl: string | null = null;
+      const fileName = product.image_url?.split("/").at(-1) || null;
 
       if (imageFile) {
         imgUrl = await getImageUrl(imageFile);
+
+        if (imgUrl && fileName) {
+          const res = await deleteImg(fileName);
+
+          console.log(res);
+        }
       }
 
       const payload = {
@@ -58,7 +65,8 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
         price: Number(data.price || 0),
         sku: data.sku === "" ? null : data.sku || null,
         clients: data.clients || null,
-        imageUrl: imgUrl || product.imageUrl || defaultImageUrl,
+        image_url: imgUrl || product.image_url || defaultImageUrl,
+        updated_at: new Date(),
       };
 
       const updatedProduct = await updateProductService(product.id, payload);
@@ -81,7 +89,7 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
       >
         <ModalImageViewer
           imagePreview={
-            imagePreview ? imagePreview : product?.imageUrl || defaultImageUrl
+            imagePreview ? imagePreview : product?.image_url || defaultImageUrl
           }
           handleImageChange={handleImageChange}
         />

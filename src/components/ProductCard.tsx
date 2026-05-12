@@ -25,8 +25,7 @@ export default function ProductCard({ product }: { product: Product }) {
       removeProduct(productId);
       setIsDeleting(false);
     } catch (error) {
-      console.error("Failed to delete product:", error);
-      setIsDeleting(false);
+      throw error;
     }
   };
 
@@ -51,7 +50,7 @@ export default function ProductCard({ product }: { product: Product }) {
           border: "1px solid",
           borderColor: "divider",
         }}
-        image={product.imageUrl || defaultImageUrl}
+        image={product.image_url || defaultImageUrl}
         title={product.name}
       />
       <CardContent className="flex flex-col grow">

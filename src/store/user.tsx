@@ -34,14 +34,12 @@ export const useAuthStore = create<State>()(
         set(
           {
             token,
-            tokenExpiry: Date.now() + 60 * 60 * 1000, // 1 hour expiry
           },
           false,
           "auth/setToken",
         ),
 
-      removeToken: () =>
-        set({ token: null, tokenExpiry: null }, false, "auth/removeToken"),
+      removeToken: () => set({ token: null }, false, "auth/removeToken"),
 
       editUser: (user: User) =>
         set({ currentUser: user }, false, "auth/editUser"),

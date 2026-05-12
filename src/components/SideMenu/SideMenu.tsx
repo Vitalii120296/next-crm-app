@@ -32,8 +32,8 @@ export default function SideMenu() {
   const isActive = useBurgerMenu((state) => state.isActive);
 
   const userName =
-    currentUser?.firstName || currentUser?.lastName
-      ? `${currentUser.firstName ?? ""} ${currentUser.lastName ?? ""}`.trim()
+    currentUser?.first_name || currentUser?.last_name
+      ? `${currentUser.first_name ?? ""} ${currentUser.last_name ?? ""}`.trim()
       : "";
 
   const userEmail = currentUser?.email ?? "";

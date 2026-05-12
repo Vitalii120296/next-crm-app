@@ -13,8 +13,8 @@ import Modal from "@/components/Modal";
 import { ProductCreate } from "@/components/ProductCreate";
 
 export const ProductsPage = () => {
-  const token = useAuthStore((state) => state.token);
-  const { productsPayload } = useProducts(token);
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const { productsPayload } = useProducts(currentUser);
   const products = useProductsStore((state) => state.products);
   const setProducts = useProductsStore((state) => state.setProducts);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,8 +23,8 @@ export const ProductsPage = () => {
     if (!products) return null;
 
     return [...products].sort((a, b) => {
-      const dateA = new Date(a.createdAt!).getTime();
-      const dateB = new Date(b.createdAt!).getTime();
+      const dateA = new Date(a.created_at!).getTime();
+      const dateB = new Date(b.created_at!).getTime();
       return dateB - dateA;
     });
   }, [products]);

@@ -62,7 +62,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const router = useRouter();
-  const { register } = useAuth();
+  const { signUp } = useAuth();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -75,8 +75,10 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const validateInputs = () => {
     const email = document.getElementById("email") as HTMLInputElement;
     const password = document.getElementById("password") as HTMLInputElement;
-    const firstName = document.getElementById("firstName") as HTMLInputElement;
-    const lastName = document.getElementById("lastName") as HTMLInputElement;
+    const first_name = document.getElementById(
+      "first_name",
+    ) as HTMLInputElement;
+    const last_name = document.getElementById("last_name") as HTMLInputElement;
 
     let isValid = true;
 
@@ -98,7 +100,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       setPasswordErrorMessage("");
     }
 
-    if (!firstName || !firstName.value || firstName.value.length < 1) {
+    if (!first_name || !first_name.value || first_name.value.length < 1) {
       setFirstNameError(true);
       setFirstNameErrorMessage("First name is required.");
       isValid = false;
@@ -106,7 +108,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
       setFirstNameError(false);
       setFirstNameErrorMessage("");
     }
-    if (!lastName || !lastName.value || lastName.value.length < 1) {
+    if (!last_name || !last_name.value || last_name.value.length < 1) {
       setLastNameError(true);
       setLastNameErrorMessage("Last name is required.");
       isValid = false;
@@ -127,16 +129,20 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
 
     const data = new FormData(event.currentTarget);
     const payload = {
-      firstName: data.get("firstName") as string,
-      lastName: data.get("lastName") as string,
+      first_name: data.get("first_name") as string,
+      last_name: data.get("last_name") as string,
       email: data.get("email") as string,
       password: data.get("password") as string,
     };
 
     try {
-      await register(payload);
+      const { error } = await signUp(payload);
 
-      router.replace("login");
+      if (error) {
+        throw error;
+      }
+
+      router.replace("sign-in");
     } catch (error) {
       console.log(error);
     }
@@ -164,13 +170,13 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="firstName">First name</FormLabel>
+              <FormLabel htmlFor="first_name">First name</FormLabel>
               <TextField
-                autoComplete="firstName"
-                name="firstName"
+                autoComplete="first_name"
+                name="first_name"
                 required
                 fullWidth
-                id="firstName"
+                id="first_name"
                 placeholder="Jon"
                 error={firstNameError}
                 helperText={firstNameErrorMessage}
@@ -178,13 +184,13 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="lastName">Last name</FormLabel>
+              <FormLabel htmlFor="last_name">Last name</FormLabel>
               <TextField
-                autoComplete="lastName"
-                name="lastName"
+                autoComplete="last_name"
+                name="last_name"
                 required
                 fullWidth
-                id="lastName"
+                id="last_name"
                 placeholder="Snow"
                 error={lastNameError}
                 helperText={lastNameErrorMessage}
