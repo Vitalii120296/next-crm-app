@@ -4,33 +4,30 @@ export type UserStatus = "active" | "inactive";
 export type User = {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
 
   phone?: string | null;
   location?: string | null;
-  birthDate?: string | null;
+  birth_date?: string | null;
 
   avatar?: string | null;
 
   role?: UserRole | null;
   status?: UserStatus | null;
-  createdAt?: Date | null;
+  created_at?: Date | null;
+  updated_at?: Date | null;
 };
 
 export type IRegisterFormData = {
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   password: string;
 };
 export type ILoginFormData = {
   email: string;
   password: string;
-};
-
-export type RegisterResponse = {
-  message: string;
 };
 
 export type LoginResponse = {

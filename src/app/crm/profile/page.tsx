@@ -23,9 +23,9 @@ import {
   Phone,
   LocationOn,
   Cake,
-  Person, // firstName, lastName
+  Person, // first_name, last_name
   Work, // role
-  AccessTime, // createdAt
+  AccessTime, // created_at
   Verified, // status (альтернатива)
   AccountCircle, // avatar
   Business, // company
@@ -45,17 +45,17 @@ const ProfilePage = () => {
   const currentUser = useAuthStore((state) => state.currentUser);
 
   const iconMap: Partial<Record<keyof User, IconType>> = {
-    firstName: Person,
-    lastName: Person,
+    first_name: Person,
+    last_name: Person,
     email: Email,
     phone: Phone,
-    birthDate: Cake,
+    birth_date: Cake,
     location: LocationOn,
 
     role: Work,
 
     status: Verified,
-    createdAt: AccessTime,
+    created_at: AccessTime,
 
     avatar: AccountCircle,
   };
@@ -171,7 +171,7 @@ const ProfilePage = () => {
             component="div"
             sx={{ textAlign: "center", mb: 1 }}
           >
-            {`${currentUser?.firstName} ${currentUser?.lastName}`}
+            {`${currentUser?.first_name} ${currentUser?.last_name}`}
           </Typography>
           <Typography
             variant="body1"

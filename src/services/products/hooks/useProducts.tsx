@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { getProductsService } from "../getProducts";
-import { Product } from "@/types";
+import { Product, User } from "@/types";
 import { useProductsStore } from "@/store/products";
 
-export const useProducts = (token: string | null) => {
+export const useProducts = (currentUser: User | null) => {
   const [productsPayload, setProductsPayload] = useState<Product[] | null>(
     null,
   );
@@ -14,7 +14,7 @@ export const useProducts = (token: string | null) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        if (token && !products) {
+        if (currentUser && !products) {
           setLoading(true);
           const res = await getProductsService();
 
@@ -28,7 +28,7 @@ export const useProducts = (token: string | null) => {
     };
 
     fetchProducts();
-  }, [token, products]);
+  }, [currentUser, products]);
 
   return { productsPayload, loading };
 };

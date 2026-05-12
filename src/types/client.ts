@@ -3,8 +3,8 @@ import { Product } from "./product";
 export type ClientStatus = "NEW" | "IN_PROGRESS" | "DONE";
 
 export type CreatedBy = {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
 };
 
 export type Client = {
@@ -19,7 +19,7 @@ export type Client = {
 
   products?: Pick<Product, "id" | "name">[] | [];
 
-  createdAt?: Date | null;
+  created_at?: Date | null;
   updatedAt?: Date | null;
 };
 
@@ -35,7 +35,7 @@ export type ClientResponseDto = {
 
   products?: Pick<Product, "id" | "name">[] | [];
 
-  createdAt?: Date | null;
+  created_at?: Date | null;
   updatedAt?: Date | null;
 };
 

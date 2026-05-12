@@ -1,8 +1,12 @@
-import { httpClient } from "@/api/httpClient";
+import { supabase } from "@/shared/lib/supabase/supabaseClient";
 import { Product } from "@/types";
 
 export const getProductsService = async (): Promise<Product[]> => {
-  const res = await httpClient.get("/products");
+  const res = await supabase.from("products").select("*");
 
-  return res.data;
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
+
+  return res.data as Product[];
 };

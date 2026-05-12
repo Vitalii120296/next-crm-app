@@ -7,10 +7,11 @@ export type Product = {
   price?: number;
   sku?: string;
   clients?: Client[];
-  imageUrl?: string | null;
+  image_url?: string | null;
 
-  userId?: string;
-  createdAt?: Date;
+  user_id?: string;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 export type CreateProductDto = {
@@ -19,7 +20,7 @@ export type CreateProductDto = {
   price?: number | null;
   sku?: string | null;
   clients?: Pick<Client, "id">[] | null;
-  imageUrl?: string;
+  image_url?: string | null;
 };
 
 export type UpdateProductDto = Partial<CreateProductDto>;

@@ -36,10 +36,10 @@ export const ProductCreate = () => {
     setIsSending(true);
     setIsError(null);
     setIsSended(false);
-    if (!token || !currentUser) return;
+    if (!currentUser) return;
 
     try {
-      const imgUrl = await getImageUrl(imageFile);
+      // const imgUrl = await getImageUrl(imageFile);
 
       const payload = {
         name: data.name,
@@ -47,7 +47,8 @@ export const ProductCreate = () => {
         price: Number(data.price || 0),
         sku: data.sku === "" ? null : data.sku || null,
         clients: data.clients || null,
-        imageUrl: imgUrl,
+        image_url: null,
+        user_id: currentUser.id,
       };
 
       console.log("payload", payload);

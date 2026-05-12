@@ -3,14 +3,19 @@ import HeaderCrmMobile from "@/components/HeaderCrmMobile";
 import { AppShell } from "@/layouts/AppShell";
 import { AuthShell } from "@/layouts/AuthShell";
 import { Box } from "@mui/system";
+import { headers } from "next/headers";
 
-export default function CrmLayout({
+export default async function CrmLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const profileHeader = headersList.get("x-user-profile");
+  const profile = profileHeader ? JSON.parse(profileHeader) : null;
+
   return (
-    <AuthShell>
+    <AuthShell initialProfile={profile}>
       <AppShell disableCustomTheme={false}>
         <Box
           sx={{

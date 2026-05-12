@@ -20,8 +20,10 @@ import ForgotPassword from "./components/ForgotPassword";
 import AppTheme from "@/components/AppTheme";
 import { useRouter } from "next/navigation";
 import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
-import { useAuth } from "@/services/auth/hooks/useAuth";
 import { GoogleIcon } from "./components/CustomIcons";
+import { useAuthStore } from "@/store/user";
+import { authClient } from "@/api/authClient";
+import { supabase } from "@/shared/lib/supabase/supabaseClient";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -67,13 +69,13 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const router = useRouter();
-  const { login } = useAuth();
   const [error, setError] = React.useState<string | null>(null);
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const { setCurrentUser } = useAuthStore();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,7 +103,16 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     };
 
     try {
-      await login(payload);
+      const { data: loginData, status } = await authClient.post(
+        "/api/auth/login",
+        payload,
+      );
+
+      if (status !== 200) {
+        throw new Error("Login failed");
+      }
+
+      setCurrentUser(loginData.profile);
 
       router.push("/crm");
     } catch (error) {

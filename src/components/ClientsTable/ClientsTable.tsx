@@ -113,7 +113,7 @@ export default function ClientsTable({ clients }: Props) {
                       }}
                     >
                       {client.createdBy
-                        ? `${client.createdBy.firstName} ${client.createdBy.lastName}`
+                        ? `${client.createdBy.first_name} ${client.createdBy.last_name}`
                         : "—"}
                     </Typography>
                   </TableCell>
