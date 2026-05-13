@@ -50,12 +50,10 @@ export const ProductDetails: React.FC<Props> = ({ product, onClose }) => {
       const fileName = product.image_url?.split("/").at(-1) || null;
 
       if (imageFile) {
-        imgUrl = await getImageUrl(imageFile);
+        imgUrl = await getImageUrl(imageFile, "products_img");
 
         if (imgUrl && fileName) {
-          const res = await deleteImg(fileName);
-
-          console.log(res);
+          await deleteImg(fileName, "products_img");
         }
       }
 

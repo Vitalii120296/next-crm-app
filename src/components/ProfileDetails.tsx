@@ -6,15 +6,17 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { defaultImageUrl } from "@/constants/defaultImage";
 import { ModalImageViewer } from "./ModalImageViewer";
-import { patchCurrentUser } from "@/services/auth/patchCurrentUset";
+import { updateCurrentUser } from "@/services/auth/updateCurrentUser";
 import { Edit } from "@mui/icons-material";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { deleteImg } from "@/utils/deleteImg";
 
 export const ProfileDetails = () => {
-  const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
   const editUser = useAuthStore((state) => state.editUser);
-  const [imagePreview, setImagePreview] = useState(defaultImageUrl);
+  const [imagePreview, setImagePreview] = useState(
+    currentUser?.avatar || defaultImageUrl,
+  );
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSending, setIsSending] = useState(false);
   const [isError, setIsError] = useState<string | null>(null);
@@ -34,10 +36,19 @@ export const ProfileDetails = () => {
     setIsSending(true);
     setIsError(null);
     setIsSended(false);
-    if (!token || !currentUser) return;
+    if (!currentUser) return;
 
     try {
-      const imgUrl = await getImageUrl(imageFile);
+      let imgUrl: string | null = null;
+      const fileName = currentUser.avatar?.split("/").at(-1) || null;
+
+      if (imageFile) {
+        imgUrl = await getImageUrl(imageFile, "profiles_img");
+
+        if (imgUrl && fileName) {
+          await deleteImg(fileName, "profiles_img");
+        }
+      }
 
       const payload = {
         email: data.email,
@@ -47,9 +58,10 @@ export const ProfileDetails = () => {
         location: data.location || null,
         birth_date: data.birth_date || null,
         avatar: imgUrl,
+        updated_at: new Date(),
       };
 
-      const res = await patchCurrentUser(payload);
+      const res = await updateCurrentUser(payload, currentUser.id);
 
       editUser(res);
       reset();
@@ -167,6 +179,7 @@ export const ProfileDetails = () => {
             type="text"
             id="phone"
             placeholder="Enter phone number"
+            defaultValue={currentUser?.phone}
             sx={{ width: { xs: "full", md: "200px" } }}
             {...register("phone", {
               pattern: {
@@ -190,6 +203,7 @@ export const ProfileDetails = () => {
             type="text"
             id="location"
             placeholder="Enter location"
+            defaultValue={currentUser?.location}
             sx={{ width: { xs: "full", md: "200px" } }}
             {...register("location", {
               minLength: {

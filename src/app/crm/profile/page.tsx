@@ -21,7 +21,6 @@ import {
   Edit,
   Email,
   Phone,
-  LocationOn,
   Cake,
   Person, // first_name, last_name
   Work, // role
@@ -37,6 +36,7 @@ import { User } from "@/types";
 import { defaultImageUrl } from "@/constants/defaultImage";
 import { ProfileDetails } from "@/components/ProfileDetails";
 import { SvgIconProps } from "@mui/material";
+import { dataKeysFormat } from "@/utils/dataKeysFormat";
 
 type IconType = React.ComponentType<SvgIconProps>;
 
@@ -50,35 +50,23 @@ const ProfilePage = () => {
     email: Email,
     phone: Phone,
     birth_date: Cake,
-    location: LocationOn,
+    location: Public,
 
     role: Work,
 
     status: Verified,
     created_at: AccessTime,
+    updated_at: Business,
 
     avatar: AccountCircle,
-  };
-
-  const formatKey = (key: string) => {
-    let keyForTable = key.charAt(0).toUpperCase();
-
-    key
-      .slice(1)
-      .split("")
-      .forEach((lr) => {
-        if (lr === lr.toUpperCase()) keyForTable = keyForTable + " ";
-
-        keyForTable = keyForTable + lr;
-      });
-
-    return keyForTable;
   };
 
   const userInformation = (user: User | null | undefined) => {
     if (!user) return [];
 
-    return Object.entries(user) as [keyof User, User[keyof User]][];
+    const userFields = Object.entries(user) as [keyof User, User[keyof User]][];
+
+    return userFields.filter(([key]) => key !== "id" && key !== "avatar");
   };
 
   const userFields = userInformation(currentUser);
@@ -177,7 +165,7 @@ const ProfilePage = () => {
             variant="body1"
             sx={{ textAlign: "center", color: "text.secondary", mb: 2 }}
           >
-            Manager
+            {dataKeysFormat(currentUser?.role || "") || "User"}
           </Typography>
 
           <Box
@@ -234,9 +222,9 @@ const ProfilePage = () => {
 
                 return (
                   <TableRow key={key} hover>
-                    <TableCell>
-                      {IconComponent && <IconComponent fontSize="small" />}
-                      {formatKey(key)}
+                    <TableCell sx={{ whiteSpace: "nowrap" }}>
+                      {IconComponent && <IconComponent fontSize="small" />}{" "}
+                      {dataKeysFormat(key)}
                     </TableCell>
                     <TableCell>
                       <Typography variant="body1" fontWeight={500}>

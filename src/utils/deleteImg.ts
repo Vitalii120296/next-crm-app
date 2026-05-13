@@ -1,7 +1,7 @@
 import { supabase } from "@/shared/lib/supabase/supabaseClient";
 
-export const deleteImg = async (fileName: string) => {
-  const res = await supabase.storage.from("products_img").remove([fileName]);
+export const deleteImg = async (fileName: string, path: string) => {
+  const res = await supabase.storage.from(path).remove([fileName]);
 
   if (res.error) {
     throw res.error;
