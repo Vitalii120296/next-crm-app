@@ -14,8 +14,8 @@ import ClientsTable from "@/components/ClientsTable/ClientsTable";
 import { Box } from "@mui/system";
 
 export const ClientsPage = () => {
-  const token = useAuthStore((state) => state.token);
-  const { clientsPayload } = useClients(token);
+  const currentUser = useAuthStore((state) => state.currentUser);
+  const { clientsPayload } = useClients(currentUser);
   const clients = useClientStore((state) => state.clients);
   const setClients = useClientStore((state) => state.setClients);
   const queryParams = useQueryParams();
@@ -37,7 +37,7 @@ export const ClientsPage = () => {
       const search = (filters.search || "").toLowerCase();
 
       const fullName =
-        `${client.name ?? ""} ${client.surname ?? ""}`.toLowerCase();
+        `${client.first_name ?? ""} ${client.last_name ?? ""}`.toLowerCase();
       const matchesName = fullName.includes(search);
 
       const matchesStatus =

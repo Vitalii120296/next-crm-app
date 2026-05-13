@@ -1,11 +1,20 @@
-import { httpClient } from "@/api/httpClient";
+import { supabase } from "@/shared/lib/supabase/supabaseClient";
 import { Client } from "@/types";
 
 export const updateClientService = async (
   clientId: string,
-  data: Partial<Client>,
+  payload: Partial<Client>,
 ): Promise<Client> => {
-  const res = await httpClient.patch<Client>(`/clients/${clientId}`, data);
+  const res = await supabase
+    .from("clients")
+    .update(payload)
+    .eq("id", clientId)
+    .select()
+    .single();
+
+  if (res.error) {
+    throw new Error(res.error.message);
+  }
 
   return res.data;
 };

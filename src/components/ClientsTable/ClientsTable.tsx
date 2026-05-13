@@ -75,10 +75,10 @@ export default function ClientsTable({ clients }: Props) {
                   }}
                 >
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{client.name}</TableCell>
-                  <TableCell>{client.surname}</TableCell>
+                  <TableCell>{client.first_name}</TableCell>
+                  <TableCell>{client.last_name}</TableCell>
                   <TableCell>{client.phone ?? "—"}</TableCell>
-                  <TableCell>{client.notes ?? "—"}</TableCell>
+                  <TableCell>{client.note ?? "—"}</TableCell>
                   <TableCell>
                     <span style={{ display: "inline-block" }}>
                       <Typography
@@ -88,15 +88,15 @@ export default function ClientsTable({ clients }: Props) {
                           padding: "3px 8px",
                           borderRadius: "4px",
                           backgroundColor:
-                            client.status === "NEW"
+                            client.status === "new"
                               ? theme.palette.success.light
-                              : client.status === "DONE"
+                              : client.status === "done"
                                 ? theme.palette.error.light
                                 : theme.palette.warning.light,
                           color:
-                            client.status === "NEW"
+                            client.status === "new"
                               ? theme.palette.success.contrastText
-                              : client.status === "DONE"
+                              : client.status === "done"
                                 ? theme.palette.error.contrastText
                                 : theme.palette.warning.contrastText,
                         })}
@@ -112,9 +112,7 @@ export default function ClientsTable({ clients }: Props) {
                         textWrap: "nowrap",
                       }}
                     >
-                      {client.createdBy
-                        ? `${client.createdBy.first_name} ${client.createdBy.last_name}`
-                        : "—"}
+                      {client.user_id}
                     </Typography>
                   </TableCell>
                 </TableRow>

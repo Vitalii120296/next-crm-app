@@ -8,7 +8,6 @@ import { ProgressCard } from "../../components/ProgressCard/ProgressCard";
 import { useAuthStore } from "@/store/user";
 import { useClients } from "@/services/clients/hooks/useClients";
 import { useClientStore } from "@/store/client";
-import { updateClientStatus } from "@/services/clients/updateClientStatus";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import Modal from "@/components/Modal";
 import { ClientDetails } from "@/components/ClientDetails";
@@ -29,9 +28,9 @@ const KanbanPage = () => {
   const [columnsData, setColumnsData] = useState<KanbanData | null>(null);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
 
-  const token = useAuthStore((state) => state.token);
+  const currentUser = useAuthStore((state) => state.currentUser);
 
-  const { clientsPayload } = useClients(token);
+  const { clientsPayload } = useClients(currentUser);
   const clients = useClientStore((state) => state.clients);
   const updateClient = useClientStore((state) => state.updateClient);
   const setClients = useClientStore((state) => state.setClients);
@@ -49,9 +48,9 @@ const KanbanPage = () => {
 
         const clientsMap: Record<string, Client> = {};
         const columnsMap: Record<ClientStatus, ColumnData> = {
-          NEW: { id: "NEW", columnClients: [] },
-          IN_PROGRESS: { id: "IN_PROGRESS", columnClients: [] },
-          DONE: { id: "DONE", columnClients: [] },
+          new: { id: "new", columnClients: [] },
+          in_progress: { id: "in_progress", columnClients: [] },
+          done: { id: "done", columnClients: [] },
         };
 
         clients.forEach((client) => {
@@ -124,7 +123,6 @@ const KanbanPage = () => {
     const client = clients?.find((cl) => cl.id === clientId);
 
     try {
-      await updateClientStatus(clientId, finishColumn.id);
       if (client) {
         updateClient(clientId, { ...client, status: finishColumn.id });
       }
