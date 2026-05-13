@@ -2,6 +2,8 @@ import { Client } from "./client";
 
 export type Product = {
   id: string;
+  user_id: string;
+
   name: string;
   description?: string;
   price?: number;
@@ -9,12 +11,12 @@ export type Product = {
   clients?: Client[];
   image_url?: string | null;
 
-  user_id?: string;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export type CreateProductDto = {
+  user_id: string;
   name: string;
   description?: string | null;
   price?: number | null;

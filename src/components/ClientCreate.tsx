@@ -1,7 +1,7 @@
 import { addClientService } from "@/services/clients/addClient";
 import { useClientStore } from "@/store/client";
 import { useAuthStore } from "@/store/user";
-import { ClientStatus, ClientCreateDto } from "@/types";
+import { ClientCreateDto } from "@/types";
 import { Add } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
@@ -11,7 +11,6 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 export const ClientCreate = () => {
-  const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
   const addClient = useClientStore((state) => state.addClient);
   const [isSending, setIsSending] = useState(false);
@@ -26,12 +25,12 @@ export const ClientCreate = () => {
   const onSumbit: SubmitHandler<ClientCreateDto> = async (data) => {
     setIsSending(true);
     setIsError(null);
-    if (!token || !currentUser) return;
+    if (!currentUser) return;
 
     try {
       const payload = {
         ...data,
-        status: "NEW" as ClientStatus,
+        user_id: currentUser.id,
       };
       const res = await addClientService(payload);
 
@@ -54,17 +53,17 @@ export const ClientCreate = () => {
     >
       <div className="flex flex-col w-full gap-y-2">
         <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
-          <label htmlFor="name" className="wrap-normal">
+          <label htmlFor="first_name" className="wrap-normal">
             {"Name "}
             <span className="text-red-500">*</span>
           </label>
 
           <TextField
-            error={!!errors.name}
-            id="name"
+            error={!!errors.first_name}
+            id="first_name"
             placeholder="John"
             sx={{ width: { xs: "full", md: "200px" } }}
-            {...register("name", {
+            {...register("first_name", {
               required: "This field is required",
               minLength: {
                 value: 2,
@@ -77,8 +76,8 @@ export const ClientCreate = () => {
             })}
           />
         </div>
-        {errors.name && (
-          <p className="text-xs text-red-500">{errors.name.message}</p>
+        {errors.first_name && (
+          <p className="text-xs text-red-500">{errors.first_name.message}</p>
         )}
       </div>
       <div className="flex flex-col w-full gap-y-2">
@@ -88,11 +87,11 @@ export const ClientCreate = () => {
             <span className="text-red-500">*</span>
           </label>
           <TextField
-            error={!!errors.surname}
+            error={!!errors.last_name}
             id="surname"
             placeholder="Snow"
             sx={{ width: { xs: "full", md: "200px" } }}
-            {...register("surname", {
+            {...register("last_name", {
               required: "This field is required",
               minLength: {
                 value: 2,
@@ -105,8 +104,8 @@ export const ClientCreate = () => {
             })}
           />
         </div>
-        {errors.surname && (
-          <p className="text-xs text-red-500">{errors.surname.message}</p>
+        {errors.last_name && (
+          <p className="text-xs text-red-500">{errors.last_name.message}</p>
         )}
       </div>
       <div className="flex flex-col w-full gap-y-2">
@@ -182,7 +181,7 @@ export const ClientCreate = () => {
                 outline: "none",
                 width: "100%",
               }}
-              {...register("notes", {
+              {...register("note", {
                 minLength: {
                   value: 6,
                   message: "Note must be at least 6 characters",
@@ -195,8 +194,8 @@ export const ClientCreate = () => {
             />
           </Box>
         </div>
-        {errors.notes && (
-          <p className="text-xs text-red-500">{errors.notes.message}</p>
+        {errors.note && (
+          <p className="text-xs text-red-500">{errors.note.message}</p>
         )}
       </div>
       <Button

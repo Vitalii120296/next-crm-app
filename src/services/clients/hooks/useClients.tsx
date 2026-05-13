@@ -1,10 +1,10 @@
-import { Client } from "@/types";
+import { Client, User } from "@/types";
 import { useEffect, useState } from "react";
 import { getClientsService } from "../getClients";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 import { useClientStore } from "@/store/client";
 
-export const useClients = (token: string | null) => {
+export const useClients = (currentUser: User | null) => {
   const [clientsPayload, setClientsPayload] = useState<Client[] | null>(null);
   const [loading, setLoading] = useState(false);
   const clients = useClientStore((state) => state.clients);
@@ -12,7 +12,7 @@ export const useClients = (token: string | null) => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        if (token && !clients) {
+        if (currentUser && !clients) {
           setLoading(true);
           const data = await getClientsService();
 
@@ -26,7 +26,7 @@ export const useClients = (token: string | null) => {
     };
 
     fetchClients();
-  }, [token, clients]);
+  }, [currentUser, clients]);
 
   return { clientsPayload, loading };
 };

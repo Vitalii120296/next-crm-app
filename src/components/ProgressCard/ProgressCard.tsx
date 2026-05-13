@@ -50,7 +50,7 @@ export const ProgressCard: React.FC<Props> = ({
           }}
         >
           <h2 className=" text-xl">{status}</h2>
-          {columnId === "NEW" && (
+          {columnId === "new" && (
             <Button
               variant="text"
               color="secondary"

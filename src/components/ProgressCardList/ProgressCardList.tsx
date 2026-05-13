@@ -56,13 +56,13 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                     <BsFillCircleFill
                       aria-hidden="true"
                       className={cn(s.progress_card__icon, {
-                        [s["progress_card__icon--green"]]: columnId === "NEW",
+                        [s["progress_card__icon--green"]]: columnId === "new",
                         [s["progress_card__icon--yellow"]]:
-                          columnId === "IN_PROGRESS",
-                        [s["progress_card__icon--blue"]]: columnId === "DONE",
+                          columnId === "in_progress",
+                        [s["progress_card__icon--blue"]]: columnId === "done",
                       })}
                     />
-                    {`${client.name} ${client.surname}`}
+                    {`${client.first_name} ${client.last_name}`}
                   </Typography>
                   {client.email && (
                     <Typography
@@ -87,7 +87,7 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                       Amount: {client.amount}
                     </p>
                   )} */}
-                  {client.notes && (
+                  {client.note && (
                     <Typography
                       className={s.progress_card__row}
                       variant="body2"
@@ -101,7 +101,7 @@ export const ProgressCardList = React.forwardRef<HTMLDivElement, Props>(
                         WebkitBoxOrient: "vertical",
                       }}
                     >
-                      {client.notes}
+                      {client.note}
                     </Typography>
                   )}
                 </ListItem>

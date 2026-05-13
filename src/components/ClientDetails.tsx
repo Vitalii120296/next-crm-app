@@ -22,7 +22,6 @@ type Props = {
 };
 
 export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
-  const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
   const updateClient = useClientStore((state) => state.updateClient);
   const removeClient = useClientStore((state) => state.removeClient);
@@ -39,7 +38,7 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
   const onSumbit: SubmitHandler<ClientUpdateDto> = async (data) => {
     setIsSending(true);
     setIsError(null);
-    if (!token || !currentUser || !client.id) return;
+    if (!currentUser || !client.id) return;
 
     try {
       const updatedClient = await updateClientService(client.id, data);
@@ -73,17 +72,17 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
       >
         <div className="flex flex-col w-full ">
           <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
-            <label htmlFor="name" className="wrap-normal">
+            <label htmlFor="first_name" className="wrap-normal">
               {"Name "}
               <span className="text-red-500">*</span>
             </label>
 
             <TextField
-              error={!!errors.name}
-              id="name"
-              defaultValue={client.name}
+              error={!!errors.first_name}
+              id="first_name"
+              defaultValue={client.first_name}
               sx={{ width: { xs: "full", md: "200px" } }}
-              {...register("name", {
+              {...register("first_name", {
                 required: "This field is required",
                 minLength: {
                   value: 2,
@@ -96,23 +95,23 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               })}
             />
           </div>
-          {errors.name && (
-            <p className="text-xs text-red-500">{errors.name.message}</p>
+          {errors.first_name && (
+            <p className="text-xs text-red-500">{errors.first_name.message}</p>
           )}
         </div>
         <div className="flex flex-col w-full ">
           <div className="flex flex-col justify-between w-full gap-y-2 sm:flex-row sm:items-center xs">
-            <label htmlFor="surname" className="wrap-normal">
+            <label htmlFor="last_name" className="wrap-normal">
               {"Surname "}
               <span className="text-red-500">*</span>
             </label>
 
             <TextField
-              error={!!errors.surname}
-              id="surname"
-              defaultValue={client.surname}
+              error={!!errors.last_name}
+              id="last_name"
+              defaultValue={client.last_name}
               sx={{ width: { xs: "full", md: "200px" } }}
-              {...register("surname", {
+              {...register("last_name", {
                 required: "This field is required",
                 minLength: {
                   value: 2,
@@ -125,8 +124,8 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               })}
             />
           </div>
-          {errors.surname && (
-            <p className="text-xs text-red-500">{errors.surname.message}</p>
+          {errors.last_name && (
+            <p className="text-xs text-red-500">{errors.last_name.message}</p>
           )}
         </div>
         <div className="flex flex-col w-full ">
@@ -167,13 +166,13 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               {...register("status", {
                 required: "This field is required",
                 validate: (value) =>
-                  ["NEW", "IN_PROGRESS", "DONE"].includes(value) ||
+                  ["new", "in_progress", "done"].includes(value) ||
                   "Invalid status",
               })}
             >
-              <MenuItem value="NEW">New</MenuItem>
-              <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-              <MenuItem value="DONE">Done</MenuItem>
+              <MenuItem value="new">New</MenuItem>
+              <MenuItem value="in_progress">In Progress</MenuItem>
+              <MenuItem value="done">Done</MenuItem>
             </Select>
           </div>
           {errors.status && (
@@ -229,8 +228,8 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
                   outline: "none",
                   width: "100%",
                 }}
-                defaultValue={client.notes || ""}
-                {...register("notes", {
+                defaultValue={client.note || ""}
+                {...register("note", {
                   minLength: {
                     value: 6,
                     message: "Note must be at least 6 characters",
@@ -243,8 +242,8 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
               />
             </Box>
           </div>
-          {errors.notes && (
-            <p className="text-xs text-red-500">{errors.notes.message}</p>
+          {errors.note && (
+            <p className="text-xs text-red-500">{errors.note.message}</p>
           )}
         </div>
         <Divider sx={{ borderColor: "divider", my: 2 }} />
