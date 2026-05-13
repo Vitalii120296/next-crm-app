@@ -10,9 +10,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { defaultImageUrl } from "@/constants/defaultImage";
 import { ModalImageViewer } from "./ModalImageViewer";
 import { getImageUrl } from "@/utils/getImageUrl";
+import { deleteImg } from "@/utils/deleteImg";
 
 export const ProductCreate = () => {
-  const token = useAuthStore((state) => state.token);
   const currentUser = useAuthStore((state) => state.currentUser);
   const addProduct = useProductsStore((state) => state.createProduct);
   const [imagePreview, setImagePreview] = useState(defaultImageUrl);
@@ -39,7 +39,16 @@ export const ProductCreate = () => {
     if (!currentUser) return;
 
     try {
-      // const imgUrl = await getImageUrl(imageFile);
+      let imgUrl: string | null = null;
+      const fileName = currentUser.avatar?.split("/").at(-1) || null;
+
+      if (imageFile) {
+        imgUrl = await getImageUrl(imageFile, "products_img");
+
+        if (imgUrl && fileName) {
+          await deleteImg(fileName, "products_img");
+        }
+      }
 
       const payload = {
         name: data.name,
@@ -47,11 +56,9 @@ export const ProductCreate = () => {
         price: Number(data.price || 0),
         sku: data.sku === "" ? null : data.sku || null,
         clients: data.clients || null,
-        image_url: null,
+        image_url: imgUrl,
         user_id: currentUser.id,
       };
-
-      console.log("payload", payload);
 
       const res = await addProductService(payload);
 

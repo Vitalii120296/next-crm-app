@@ -61,7 +61,7 @@ const KanbanPage = () => {
 
         setColumnsData({ clients: clientsMap, columns: columnsMap });
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     };
 

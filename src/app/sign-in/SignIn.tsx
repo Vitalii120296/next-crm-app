@@ -116,10 +116,10 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
       router.push("/crm");
     } catch (error) {
-      console.log(error);
       setError(
         "Failed to sign in. Please check your credentials and try again.",
       );
+      throw error;
     }
   };
 

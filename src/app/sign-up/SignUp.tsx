@@ -144,7 +144,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
 
       router.replace("sign-in");
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
