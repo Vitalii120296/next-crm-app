@@ -4,9 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   const payload = await req.json();
 
-  if (!payload.email || !payload.password) {
+  if (
+    !payload.email ||
+    !payload.password ||
+    !payload.first_name ||
+    !payload.last_name
+  ) {
     return NextResponse.json(
-      { message: "Email and password are required" },
+      { message: "Email, password, first name and last name are required" },
       { status: 400 },
     );
   }
@@ -14,26 +19,29 @@ export async function POST(req: NextRequest) {
   const response = NextResponse.json({ message: "ok" }, { status: 200 });
   const supabase = supabaseRouteHandlerClient(req, response);
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signUp({
     email: payload.email,
     password: payload.password,
+    options: {
+      data: {
+        first_name: payload.first_name,
+        last_name: payload.last_name,
+      },
+    },
   });
 
-  if (error || !data.session) {
+  if (error ) {
     return NextResponse.json(
-      { message: error?.message ?? "Login failed" },
-      { status: 401 },
+      { message: error?.message ?? "Registration failed" },
+      { status: (error?.code as unknown as number) ?? 400 },
     );
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", data.session.user.id)
-    .maybeSingle();
+
+
+
 
   return NextResponse.json(
-    { profile },
     {
       status: 200,
       headers: response.headers,
