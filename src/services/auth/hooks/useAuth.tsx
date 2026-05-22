@@ -20,38 +20,6 @@ export const useAuth = () => {
   const { setCurrentUser } = useAuthStore();
   const router = useRouter();
 
-  async function signIn(
-    email: string,
-    password: string,
-  ): Promise<SignInResponse> {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    return { data, error };
-  }
-
-  async function signUp({
-    email,
-    password,
-    first_name,
-    last_name,
-  }: SignUpData) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          first_name,
-          last_name,
-        },
-      },
-    });
-
-    return { data, error };
-  }
-
   const logout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -70,5 +38,5 @@ export const useAuth = () => {
     return;
   };
 
-  return { signIn, logout, signUp };
+  return { logout };
 };
