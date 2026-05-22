@@ -37,7 +37,7 @@ export const ModalImageViewer = ({
         tabIndex={-1}
         startIcon={<CloudUploadIcon />}
       >
-        Upload image
+        Upload image (max 1MB)
         <VisuallyHiddenInput type="file" onChange={handleImageChange} />
       </Button>
     </CardMedia>

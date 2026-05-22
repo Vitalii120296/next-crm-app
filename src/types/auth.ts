@@ -18,23 +18,3 @@ export type User = {
   created_at?: Date | null;
   updated_at?: Date | null;
 };
-
-export type IRegisterFormData = {
-  email: string;
-  first_name: string;
-  last_name: string;
-  password: string;
-};
-export type ILoginFormData = {
-  email: string;
-  password: string;
-};
-
-export type LoginResponse = {
-  access_token: string;
-};
-
-export type LoginResponseWithGoogle = {
-  user: User;
-  access_token: string;
-};
