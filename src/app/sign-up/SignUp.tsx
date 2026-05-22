@@ -16,7 +16,7 @@ import { GoogleIcon, FacebookIcon } from "./components/CustomIcons";
 import AppTheme from "@/components/AppTheme";
 import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/services/auth/hooks/useAuth";
+import { authClient } from "@/api/authClient";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -62,7 +62,6 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 
 export default function SignUp(props: { disableCustomTheme?: boolean }) {
   const router = useRouter();
-  const { signUp } = useAuth();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
@@ -136,13 +135,13 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
     };
 
     try {
-      const { error } = await signUp(payload);
+      const { status } = await authClient.post("/api/auth/register", payload);
 
-      if (error) {
-        throw error;
+      if (status !== 200) {
+        throw new Error("Registration failed");
       }
 
-      router.replace("sign-in");
+      router.replace("/sign-in");
     } catch (error) {
       throw error;
     }
@@ -248,7 +247,9 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
             <Button
               fullWidth
               variant="outlined"
-              onClick={() => alert("Sign up with Google")}
+              onClick={() => {
+                window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/google`;
+              }}
               startIcon={<GoogleIcon />}
             >
               Sign up with Google

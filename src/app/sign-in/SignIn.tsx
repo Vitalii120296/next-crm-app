@@ -23,7 +23,7 @@ import ColorModeSelect from "@/shared/theme/customizations/ColorModeSelect";
 import { GoogleIcon } from "./components/CustomIcons";
 import { useAuthStore } from "@/store/user";
 import { authClient } from "@/api/authClient";
-import { supabase } from "@/shared/lib/supabase/supabaseClient";
+import { useSearchParams } from "next/navigation";
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: "flex",
@@ -67,8 +67,14 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
+const OAUTH_ERROR_MESSAGES: Record<string, string> = {
+  oauth: "Could not start Google sign in. Please try again.",
+  auth: "Google sign in failed. Please try again.",
+};
+
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [error, setError] = React.useState<string | null>(null);
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
@@ -76,6 +82,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const { setCurrentUser } = useAuthStore();
+
+  React.useEffect(() => {
+    const oauthError = searchParams.get("error");
+    if (oauthError) {
+      setError(OAUTH_ERROR_MESSAGES[oauthError] ?? "Sign in failed. Please try again.");
+    }
+  }, [searchParams]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -86,7 +99,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   };
 
   const googleLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
+    window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/google`;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

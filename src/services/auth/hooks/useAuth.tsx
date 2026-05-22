@@ -17,7 +17,7 @@ type SignInResponse = {
 };
 
 export const useAuth = () => {
-  const { setToken, setCurrentUser } = useAuthStore();
+  const { setCurrentUser } = useAuthStore();
   const router = useRouter();
 
   async function signIn(
@@ -54,14 +54,11 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      // await authClient.post("/api/auth/logout");
-
       const { error } = await supabase.auth.signOut();
       if (error) {
         throw error;
       }
 
-      setToken(null);
       setCurrentUser(null);
       localStorage.removeItem("auth-storage");
 
