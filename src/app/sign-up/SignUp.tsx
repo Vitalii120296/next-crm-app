@@ -248,7 +248,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean }) {
               fullWidth
               variant="outlined"
               onClick={() => {
-                window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/google`;
+                window.location.href = "/api/auth/google";
               }}
               startIcon={<GoogleIcon />}
             >
