@@ -1,11 +1,5 @@
-import { Suspense } from "react";
 import { AnaliticsPage } from "./AnaliticsPage";
-import { Progress } from "@/components/Progress";
 
 export default function AnaliticsPageWrapper() {
-  return (
-    <Suspense fallback={<Progress />}>
-      <AnaliticsPage />
-    </Suspense>
-  );
+  return <AnaliticsPage />;
 }
