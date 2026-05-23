@@ -252,7 +252,6 @@ export const ClientDetails: React.FC<Props> = ({ client, onClose }) => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            // marginTop: "20px",
           }}
         >
           <Button
