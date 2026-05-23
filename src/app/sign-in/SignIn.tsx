@@ -99,7 +99,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   };
 
   const googleLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/google`;
+    window.location.href = `/api/auth/google`;
   };
 
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
@@ -108,7 +108,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     if (emailError || passwordError) {
       return;
     }
-    
+
     const data = new FormData(event.currentTarget);
 
     const payload = {
