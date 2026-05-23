@@ -10,10 +10,10 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import Modal from "../Modal";
-import { ClientDetails } from "../ClientDetails";
 import { Client } from "@/types";
 import { statusFormat } from "@/utils/statusFormat";
+import Modal from "./Modal";
+import { ClientDetails } from "./ClientDetails";
 
 type Props = {
   clients: Client[] | null | undefined;

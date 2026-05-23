@@ -7,30 +7,38 @@ import Typography from "@mui/material/Typography";
 import { Product } from "@/types";
 import { useState } from "react";
 import Modal from "./Modal";
-import { Box } from "@mui/system";
+import { Alert, Box } from "@mui/material";
 import { deleteProductService } from "@/services/products/deleteProduct";
 import { useProductsStore } from "@/store/products";
 import { ProductDetails } from "./ProductDetails";
 import { defaultImageUrl } from "@/constants/defaultImage";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 
 export default function ProductCard({ product }: { product: Product }) {
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const removeProduct = useProductsStore((state) => state.removeProduct);
 
   const deleteProduct = async (productId: string) => {
+    setIsDeleting(true);
+    setDeleteError(null);
+
     try {
       await deleteProductService(productId);
-
       removeProduct(productId);
-      setIsDeleting(false);
+      setIsConfirmOpen(false);
     } catch (error) {
-      throw error;
+      setDeleteError(getErrorMessage(error));
+    } finally {
+      setIsDeleting(false);
     }
   };
 
-  const handleDelete = () => {
-    setIsDeleting((prev) => !prev);
+  const handleDeleteToggle = () => {
+    setDeleteError(null);
+    setIsConfirmOpen((prev) => !prev);
   };
   return (
     <Card
@@ -97,29 +105,36 @@ export default function ProductCard({ product }: { product: Product }) {
         <Button
           size="small"
           variant="outlined"
-          onClick={handleDelete}
-          disabled={isDeleting}
+          onClick={handleDeleteToggle}
         >
           Delete
         </Button>
-        <Modal open={isDeleting} onClose={handleDelete} title="Confirm delete">
+        <Modal
+          open={isConfirmOpen}
+          onClose={handleDeleteToggle}
+          title="Confirm delete"
+        >
           <Typography variant="body1">
             Are you sure you want to delete this product?
           </Typography>
+          {deleteError && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {deleteError}
+            </Alert>
+          )}
           <Box
             sx={{ display: "flex", justifyContent: "flex-end", mt: 2, gap: 1 }}
           >
-            <Button onClick={handleDelete} variant="outlined">
+            <Button onClick={handleDeleteToggle} variant="outlined">
               Cancel
             </Button>
             <Button
-              onClick={() => {
-                deleteProduct(product.id);
-              }}
+              onClick={() => deleteProduct(product.id)}
               variant="contained"
               color="error"
+              disabled={isDeleting}
             >
-              Delete
+              {isDeleting ? "Deleting..." : "Delete"}
             </Button>
           </Box>
         </Modal>

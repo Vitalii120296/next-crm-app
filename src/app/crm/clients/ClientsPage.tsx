@@ -3,14 +3,14 @@
 import { useEffect, useMemo } from "react";
 import type { ClientFilters, ClientStatus } from "@/types";
 
-import { ClientsFilter } from "../../../components/ClientsFilter/ClientsFilter";
+import { ClientsFilter } from "../../../components/ClientsFilter";
 
 import { useQueryParams } from "@/hooks/useQueryParams";
 import { useClients } from "@/services/clients/hooks/useClients";
 import { useClientStore } from "@/store/client";
 import { useAuthStore } from "@/store/user";
 import { Progress } from "@/components/Progress";
-import ClientsTable from "@/components/ClientsTable/ClientsTable";
+import ClientsTable from "@/components/ClientsTable";
 import { Box } from "@mui/system";
 
 export const ClientsPage = () => {
