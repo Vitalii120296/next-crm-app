@@ -86,7 +86,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   React.useEffect(() => {
     const oauthError = searchParams.get("error");
     if (oauthError) {
-      setError(OAUTH_ERROR_MESSAGES[oauthError] ?? "Sign in failed. Please try again.");
+      throw new Error(OAUTH_ERROR_MESSAGES[oauthError] ?? "Sign in failed. Please try again.");
     }
   }, [searchParams]);
 
@@ -102,12 +102,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_API_URL}/api/auth/google`;
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (emailError || passwordError) {
       return;
     }
+    
     const data = new FormData(event.currentTarget);
 
     const payload = {
