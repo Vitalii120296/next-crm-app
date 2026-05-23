@@ -1,11 +1,13 @@
+import { getRequestOrigin } from "@/shared/lib/getRequestOrigin";
 import { supabaseRouteHandlerClient } from "@/shared/lib/supabase/routHandler";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const cookieResponse = new NextResponse();
   const supabase = supabaseRouteHandlerClient(req, cookieResponse);
+  const origin = getRequestOrigin(req);
 
-  const redirectTo = new URL("/api/auth/callback", req.nextUrl.origin).toString();
+  const redirectTo = new URL("/api/auth/callback", origin).toString();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -16,7 +18,7 @@ export async function GET(req: NextRequest) {
 
   if (error || !data.url) {
     return NextResponse.redirect(
-      new URL("/sign-in?error=oauth", req.nextUrl.origin),
+      new URL("/sign-in?error=oauth", origin),
     );
   }
 
