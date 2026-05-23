@@ -126,7 +126,7 @@ const KanbanPage = () => {
     try {
       if (client) {
         updateClient(clientId, { ...client, status: finishColumn.id });
-        updateClientService(clientId, { status: finishColumn.id });
+        updateClientService
       }
     } catch (error) {
       throw new Error(getErrorMessage(error));

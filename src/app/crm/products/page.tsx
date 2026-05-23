@@ -1,13 +1,11 @@
 import { Suspense } from "react";
-import { ProductsPage } from "./ProductsPage";
+import { ProductsContent } from "./ProductsContent";
 import { Progress } from "@/components/Progress";
 
-const ProductPage = () => {
+export default function ProductsPageWrapper() {
   return (
     <Suspense fallback={<Progress />}>
-      <ProductsPage />
+      <ProductsContent />
     </Suspense>
   );
-};
-
-export default ProductPage;
+}

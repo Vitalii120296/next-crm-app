@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const response = NextResponse.json({ message: "ok" }, { status: 200 });
   const supabase = supabaseRouteHandlerClient(req, response);
 
-  const { data, error } = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email: payload.email,
     password: payload.password,
     options: {
@@ -30,10 +30,10 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  if (error ) {
+  if ( error ) {
     return NextResponse.json(
       { message: error?.message ?? "Registration failed" },
-      { status: (error?.code as unknown as number) ?? 400 },
+      { status: 400 },
     );
   }
 

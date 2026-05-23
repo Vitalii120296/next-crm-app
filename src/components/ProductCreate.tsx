@@ -2,7 +2,9 @@ import { addProductService } from "@/services/products/addProduct";
 import { useProductsStore } from "@/store/products";
 import { useAuthStore } from "@/store/user";
 import { CreateProductDto } from "@/types";
+import { getErrorMessage } from "@/utils/getErrorMessage";
 import { Add } from "@mui/icons-material";
+import { Alert } from "@mui/material";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
@@ -10,9 +12,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { defaultImageUrl } from "@/constants/defaultImage";
 import { ModalImageViewer } from "./ModalImageViewer";
 import { getImageUrl } from "@/utils/getImageUrl";
-import { deleteImg } from "@/utils/deleteImg";
 
-export const ProductCreate = () => {
+type Props = {
+  onSuccess?: () => void;
+};
+
+export const ProductCreate = ({ onSuccess }: Props) => {
   const currentUser = useAuthStore((state) => state.currentUser);
   const addProduct = useProductsStore((state) => state.createProduct);
   const [imagePreview, setImagePreview] = useState(defaultImageUrl);
@@ -40,14 +45,9 @@ export const ProductCreate = () => {
 
     try {
       let imgUrl: string | null = null;
-      const fileName = currentUser.avatar?.split("/").at(-1) || null;
 
       if (imageFile) {
         imgUrl = await getImageUrl(imageFile, "products_img");
-
-        if (imgUrl && fileName) {
-          await deleteImg(fileName, "products_img");
-        }
       }
 
       const payload = {
@@ -56,7 +56,7 @@ export const ProductCreate = () => {
         price: Number(data.price || 0),
         sku: data.sku === "" ? null : data.sku || null,
         clients: data.clients || null,
-        image_url: imgUrl,
+        image_url: imgUrl || defaultImageUrl,
         user_id: currentUser.id,
       };
 
@@ -64,12 +64,14 @@ export const ProductCreate = () => {
 
       addProduct(res);
       reset();
+      setImageFile(null);
       setImagePreview(defaultImageUrl);
-    } catch {
-      setIsError("Something went wrong");
+      setIsSended(true);
+      onSuccess?.();
+    } catch (error) {
+      setIsError(getErrorMessage(error));
     } finally {
       setIsSending(false);
-      setIsSended(true);
     }
   };
 
@@ -199,12 +201,13 @@ export const ProductCreate = () => {
         sx={{ marginTop: "20px" }}
         color="primary"
         type="submit"
+        disabled={isSending}
       >
         {isSending ? "Creating..." : "Create product"}
       </Button>
-      {isError && <p className="text-xs text-red-500">{`${isError}`}</p>}
-      {isSended && !isError && (
-        <p className="text-xs text-green-500">{`Product has been created successfully.`}</p>
+      {isError && <Alert severity="error">{isError}</Alert>}
+      {isSended && !isError && !onSuccess && (
+        <Alert severity="success">Product has been created successfully.</Alert>
       )}
     </form>
   );
