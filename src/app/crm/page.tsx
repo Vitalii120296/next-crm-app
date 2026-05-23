@@ -13,6 +13,7 @@ import Modal from "@/components/Modal";
 import { ClientDetails } from "@/components/ClientDetails";
 import { Progress } from "@/components/Progress";
 import { Box } from "@mui/system";
+import { updateClientService } from "@/services/clients/updateClient";
 
 type ColumnData = {
   id: ClientStatus;
@@ -125,6 +126,7 @@ const KanbanPage = () => {
     try {
       if (client) {
         updateClient(clientId, { ...client, status: finishColumn.id });
+        updateClientService(clientId, { status: finishColumn.id });
       }
     } catch (error) {
       throw new Error(getErrorMessage(error));
