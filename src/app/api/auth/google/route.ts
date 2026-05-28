@@ -17,9 +17,7 @@ export async function GET(req: NextRequest) {
   });
 
   if (error || !data.url) {
-    return NextResponse.redirect(
-      new URL("/sign-in?error=oauth", origin),
-    );
+    return NextResponse.redirect(new URL("/sign-in?error=oauth", origin));
   }
 
   return NextResponse.redirect(data.url, { headers: cookieResponse.headers });

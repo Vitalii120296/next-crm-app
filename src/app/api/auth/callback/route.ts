@@ -9,9 +9,7 @@ export async function GET(req: NextRequest) {
   const origin = getRequestOrigin(req);
 
   if (oauthError || !code) {
-    return NextResponse.redirect(
-      new URL("/sign-in?error=auth", origin),
-    );
+    return NextResponse.redirect(new URL("/sign-in?error=auth", origin));
   }
 
   const response = NextResponse.redirect(new URL(next, origin));
@@ -20,9 +18,7 @@ export async function GET(req: NextRequest) {
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return NextResponse.redirect(
-      new URL("/sign-in?error=auth", origin),
-    );
+    return NextResponse.redirect(new URL("/sign-in?error=auth", origin));
   }
 
   return response;
