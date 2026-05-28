@@ -17,8 +17,7 @@ import type { IconType } from "react-icons";
 import { useAuth } from "@/services/auth/hooks/useAuth";
 import { useAuthStore } from "@/store/user";
 
-const container =
-  "mx-auto box-border w-full xl:max-w-[1280px]";
+const container = "mx-auto box-border w-full xl:max-w-[1280px]";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -175,11 +174,11 @@ const advantages: {
 function Logo({ className }: { className?: string }) {
   return (
     <div className={`flex items-center gap-2.5 ${className ?? ""}`}>
-      <span className="text-2xl font-extrabold text-[var(--info)]">FLOW</span>
+      <span className="text-2xl font-extrabold text-(--info)">FLOW</span>
       <span className="text-base font-normal">
-        <span className="text-[var(--primary)]">C</span>
-        <span className="text-[var(--secondary)]">R</span>
-        <span className="text-[var(--warning)]">M</span>
+        <span className="text-primary">C</span>
+        <span className="text-(--secondary)">R</span>
+        <span className="text-(--warning)">M</span>
       </span>
     </div>
   );
@@ -197,7 +196,11 @@ function LogoBlock({
 }) {
   if (asLink) {
     return (
-      <Link href="/" onClick={onClick} className={`${logoHoverLines} no-underline`}>
+      <Link
+        href="/"
+        onClick={onClick}
+        className={`${logoHoverLines} no-underline`}
+      >
         <Logo />
       </Link>
     );
@@ -218,14 +221,18 @@ export const StartPage = () => {
     "rounded bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-[#05080a] transition hover:shadow-[0_0_10px_var(--primary)] active:scale-90";
 
   return (
-    <div className="relative z-[2] min-h-auto bg-[#05080a] bg-[length:40px_40px] bg-[image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] text-[var(--foreground)]">
+    <div className="relative z-20 min-h-auto bg-[#05080a] bg-size-[40px_40px] bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] text-foreground">
       <header className="border-y border-white/10 bg-[#05080a]">
         <div className={container}>
-          <div className="relative z-10 flex h-auto items-center justify-between px-[30px] py-2.5 xl:border-x xl:border-white/10">
+          <div className="relative z-10 flex h-auto items-center justify-between px-7.5 py-2.5 xl:border-x xl:border-white/10">
             <LogoBlock />
 
             {currentUser ? (
-              <button type="button" className={authButtonClass} onClick={() => logout()}>
+              <button
+                type="button"
+                className={authButtonClass}
+                onClick={() => logout()}
+              >
                 Log out
               </button>
             ) : (
@@ -255,7 +262,7 @@ export const StartPage = () => {
           }}
         >
           <motion.div
-            className="flex w-auto flex-col items-start gap-3.5 p-[18px] sm:gap-5 xl:p-16"
+            className="flex w-auto flex-col items-start gap-3.5 p-4.5 sm:gap-5 xl:p-16"
             variants={{
               hidden: { opacity: 0, y: 20 },
               show: {
@@ -266,7 +273,7 @@ export const StartPage = () => {
             }}
           >
             <motion.div
-              className="inline-flex items-center gap-1.5 rounded-[18px] border border-[var(--primary)] bg-[rgba(168,240,230,0.1)] px-2.5 py-1 text-xs font-bold text-[#a8f0e6]"
+              className="inline-flex items-center gap-1.5 rounded-[18px] border border-primary bg-[rgba(168,240,230,0.1)] px-2.5 py-1 text-xs font-bold text-[#a8f0e6]"
               variants={{
                 hidden: { opacity: 0, x: -10 },
                 show: { opacity: 1, x: 0, transition: { duration: 0.5 } },
@@ -284,7 +291,7 @@ export const StartPage = () => {
               }}
             >
               CRM with a{" "}
-              <span className="bg-gradient-to-r from-[var(--primary)] via-[var(--secondary)] to-[var(--warning)] bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-primary via-(--secondary) to-(--warning) bg-clip-text text-transparent">
                 simple interface
               </span>{" "}
               for B2C businesses
@@ -296,7 +303,7 @@ export const StartPage = () => {
 
             <motion.button
               type="button"
-              className="inline-flex items-center justify-center gap-1.5 rounded bg-[var(--primary)] px-4 py-2 font-semibold text-[#05080a] transition hover:shadow-[0_0_10px_var(--primary)] active:scale-90"
+              className="inline-flex items-center justify-center gap-1.5 rounded bg-primary px-4 py-2 font-semibold text-[#05080a] transition hover:shadow-[0_0_10px_var(--primary)] active:scale-90"
               onClick={() => (window.location.href = "/crm")}
               variants={fadeUp}
             >
@@ -306,24 +313,26 @@ export const StartPage = () => {
 
             <motion.div className="flex items-center gap-8" variants={fadeUp}>
               <div className="flex items-center gap-1.5">
-                <IoIosCheckmarkCircleOutline className="size-3 text-[var(--textSecondary)]" />
+                <IoIosCheckmarkCircleOutline className="size-3 text-(--textSecondary)" />
                 <p className="m-0 text-[10px] leading-none">VERSION-1.0</p>
               </div>
               <div className="flex items-center gap-1.5">
-                <GoLock className="size-3 text-[var(--textSecondary)]" />
-                <p className="m-0 text-[10px] leading-none">ALL DATA PROTECTED</p>
+                <GoLock className="size-3 text-(--textSecondary)" />
+                <p className="m-0 text-[10px] leading-none">
+                  ALL DATA PROTECTED
+                </p>
               </div>
             </motion.div>
           </motion.div>
         </motion.div>
 
-        <div className="flex flex-1 items-center justify-center border-t border-dashed border-white/10 [perspective:1000px] sm:border-t-0 sm:border-l">
+        <div className="flex flex-1 items-center justify-center border-t border-dashed border-white/10 perspective-[1000px] sm:border-t-0 sm:border-l">
           <div className="p-8 xl:p-16">
-            <div className="inline-block rounded-3xl bg-gradient-to-br from-[var(--primary)] via-[var(--secondary)] to-[var(--warning)] p-1 shadow-[0_20px_40px_rgba(242,200,237,0.5),0_0_30px_rgba(242,200,237,0.3)]">
+            <div className="inline-block rounded-3xl bg-linear-to-br from-primary via-(--secondary) to-(--warning) p-1 shadow-[0_20px_40px_rgba(242,200,237,0.5),0_0_30px_rgba(242,200,237,0.3)]">
               <motion.img
                 src="/kanban.webp"
                 alt="CRM Preview"
-                className="block h-auto w-full max-w-[500px] rounded-[20px]"
+                className="block h-auto w-full max-w-125 rounded-[20px]"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, ease: "easeOut" }}
@@ -339,18 +348,16 @@ export const StartPage = () => {
         animate="show"
         variants={stagger}
       >
-        <div
-          className={`${container} grid w-full grid-cols-1 sm:grid-cols-3`}
-        >
+        <div className={`${container} grid w-full grid-cols-1 sm:grid-cols-3`}>
           {features.map((feature) => (
             <motion.div
               key={feature.title}
               className="flex flex-col items-start gap-3 border-t border-dashed border-white/10 p-8 transition-colors hover:bg-[#080b0f] sm:border-t-0 sm:border-r sm:last:border-r-0 xl:first:border-l xl:last:border-r"
               variants={fadeUp}
             >
-              <feature.icon className="size-5 text-[var(--primary)]" />
+              <feature.icon className="size-5 text-primary" />
               <h3 className="text-lg font-semibold">{feature.title}</h3>
-              <p className="text-start text-sm text-[var(--textSecondary)]">
+              <p className="text-start text-sm text-(--textSecondary)">
                 {feature.description}
               </p>
             </motion.div>
@@ -377,10 +384,7 @@ export const StartPage = () => {
                 show: { transition: { staggerChildren: 0.15 } },
               }}
             >
-              <motion.p
-                className="text-xs text-[var(--primary)]"
-                variants={fadeUp}
-              >
+              <motion.p className="text-xs text-primary" variants={fadeUp}>
                 THE HIDDEN FRICTION
               </motion.p>
 
@@ -401,8 +405,8 @@ export const StartPage = () => {
 
               <motion.p className="text-sm" variants={fadeUp}>
                 Most managers believe delays happen instantly because <br />
-                of one confusing interface or a single missing task. The
-                reality is uncomfortable:
+                of one confusing interface or a single missing task. The reality
+                is uncomfortable:
                 <br />
                 small inefficiencies are scattered and accumulate subtly.
               </motion.p>
@@ -415,7 +419,7 @@ export const StartPage = () => {
               </motion.p>
 
               <motion.h5
-                className="border-l-2 border-[var(--primary)] pl-2.5 text-sm font-normal"
+                className="border-l-2 border-primary pl-2.5 text-sm font-normal"
                 variants={fadeUp}
               >
                 FlowCRM bridges this gap. We give you clarity and control over
@@ -447,7 +451,7 @@ export const StartPage = () => {
               return (
                 <motion.div
                   key={item.title}
-                  className={`flex aspect-[5/4] flex-col items-start justify-start gap-4 rounded-2xl border-l-2 bg-[#05080a] p-6 text-left transition-all duration-300 sm:aspect-[4/3] xl:aspect-square ${styles.card} ${
+                  className={`flex aspect-5/4 flex-col items-start justify-start gap-4 rounded-2xl border-l-2 bg-[#05080a] p-6 text-left transition-all duration-300 sm:aspect-[4/3] xl:aspect-square ${styles.card} ${
                     item.noHover
                       ? ""
                       : "hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(255,255,255,0.3)]"
@@ -467,7 +471,7 @@ export const StartPage = () => {
                     <item.icon className={`text-2xl ${styles.icon}`} />
                   </div>
                   <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-sm text-[var(--textSecondary)]">
+                  <p className="text-sm text-(--textSecondary)">
                     {item.description}
                   </p>
                 </motion.div>
@@ -490,7 +494,7 @@ export const StartPage = () => {
                 href="https://github.com/Vitalii120296"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block text-[var(--textSecondary)] transition hover:scale-110 hover:text-[var(--text)]"
+                className="inline-block text-(--textSecondary) transition hover:scale-110 hover:text-(--text)"
               >
                 <FaGithub size={22} />
               </a>
