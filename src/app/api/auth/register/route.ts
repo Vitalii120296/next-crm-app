@@ -30,17 +30,15 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  if ( error ) {
+  if (error) {
     return NextResponse.json(
       { message: error?.message ?? "Registration failed" },
       { status: 400 },
     );
   }
 
-  return NextResponse.json(
-    {
-      status: 200,
-      headers: response.headers,
-    },
-  );
+  return NextResponse.json({
+    status: 200,
+    headers: response.headers,
+  });
 }
